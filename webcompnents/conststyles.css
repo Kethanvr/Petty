@@ -1,0 +1,21 @@
+.qwe{
+    background-image:url('https://sljinternationalschool.com/wp-content/uploads/2019/06/page-under-construction.jpg');
+    background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  height: 90vh; /* 100% viewport height */
+
+  margin: 0;
+}
+@media (max-width: 768px) {
+
+    .qwe {
+  
+      background-size: contain; /* Adjust to fit within the viewport */
+  
+    }
+  
+  }
