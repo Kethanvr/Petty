@@ -19,3 +19,35 @@
     }
   
   }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", system-ui, sans-serif; /* Updated to include Poppins font */
+    background: #f0f4ff;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: #7E22CE;
+}
+
+.logo h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #fffefe;
+}
+
+.search-bar input {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 400px;
+}
+
