@@ -693,3 +693,7 @@ border-radius: 10px; /* Adds a 10px rounded corner to all sides */
     transform: scale(1.1); /* Scale up slightly on hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
 }
+body {
+    font-family: "Poppins", system-ui, sans-serif; /* Updated to include Poppins font */
+    background: #f0f4ff;
+}
