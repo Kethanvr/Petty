@@ -702,3 +702,21 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+/* Responsive Styles */
+@media (max-width: 768px) {
+  header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  .search-bar input {
+      width: 100%; /* Make search bar full width */
+      margin: 10px 0; /* Add margin for spacing */
+  }
+
+  nav ul {
+      flex-direction: column; /* Stack nav items */
+      align-items: flex-start; /* Align to the start */
+      gap: 10px; /* Smaller gap */
+  }
