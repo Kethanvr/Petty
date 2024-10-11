@@ -863,3 +863,8 @@ footer {
       align-items: flex-start; /* Align to the start */
       gap: 10px; /* Smaller gap */
   }
+  nav ul {
+      flex-direction: column; /* Stack nav items */
+      align-items: flex-start; /* Align to the start */
+      gap: 10px; /* Smaller gap */
+  }
