@@ -697,3 +697,8 @@ body {
     font-family: "Poppins", system-ui, sans-serif; /* Updated to include Poppins font */
     background: #f0f4ff;
 }
+.indie-flower-regular {
+  font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
