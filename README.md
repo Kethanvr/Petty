@@ -1,1 +1,1 @@
-# Collage_project1
+Collage miniproject
