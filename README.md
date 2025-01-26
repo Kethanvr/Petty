@@ -74,6 +74,9 @@ Comprehensive project details and insights are documented [here](https://docs.go
 This project was developed as part of the **1st Semester Mini Project** at **CMRIT Bangalore**. It showcases the power of teamwork, creativity, and technical skills. 🎓
 
 ---
+      Also try of andriod App 👇
+![image](https://github.com/user-attachments/assets/eb3a9551-99d0-463a-a2ba-93d5fe3d284f)
+
 
 ## 📩 Feedback
 
