@@ -8,7 +8,7 @@ import { searchProducts } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck } from "lucide-react";
+import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
@@ -17,6 +17,10 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+  
+  // Quick View Modal state
+  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
     // Filter states
   const [filters, setFilters] = useState({
     categories: [] as string[],
@@ -147,7 +151,6 @@ export default function ProductsPage() {
       return { ...prev, [filterType]: newValues };
     });
   };
-
   const clearAllFilters = () => {
     setFilters({
       categories: [],
@@ -159,6 +162,35 @@ export default function ProductsPage() {
       targetLife: [],
       inStock: false,
     });
+  };
+
+  // Quick View Functions
+  const openQuickView = (product: any) => {
+    setQuickViewProduct(product);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeQuickView = () => {
+    setQuickViewProduct(null);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'unset'; // Restore scrolling
+  };
+
+  const nextImage = () => {
+    if (quickViewProduct && currentImageIndex < quickViewProduct.images.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const prevImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
+  const goToImage = (index: number) => {
+    setCurrentImageIndex(index);
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50/30">      {/* Page Header */}
@@ -653,8 +685,15 @@ export default function ProductsPage() {
                       {/* Overlay Actions */}
                       <div className={`absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3 ${
                         hoveredProduct === product.id ? 'pointer-events-auto' : 'pointer-events-none'
-                      }`}>
-                        <Button size="sm" className="bg-white/90 text-gray-800 hover:bg-white border-0 shadow-lg backdrop-blur-sm">
+                      }`}>                        <Button 
+                          size="sm" 
+                          className="bg-white/90 text-gray-800 hover:bg-white border-0 shadow-lg backdrop-blur-sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openQuickView(product);
+                          }}
+                        >
                           <Eye className="w-4 h-4 mr-1" />
                           Quick View
                         </Button>
@@ -807,8 +846,7 @@ export default function ProductsPage() {
                 </p>
               </div>
             </div>
-          </main>
-        </div>
+          </main>        </div>
         
         {/* Floating Action Button for Quick Filter (Mobile) */}
         <div className="fixed bottom-6 right-6 lg:hidden z-20">
@@ -818,7 +856,178 @@ export default function ProductsPage() {
           >
             <Filter className="w-6 h-6" />
           </Button>
-        </div>
+        </div>        {/* Quick View Modal */}
+        {quickViewProduct && (
+          <div 
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={closeQuickView}
+          >
+            <div 
+              className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden animate-fadeInUp"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-900">{quickViewProduct.name}</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={closeQuickView}
+                  className="text-gray-500 hover:text-gray-700 rounded-full"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              <div className="flex flex-col lg:flex-row">
+                {/* Image Gallery */}
+                <div className="lg:w-1/2 p-6">
+                  <div className="relative bg-gray-50 rounded-xl overflow-hidden mb-4 group">
+                    <div className="aspect-square relative">
+                      <Image
+                        src={quickViewProduct.images[currentImageIndex]}
+                        alt={quickViewProduct.name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      
+                      {/* Navigation Arrows */}
+                      {quickViewProduct.images.length > 1 && (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={prevImage}
+                            disabled={currentImageIndex === 0}
+                          >
+                            <ChevronLeft className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={nextImage}
+                            disabled={currentImageIndex === quickViewProduct.images.length - 1}
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Thumbnail Gallery */}
+                  {quickViewProduct.images.length > 1 && (
+                    <div className="flex gap-2 overflow-x-auto">
+                      {quickViewProduct.images.map((image: string, index: number) => (
+                        <button
+                          key={index}
+                          onClick={() => goToImage(index)}
+                          className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                            currentImageIndex === index
+                              ? 'border-purple-500 scale-105'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <Image
+                            src={image}
+                            alt={`${quickViewProduct.name} ${index + 1}`}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Details */}
+                <div className="lg:w-1/2 p-6 lg:border-l border-gray-100">
+                  <div className="space-y-4">
+                    {/* Price and Rating */}
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl font-bold text-gray-900">₹{quickViewProduct.price}</span>
+                          {quickViewProduct.originalPrice > quickViewProduct.price && (
+                            <span className="text-lg text-gray-500 line-through">₹{quickViewProduct.originalPrice}</span>
+                          )}
+                        </div>
+                        {quickViewProduct.discount > 0 && (
+                          <Badge className="bg-red-100 text-red-700 border-red-200">
+                            {quickViewProduct.discount}% OFF
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                        <span className="font-semibold">{quickViewProduct.rating}</span>
+                      </div>
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline">{quickViewProduct.category}</Badge>
+                        <Badge variant="outline">{quickViewProduct.brand}</Badge>
+                        <Badge variant="outline">{quickViewProduct.petType}</Badge>
+                      </div>
+
+                      {/* Special Features */}
+                      {quickViewProduct.specialFeatures.length > 0 && (
+                        <div>
+                          <h4 className="font-semibold text-gray-700 mb-2">Special Features:</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {quickViewProduct.specialFeatures.map((feature: string, index: number) => (
+                              <Badge key={index} variant="secondary" className="text-xs">
+                                <Zap className="w-3 h-3 mr-1" />
+                                {feature}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Description */}
+                      <div>
+                        <h4 className="font-semibold text-gray-700 mb-2">Description:</h4>
+                        <p className="text-gray-600 leading-relaxed">{quickViewProduct.description}</p>
+                      </div>
+
+                      {/* Stock Status */}
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${quickViewProduct.inStock ? 'bg-green-500' : 'bg-red-500'}`} />
+                        <span className={`font-medium ${quickViewProduct.inStock ? 'text-green-700' : 'text-red-700'}`}>
+                          {quickViewProduct.inStock ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 pt-4">
+                      <Link href={`/products/${quickViewProduct.id}`} className="flex-1">
+                        <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Details
+                        </Button>
+                      </Link>
+                      <Button
+                        variant="outline"
+                        className="px-6 border-purple-200 text-purple-700 hover:bg-purple-50"
+                        disabled={!quickViewProduct.inStock}
+                      >
+                        <ShoppingCart className="w-4 h-4 mr-2" />
+                        Add to Cart
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
