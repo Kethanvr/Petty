@@ -61,9 +61,8 @@ export default function Header() {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [showResults]);
-
   return (
-    <header className="bg-[#9333EA] text-white">
+    <header className="bg-[#9333EA] text-white sticky top-0 z-50 shadow-lg backdrop-blur-sm">
       <div className="container mx-auto px-4 py-5">
         <div className="flex justify-between items-center">
           {/* Logo */}
