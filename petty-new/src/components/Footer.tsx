@@ -16,7 +16,7 @@ export default function Footer() {
               Products
             </Link>
             <Link
-              href="/contact"
+              href="/help"
               className="text-white hover:underline transition-all duration-200"
             >
               Help

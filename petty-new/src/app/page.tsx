@@ -145,7 +145,7 @@ export default function HomePage() {
           </div>
 
           {/* Main AI Features Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8 mb-16">
             <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
               <CardContent className="p-8 text-center h-full">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -168,7 +168,28 @@ export default function HomePage() {
                 </div>
               </CardContent>
             </Card>
-
+ <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
+              <CardContent className="p-8 text-center h-full">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Zap className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Quick View</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Get a quick overview of any product without leaving your current page. 
+                  View detailed specifications, images, and reviews in an instant popup modal.
+                </p>
+                <div className="space-y-2 text-sm text-orange-600">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4" />
+                    <span>Instant product preview</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Search className="w-4 h-4" />
+                    <span>No page navigation needed</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
               <CardContent className="p-8 text-center h-full">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -214,6 +235,8 @@ export default function HomePage() {
                 </div>
               </CardContent>
             </Card>
+
+           
           </div>
 
           {/* Revolutionizing Pet Care with AI */}
