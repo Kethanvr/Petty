@@ -524,12 +524,12 @@ export default function ProductsPage() {
                   Showing{" "}
                   <span className="font-semibold text-purple-700">{filteredProducts.length}</span>{" "}                  products
                 </p>
-              </div>
-              <div className="flex items-center gap-4">
+              </div>              <div className="flex items-center gap-4">
                 <select 
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-4 py-2 border border-purple-200 rounded-lg text-sm bg-white/90 backdrop-blur-sm hover:border-purple-300 focus:border-purple-500 focus:outline-none transition-all"
+                  suppressHydrationWarning={true}
                 >
                   <option value="bestSelling">Sort by: Best Selling</option>
                   <option value="priceLowToHigh">Price: Low to High</option>
@@ -693,11 +693,16 @@ export default function ProductsPage() {
                             e.stopPropagation();
                             openQuickView(product);
                           }}
+                          suppressHydrationWarning={true}
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           Quick View
                         </Button>
-                        <Button size="sm" className="bg-white/90 text-gray-800 hover:bg-white border-0 shadow-lg backdrop-blur-sm">
+                        <Button 
+                          size="sm" 
+                          className="bg-white/90 text-gray-800 hover:bg-white border-0 shadow-lg backdrop-blur-sm"
+                          suppressHydrationWarning={true}
+                        >
                           <Heart className="w-4 h-4" />
                         </Button>
                       </div>
@@ -812,9 +817,7 @@ export default function ProductsPage() {
                             {product.weight}
                           </span>
                         )}
-                      </div>
-
-                      {/* Add to Cart Button */}
+                      </div>                      {/* Add to Cart Button */}
                       <Button 
                         className={`w-full text-sm py-2.5 transition-all duration-300 ${
                           product.inStock
@@ -822,6 +825,7 @@ export default function ProductsPage() {
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                         disabled={!product.inStock}
+                        suppressHydrationWarning={true}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         {product.inStock ? "Add to Cart" : "Out of Stock"}
@@ -833,10 +837,10 @@ export default function ProductsPage() {
             </div>            {/* Load More */}
             <div className="text-center mt-16">
               <div className="inline-flex flex-col items-center gap-4">
-                <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-purple-300 to-transparent"></div>
-                <Button
+                <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-purple-300 to-transparent"></div>                <Button
                   variant="outline"
                   className="border-2 border-purple-200 text-purple-700 hover:bg-purple-600 hover:text-white hover:border-purple-600 px-8 py-3 text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl bg-white/80 backdrop-blur-sm"
+                  suppressHydrationWarning={true}
                 >
                   Load More Products
                   <Zap className="w-4 h-4 ml-2" />
@@ -847,16 +851,16 @@ export default function ProductsPage() {
               </div>
             </div>
           </main>        </div>
-        
-        {/* Floating Action Button for Quick Filter (Mobile) */}
+          {/* Floating Action Button for Quick Filter (Mobile) */}
         <div className="fixed bottom-6 right-6 lg:hidden z-20">
           <Button
             size="lg"
             className="rounded-full w-14 h-14 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-2xl border-0"
+            suppressHydrationWarning={true}
           >
             <Filter className="w-6 h-6" />
           </Button>
-        </div>        {/* Quick View Modal */}
+        </div>{/* Quick View Modal */}
         {quickViewProduct && (
           <div 
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -868,12 +872,12 @@ export default function ProductsPage() {
             >
               {/* Modal Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                <h2 className="text-2xl font-bold text-gray-900">{quickViewProduct.name}</h2>
-                <Button
+                <h2 className="text-2xl font-bold text-gray-900">{quickViewProduct.name}</h2>                <Button
                   variant="ghost"
                   size="sm"
                   onClick={closeQuickView}
                   className="text-gray-500 hover:text-gray-700 rounded-full"
+                  suppressHydrationWarning={true}
                 >
                   <X className="w-5 h-5" />
                 </Button>
@@ -892,14 +896,14 @@ export default function ProductsPage() {
                       />
                       
                       {/* Navigation Arrows */}
-                      {quickViewProduct.images.length > 1 && (
-                        <>
+                      {quickViewProduct.images.length > 1 && (                        <>
                           <Button
                             variant="ghost"
                             size="sm"
                             className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={prevImage}
                             disabled={currentImageIndex === 0}
+                            suppressHydrationWarning={true}
                           >
                             <ChevronLeft className="w-4 h-4" />
                           </Button>
@@ -909,6 +913,7 @@ export default function ProductsPage() {
                             className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
                             onClick={nextImage}
                             disabled={currentImageIndex === quickViewProduct.images.length - 1}
+                            suppressHydrationWarning={true}
                           >
                             <ChevronRight className="w-4 h-4" />
                           </Button>
@@ -920,8 +925,7 @@ export default function ProductsPage() {
                   {/* Thumbnail Gallery */}
                   {quickViewProduct.images.length > 1 && (
                     <div className="flex gap-2 overflow-x-auto">
-                      {quickViewProduct.images.map((image: string, index: number) => (
-                        <button
+                      {quickViewProduct.images.map((image: string, index: number) => (                        <button
                           key={index}
                           onClick={() => goToImage(index)}
                           className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
@@ -929,6 +933,7 @@ export default function ProductsPage() {
                               ? 'border-purple-500 scale-105'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
+                          suppressHydrationWarning={true}
                         >
                           <Image
                             src={image}
@@ -1006,17 +1011,19 @@ export default function ProductsPage() {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3 pt-4">
-                      <Link href={`/products/${quickViewProduct.id}`} className="flex-1">
-                        <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0">
+                    <div className="flex gap-3 pt-4">                      <Link href={`/products/${quickViewProduct.id}`} className="flex-1">
+                        <Button 
+                          className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0"
+                          suppressHydrationWarning={true}
+                        >
                           <Eye className="w-4 h-4 mr-2" />
                           View Details
                         </Button>
-                      </Link>
-                      <Button
+                      </Link><Button
                         variant="outline"
                         className="px-6 border-purple-200 text-purple-700 hover:bg-purple-50"
                         disabled={!quickViewProduct.inStock}
+                        suppressHydrationWarning={true}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         Add to Cart
