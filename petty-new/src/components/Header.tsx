@@ -86,7 +86,7 @@ export default function Header() {
                     placeholder="Search pet foods..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm"
+                    className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm placeholder-white"
                   />
                 </div>
               </form>
@@ -231,7 +231,7 @@ export default function Header() {
                 placeholder="Search pet foods..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm"
+                className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm placeholder-white"
               />
             </form>
             

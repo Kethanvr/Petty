@@ -44,76 +44,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Hero Image/Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3">
-                    <Image 
-                      src="/file.svg" 
-                      width={40} 
-                      height={40} 
-                      alt="Happy Pets" 
-                      className="text-yellow-300"
-                    />
-                  </div>
-                  <div className="text-3xl font-bold text-yellow-300 mb-2">
-                    10K+
-                  </div>
-                  <div className="text-purple-100">Happy Pets</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3">
-                    <Image 
-                      src="/vercel.svg" 
-                      width={40} 
-                      height={40} 
-                      alt="Premium Brands" 
-                      className="text-yellow-300"
-                    />
-                  </div>
-                  <div className="text-3xl font-bold text-yellow-300 mb-2">
-                    50+
-                  </div>
-                  <div className="text-purple-100">Premium Brands</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3">
-                    <Image 
-                      src="/globe.svg" 
-                      width={40} 
-                      height={40} 
-                      alt="24/7 Support" 
-                      className="text-yellow-300"
-                    />
-                  </div>
-                  <div className="text-3xl font-bold text-yellow-300 mb-2">
-                    24/7
-                  </div>
-                  <div className="text-purple-100">Support</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3">
-                    <Image 
-                      src="/window.svg" 
-                      width={40} 
-                      height={40} 
-                      alt="Free Delivery" 
-                      className="text-yellow-300"
-                    />
-                  </div>
-                  <div className="text-3xl font-bold text-yellow-300 mb-2">
-                    Free
-                  </div>
-                  <div className="text-purple-100">Delivery</div>
-                </CardContent>
-              </Card>
+            {/* Hero Image - Replaced grid cards with single image */}
+            <div className="flex justify-center items-center">
+              <div className="relative w-full h-[350px] rounded-lg overflow-hidden shadow-xl">
+                <Image 
+                  src="/pet-animals-hero.jpg" 
+                  fill
+                  alt="Premium Pet Food and Pet Care Collection" 
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
