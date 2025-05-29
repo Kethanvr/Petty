@@ -8,7 +8,6 @@ import { searchProducts } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import AuthRequiredModal from "@/components/AuthRequiredModal";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/lib/useWishlist";
@@ -18,11 +17,9 @@ import { useUser } from "@clerk/nextjs";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const searchQuery = searchParams.get("search") || "";  const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
-  const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
