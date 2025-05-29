@@ -158,13 +158,12 @@ export default function Header() {
                 >
                   Contact us
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
-                  href="/work-with-us"
+                  href="/profile"
                   className="text-lg text-white hover:text-purple-200 transition-colors"
                 >
-                  Work with us
+                  Profile
                 </Link>
               </li>
             </ul>
@@ -303,14 +302,13 @@ export default function Header() {
                 >
                   Contact us
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
-                  href="/work-with-us"
+                  href="/profile"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Work with us
+                  Profile
                 </Link>
               </li>
 
