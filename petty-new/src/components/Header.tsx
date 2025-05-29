@@ -77,7 +77,7 @@ export default function Header() {
             <div className="relative" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleSearchSubmit}>
                 <div className="relative group">                  {/* Background with glass morphism effect */}
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-md transition-all duration-300 group-focus-within:bg-white/20 group-focus-within:shadow-lg group-focus-within:scale-[1.01]"></div>
+                  <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg group-focus-within:scale-[1.01]"></div>
                   
                   {/* Search Icon */}
                   <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4 transition-colors duration-200 group-focus-within:text-white" />
@@ -90,7 +90,7 @@ export default function Header() {
                     placeholder="Discover trending pet foods..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/70 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
+                    className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/80 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
                   />
                   
                   {/* Filter Button */}
@@ -100,11 +100,10 @@ export default function Header() {
                   >
                     <Filter className="w-4 h-4" />
                   </button>
-                  
-                  {/* Search suggestion badge - positioned differently */}
+                    {/* Search suggestion badge - positioned differently */}
                   {searchQuery.length > 0 && (
                     <div className="absolute right-11 top-1/2 transform -translate-y-1/2">
-                      <span className="text-xs text-white/60 bg-white/10 px-1.5 py-0.5 rounded-full">
+                      <span className="text-xs text-white bg-purple-500/60 px-1.5 py-0.5 rounded-full">
                         {searchResults.length}
                       </span>
                     </div>
@@ -112,7 +111,7 @@ export default function Header() {
                 </div>
               </form>              {/* Modern Search Results Dropdown */}
               {showResults && searchResults.length > 0 && (
-                <Card className="absolute z-50 w-full mt-2 max-h-[400px] overflow-y-auto bg-white/95 backdrop-blur-lg shadow-2xl border border-white/20 rounded-2xl">
+                <Card className="absolute z-50 w-full mt-2 max-h-[400px] overflow-y-auto bg-white/90 backdrop-blur-lg shadow-2xl border border-purple-300/20 rounded-2xl">
                   <div className="p-2">
                     <div className="text-xs text-gray-500 mb-2 px-3 py-2 bg-gray-50 rounded-lg">
                       🔥 Trending Results
@@ -268,7 +267,7 @@ export default function Header() {
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSearchSubmit}>
               <div className="relative group">                {/* Background with glass morphism effect */}
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-md transition-all duration-300 group-focus-within:bg-white/20 group-focus-within:shadow-lg"></div>
+                <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg"></div>
                 
                 {/* Search Icon */}
                 <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4 transition-colors duration-200 group-focus-within:text-white" />
@@ -281,7 +280,7 @@ export default function Header() {
                   placeholder="Discover trending pet foods..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/70 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
+                  className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/80 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
                 />
                 
                 {/* Filter Button */}
@@ -291,11 +290,10 @@ export default function Header() {
                 >
                   <Filter className="w-4 h-4" />
                 </button>
-                
-                {/* Search suggestion badge - for mobile */}
+                  {/* Search suggestion badge - for mobile */}
                 {searchQuery.length > 0 && (
                   <div className="absolute right-11 top-1/2 transform -translate-y-1/2">
-                    <span className="text-xs text-white/60 bg-white/10 px-1.5 py-0.5 rounded-full">
+                    <span className="text-xs text-white bg-purple-500/60 px-1.5 py-0.5 rounded-full">
                       {searchResults.length}
                     </span>
                   </div>
@@ -304,7 +302,7 @@ export default function Header() {
             </form>            
             {/* Modern Mobile Search Results Dropdown */}
             {showResults && searchResults.length > 0 && (
-              <Card className="absolute z-50 w-full mt-2 max-h-[350px] overflow-y-auto bg-white/95 backdrop-blur-lg shadow-2xl border border-white/20 rounded-2xl">
+              <Card className="absolute z-50 w-full mt-2 max-h-[350px] overflow-y-auto bg-white/90 backdrop-blur-lg shadow-2xl border border-purple-300/20 rounded-2xl">
                 <div className="p-2">
                   <div className="text-xs text-gray-500 mb-2 px-3 py-2 bg-gray-50 rounded-lg">
                     🔥 Trending Results
