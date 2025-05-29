@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { useCart } from "@/context/CartContext";
@@ -14,14 +13,57 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { products } from "@/lib/products";
+import { Card } from "./ui/card";
+import { searchProducts } from "@/lib/utils";
 
 export default function Header() {
-  const { state } = useCart();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { state } = useCart();  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<typeof products>([]);
+  const [showResults, setShowResults] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      const results = searchProducts(products, searchQuery);
+      setSearchResults(results.slice(0, 5)); // Limit to 5 results for dropdown
+      setShowResults(true);
+    } else {
+      setSearchResults([]);
+      setShowResults(false);
+    }
+  }, [searchQuery]);
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== "") {
+      router.push(`/products?search=${encodeURIComponent(searchQuery)}`);
+      setShowResults(false);
+    }
+  };
+
+  const handleProductClick = (id: number) => {
+    router.push(`/products/${id}`);
+    setSearchQuery("");
+    setShowResults(false);
+  };
+
+  const handleOutsideClick = () => {
+    setShowResults(false);
+  };
+
+  useEffect(() => {
+    if (showResults) {
+      document.addEventListener("click", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [showResults]);
 
   return (
-    <header className="bg-[#7E22CE] text-white">
+    <header className="bg-[#9333EA] text-white">
       <div className="container mx-auto px-4 py-5">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -35,15 +77,52 @@ export default function Header() {
 
           {/* Search Bar - Hidden on mobile */}
           <div className="search-bar hidden md:block flex-1 max-w-md mx-8">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                type="text"
-                placeholder="Search high quality foods for your lovely pets"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300"
-              />
+            <div className="relative" onClick={(e) => e.stopPropagation()}>
+              <form onSubmit={handleSearchSubmit}>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input
+                    type="text"
+                    placeholder="Search pet foods..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm"
+                  />
+                </div>
+              </form>
+
+              {/* Search Results Dropdown */}
+              {showResults && searchResults.length > 0 && (
+                <Card className="absolute z-50 w-full mt-1 max-h-[300px] overflow-y-auto bg-white shadow-lg rounded-md">
+                  <ul className="py-1">
+                    {searchResults.map((product) => (
+                      <li
+                        key={product.id}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleProductClick(product.id)}
+                      >
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 border rounded overflow-hidden mr-2">
+                            <img
+                              src={product.images[0]}
+                              alt={product.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-gray-800 text-sm truncate">
+                              {product.name}
+                            </p>
+                            <p className="text-gray-500 text-xs">
+                              ₹{product.price}
+                            </p>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              )}
             </div>
           </div>
 
@@ -142,19 +221,48 @@ export default function Header() {
               )}
             </button>
           </div>
-        </div>
-
-        {/* Mobile Search Bar */}
+        </div>        {/* Mobile Search Bar */}
         <div className="md:hidden mt-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <Input
-              type="text"
-              placeholder="Search pet foods..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300"
-            />
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <form onSubmit={handleSearchSubmit}>
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Input
+                type="text"
+                placeholder="Search pet foods..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-300 text-black text-sm"
+              />
+            </form>
+            
+            {/* Mobile Search Results Dropdown */}
+            {showResults && searchResults.length > 0 && (
+              <Card className="absolute z-50 w-full mt-1 max-h-[300px] overflow-y-auto bg-white shadow-lg rounded-md">
+                <ul className="py-1">
+                  {searchResults.map((product) => (
+                    <li 
+                      key={product.id}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleProductClick(product.id)}
+                    >
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 border rounded overflow-hidden mr-2">
+                          <img 
+                            src={product.images[0]} 
+                            alt={product.name} 
+                            className="w-full h-full object-cover" 
+                          />
+                        </div>
+                        <div>
+                          <p className="text-gray-800 text-sm truncate">{product.name}</p>
+                          <p className="text-gray-500 text-xs">₹{product.price}</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
           </div>
         </div>
 

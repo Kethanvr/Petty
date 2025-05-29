@@ -1,13 +1,29 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products } from "@/lib/products";
+import { searchProducts } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Filter, Grid, List } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+  const [filteredProducts, setFilteredProducts] = useState(products);
+
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredProducts(searchProducts(products, searchQuery));
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchQuery]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Page Header */}
@@ -16,11 +32,14 @@ export default function ProductsPage() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Pet Food Products
+                {searchQuery
+                  ? `Search Results: "${searchQuery}"`
+                  : "Pet Food Products"}
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl">
-                Discover our complete collection of high-quality pet foods
-                designed to keep your furry friends healthy and happy.
+                {searchQuery
+                  ? `Found ${filteredProducts.length} products matching your search`
+                  : "Discover our complete collection of high-quality pet foods designed to keep your furry friends healthy and happy."}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -203,7 +222,7 @@ export default function ProductsPage() {
               <div>
                 <p className="text-gray-600">
                   Showing{" "}
-                  <span className="font-semibold">{products.length}</span>{" "}
+                  <span className="font-semibold">{filteredProducts.length}</span>{" "}
                   products
                 </p>
               </div>
@@ -240,7 +259,7 @@ export default function ProductsPage() {
 
             {/* Products Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <Link key={product.id} href={`/products/${product.id}`}>
                   <Card className="group h-full hover:shadow-xl transition-all duration-300 border-gray-200 hover:border-[#7E22CE]/30 bg-white">
                     <div className="aspect-square overflow-hidden rounded-t-lg relative">
