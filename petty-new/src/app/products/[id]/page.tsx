@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Star, Minus, Plus, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
+import ProductAIChatbot from "@/components/ProductAIChatbot";
 
 export default function ProductPage() {
   const params = useParams();
@@ -133,9 +134,7 @@ export default function ProductPage() {
                 <span className="text-gray-400">|</span>
                 <span className="text-sm text-gray-600">142 reviews</span>
               </div>
-            </div>
-
-            {/* Price */}
+            </div>            {/* Price */}
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex items-center gap-4 mb-2">
                 <span className="text-3xl font-bold text-[#7E22CE]">
@@ -154,6 +153,11 @@ export default function ProductPage() {
               </div>
               <p className="text-sm text-gray-600">Inclusive of all taxes</p>
               <p className="text-sm text-green-600 font-medium">Free delivery on orders above ₹500</p>
+              
+              {/* AI Chatbot Button */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <ProductAIChatbot product={product} />
+              </div>
             </div>
 
             {/* Product Description */}
