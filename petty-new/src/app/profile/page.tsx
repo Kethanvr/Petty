@@ -43,14 +43,6 @@ interface Order {
   }[];
 }
 
-interface WatchlistItem {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  addedDate: string;
-}
-
 interface UserProfile {
   phone: string;
   address: string;
@@ -66,10 +58,18 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const { state } = useCart();
   const { user, isLoaded } = useUser();
+  const { wishlist, removeFromWishlist, addToWishlist, wishlistCount } = useWishlist();
 
+  // Get tab from URL params if available
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, []);
   // State for user data
   const [orders, setOrders] = useState<Order[]>([]);
-  const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile>({
     phone: "",
     address: "",
@@ -82,7 +82,6 @@ export default function ProfilePage() {
 
   // Local storage keys
   const getStorageKey = (key: string) => `petty_${user?.id}_${key}`;
-
   // Load data from localStorage on component mount
   useEffect(() => {
     if (user?.id) {
@@ -92,12 +91,6 @@ export default function ProfilePage() {
         setOrders(JSON.parse(savedOrders));
       }
 
-      // Load watchlist
-      const savedWatchlist = localStorage.getItem(getStorageKey("watchlist"));
-      if (savedWatchlist) {
-        setWatchlist(JSON.parse(savedWatchlist));
-      }
-
       // Load user profile
       const savedProfile = localStorage.getItem(getStorageKey("profile"));
       if (savedProfile) {
@@ -105,35 +98,11 @@ export default function ProfilePage() {
       }
     }
   }, [user?.id]);
-
   // Save data to localStorage
   const saveToStorage = (key: string, data: any) => {
     if (user?.id) {
       localStorage.setItem(getStorageKey(key), JSON.stringify(data));
     }
-  };
-
-  // Add item to watchlist
-  const addToWatchlist = (productId: number) => {
-    const product = products.find(p => p.id === productId);
-    if (product && !watchlist.find(item => item.id === productId)) {      const newItem: WatchlistItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0] || "/pet-animals-hero.jpg",
-        addedDate: new Date().toISOString(),
-      };
-      const updatedWatchlist = [...watchlist, newItem];
-      setWatchlist(updatedWatchlist);
-      saveToStorage("watchlist", updatedWatchlist);
-    }
-  };
-
-  // Remove item from watchlist
-  const removeFromWatchlist = (productId: number) => {
-    const updatedWatchlist = watchlist.filter(item => item.id !== productId);
-    setWatchlist(updatedWatchlist);
-    saveToStorage("watchlist", updatedWatchlist);
   };
 
   // Create a new order (simulate order completion)
@@ -242,7 +211,7 @@ export default function ProfilePage() {
         <Card>
           <CardContent className="p-6 text-center">
             <Heart className="w-8 h-8 text-red-600 mx-auto mb-2" />
-            <h3 className="font-semibold text-lg">{watchlist.length}</h3>
+            <h3 className="font-semibold text-lg">{wishlistCount}</h3>
             <p className="text-gray-600">Wishlist Items</p>
           </CardContent>
         </Card>
@@ -303,26 +272,26 @@ export default function ProfilePage() {
       </CardContent>
     </Card>
   );
-
   const WatchlistTab = () => (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Heart className="w-5 h-5" />
-          Watchlist
+          Wishlist ({wishlistCount} items)
         </CardTitle>
-      </CardHeader>      <CardContent>
-        {watchlist.length === 0 ? (
+      </CardHeader>
+      <CardContent>
+        {wishlist.length === 0 ? (
           <div className="text-center py-8">
             <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-600 mb-4">No items in your watchlist</p>
+            <p className="text-gray-600 mb-4">No items in your wishlist</p>
             <Link href="/products">
               <Button>Browse Products</Button>
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {watchlist.map((item) => (
+            {wishlist.map((item) => (
               <Card key={item.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
                   <img 
@@ -332,46 +301,27 @@ export default function ProfilePage() {
                   />
                   <h3 className="font-semibold mb-2">{item.name}</h3>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-bold text-purple-600">${item.price.toFixed(2)}</span>
+                    <span className="font-bold text-purple-600">₹{item.price}</span>
                     <button
-                      onClick={() => removeFromWatchlist(item.id)}
+                      onClick={() => removeFromWishlist(item.id)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                  <Button size="sm" className="w-full">
-                    <ShoppingCart className="w-4 h-4 mr-1" />
-                    Add to Cart
-                  </Button>
+                  <div className="space-y-2">
+                    <Link href={`/products/${item.id}`}>
+                      <Button size="sm" className="w-full">
+                        <Eye className="w-4 h-4 mr-1" />
+                        View Product
+                      </Button>
+                    </Link>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         )}
-        
-        {/* Add to Watchlist Section */}
-        <div className="mt-6 pt-6 border-t">
-          <h3 className="font-semibold mb-4">Add Products to Watchlist</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {products.slice(0, 8).map((product) => (
-              <button
-                key={product.id}
-                onClick={() => addToWatchlist(product.id)}
-                className="text-left p-2 border rounded hover:bg-gray-50 transition-colors"
-                disabled={watchlist.some(item => item.id === product.id)}
-              >
-                <div className="text-sm font-medium truncate">{product.name}</div>
-                <div className="text-xs text-gray-500">${product.price.toFixed(2)}</div>
-                {watchlist.some(item => item.id === product.id) ? (
-                  <Badge className="text-xs mt-1">Added</Badge>
-                ) : (
-                  <div className="text-xs text-purple-600 mt-1">+ Add</div>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
@@ -583,20 +533,17 @@ export default function ProfilePage() {
               >
                 Create Test Order (${state.totalPrice.toFixed(2)})
               </Button>
-            )}
-            <Button 
+            )}            <Button 
               variant="outline" 
               onClick={() => {
                 if (confirm("Are you sure you want to clear all data?")) {
                   setOrders([]);
-                  setWatchlist([]);
                   setUserProfile({
                     phone: "",
                     address: "",
                     notifications: { email: true, sms: false, marketing: false }
                   });
                   localStorage.removeItem(getStorageKey("orders"));
-                  localStorage.removeItem(getStorageKey("watchlist"));
                   localStorage.removeItem(getStorageKey("profile"));
                 }
               }}

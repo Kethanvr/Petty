@@ -9,11 +9,28 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Heart, Truck } from "lucide-react";
+import { useWishlist } from "@/lib/useWishlist";
 
 export default function CartPage() {
   const { state, updateQuantity, removeFromCart, clearCart } = useCart();
   const [isCartAIOpen, setIsCartAIOpen] = useState(false);
+  const [showCheckoutAnimation, setShowCheckoutAnimation] = useState(false);
+  const [showBetaMessage, setShowBetaMessage] = useState(false);
+  const { addToWishlist, isInWishlist } = useWishlist();
+
+  const handleCheckout = () => {
+    setShowCheckoutAnimation(true);
+    // After 3 seconds, show the beta message
+    setTimeout(() => {
+      setShowCheckoutAnimation(false);
+      setShowBetaMessage(true);
+    }, 3000);
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    addToWishlist(productId);
+  };
 
   if (state.items.length === 0) {
     return (
@@ -36,10 +53,50 @@ export default function CartPage() {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-[#f0f4ff]">
-      <div className="container mx-auto px-4 py-8">        <div className="mb-8">
+      {/* Checkout Animation Overlay */}
+      {showCheckoutAnimation && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-8 text-center max-w-md mx-4">
+            <div className="mb-6">
+              <div className="animate-bounce mb-4">
+                <Truck className="w-16 h-16 text-[#7E22CE] mx-auto" />
+              </div>
+              <div className="animate-spin w-8 h-8 border-4 border-[#7E22CE] border-t-transparent rounded-full mx-auto mb-4"></div>
+              <h3 className="text-xl font-bold text-[#222] mb-2">Processing Your Order...</h3>
+              <p className="text-[#666]">Please wait while we prepare your cart for checkout</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Beta Message Modal */}
+      {showBetaMessage && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-8 text-center max-w-md mx-4">
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ShoppingBag className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-bold text-[#222] mb-4">Website in Beta Testing</h3>
+              <p className="text-[#666] mb-6 leading-relaxed">
+                This website is currently in beta testing and is not fully functional. 
+                The option to purchase and accept deliveries is not yet available. 
+                We're working hard to bring you the best pet food shopping experience!
+              </p>
+              <Button 
+                onClick={() => setShowBetaMessage(false)}
+                className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-white px-8 py-2"
+              >
+                Got it!
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="container mx-auto px-4 py-8"><div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold text-[#222] mb-2">Shopping Cart</h1>
@@ -48,15 +105,26 @@ export default function CartPage() {
                 cart
               </p>
             </div>
-            
-            {/* Cart AI Assistant */}
-            <GlobalAIAssistant
-              mode="cart"
-              context={state.items}
-              isOpen={isCartAIOpen}
-              onToggle={() => setIsCartAIOpen(!isCartAIOpen)}
-              buttonText="Ask AI About My Cart"
-            />
+              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Wishlist Button */}
+              <Button
+                variant="outline"
+                onClick={() => window.location.href = '/profile?tab=wishlist'}
+                className="border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
+              >
+                <Heart className="w-4 h-4 mr-2" />
+                View Wishlist
+              </Button>
+              
+              {/* Cart AI Assistant */}
+              <GlobalAIAssistant
+                mode="cart"
+                context={state.items}
+                isOpen={isCartAIOpen}
+                onToggle={() => setIsCartAIOpen(!isCartAIOpen)}
+                buttonText="Ask AI About My Cart"
+              />
+            </div>
           </div>
         </div>
 
@@ -119,9 +187,7 @@ export default function CartPage() {
                               ₹{item.product.originalPrice}
                             </span>
                           )}
-                        </div>
-
-                        {/* Quantity Controls */}
+                        </div>                        {/* Quantity Controls */}
                         <div className="flex items-center gap-2">
                           <Button
                             variant="outline"
@@ -158,8 +224,20 @@ export default function CartPage() {
                           <Button
                             variant="outline"
                             size="icon"
+                            onClick={() => handleAddToWishlist(item.product.id)}
+                            className={`h-8 w-8 ml-2 ${
+                              isInWishlist(item.product.id)
+                                ? 'border-red-300 text-red-500 bg-red-50'
+                                : 'border-gray-300 text-gray-500 hover:border-red-300 hover:text-red-500'
+                            }`}
+                          >
+                            <Heart className={`w-3 h-3 ${isInWishlist(item.product.id) ? 'fill-current' : ''}`} />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="icon"
                             onClick={() => removeFromCart(item.product.id)}
-                            className="h-8 w-8 ml-2 border-red-300 text-red-500 hover:bg-red-500 hover:text-white"
+                            className="h-8 w-8 ml-1 border-red-300 text-red-500 hover:bg-red-500 hover:text-white"
                           >
                             <Trash2 className="w-3 h-3" />
                           </Button>
@@ -227,10 +305,11 @@ export default function CartPage() {
                       </span>
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-3 pt-4">
-                  <Button className="w-full bg-[#7E22CE] hover:bg-[#6b1fa3] text-white py-3 text-lg font-semibold">
+                </div>                <div className="space-y-3 pt-4">
+                  <Button 
+                    onClick={handleCheckout}
+                    className="w-full bg-[#7E22CE] hover:bg-[#6b1fa3] text-white py-3 text-lg font-semibold"
+                  >
                     Proceed to Checkout
                   </Button>
                   <Link href="/products">

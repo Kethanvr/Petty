@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProductById, products } from "@/lib/products";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/lib/useWishlist";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -15,17 +16,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Star, Minus, Plus, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
 import ProductAIChatbot from "@/components/ProductAIChatbot";
 
-export default function ProductPage() {
-  const params = useParams();
+export default function ProductPage() {  const params = useParams();
   const productId = parseInt(params.id as string);
   const product = getProductById(productId);
   const { addToCart } = useCart();
-
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedAge, setSelectedAge] = useState("Adult");
   const [selectedQuantity, setSelectedQuantity] = useState("1kg");
   const [itemQuantity, setItemQuantity] = useState(1);
-  const [isFavorited, setIsFavorited] = useState(false);
+
+  const isProductInWishlist = isInWishlist(productId);
 
   if (!product) {
     notFound();
@@ -35,6 +36,13 @@ export default function ProductPage() {
   const suggestedProducts = products
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
+  const handleToggleWishlist = () => {
+    if (isProductInWishlist) {
+      removeFromWishlist(productId);
+    } else {
+      addToWishlist(productId);
+    }
+  };
 
   const handleAddToCart = () => {
     addToCart(product, itemQuantity, selectedQuantity, selectedAge);
@@ -267,16 +275,15 @@ export default function ProductPage() {
                   Buy Now
                 </Button>
               </div>
-              
-              <div className="flex gap-2">
+                <div className="flex gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setIsFavorited(!isFavorited)}
-                  className={`flex-1 ${isFavorited ? 'text-red-500 border-red-300' : 'text-gray-600 border-gray-300'}`}
+                  onClick={handleToggleWishlist}
+                  className={`flex-1 ${isProductInWishlist ? 'text-red-500 border-red-300' : 'text-gray-600 border-gray-300'}`}
                 >
-                  <Heart className={`w-4 h-4 mr-2 ${isFavorited ? 'fill-current' : ''}`} />
-                  {isFavorited ? 'Favorited' : 'Add to Favorites'}
+                  <Heart className={`w-4 h-4 mr-2 ${isProductInWishlist ? 'fill-current' : ''}`} />
+                  {isProductInWishlist ? 'In Wishlist' : 'Add to Wishlist'}
                 </Button>
                 <Button variant="outline" size="sm" className="flex-1 text-gray-600 border-gray-300">
                   <Share2 className="w-4 h-4 mr-2" />
