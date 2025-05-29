@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, MessageCircle, X, Minimize2, Maximize2, Send, Loader2 } from 'lucide-react';
+import { Bot, X, Minimize2, Maximize2, Send, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
@@ -182,7 +182,7 @@ export default function FloatingAI() {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
-    }  }, [isDragging, dragStart]);  if (!isGlobalAIOpen) {
+    }  }, [isDragging, dragStart, handleMouseMove]);  if (!isGlobalAIOpen) {
     return null;
   }
 

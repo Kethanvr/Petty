@@ -20,13 +20,11 @@ import {
   Eye,
   Calendar,
   Save,
-  Trash2,
-  Plus
+  Trash2
 } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { useCart, CartItem } from "@/context/CartContext";
 import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { products } from "@/lib/products";
 import { useWishlist } from "@/lib/useWishlist";
 
 // Types for local storage data
@@ -53,12 +51,11 @@ interface UserProfile {
   };
 }
 
-export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("overview");
+export default function ProfilePage() {  const [activeTab, setActiveTab] = useState("overview");
   const [isEditing, setIsEditing] = useState(false);
   const { state } = useCart();
-  const { user, isLoaded } = useUser();
-  const { wishlist, removeFromWishlist, addToWishlist, wishlistCount } = useWishlist();
+  const { user } = useUser();
+  const { wishlist, removeFromWishlist, wishlistCount } = useWishlist();
 
   // Get tab from URL params if available
   useEffect(() => {
@@ -97,16 +94,14 @@ export default function ProfilePage() {
         setUserProfile(JSON.parse(savedProfile));
       }
     }
-  }, [user?.id]);
-  // Save data to localStorage
-  const saveToStorage = (key: string, data: any) => {
+  }, [user?.id, getStorageKey]);  // Save data to localStorage
+  const saveToStorage = (key: string, data: unknown) => {
     if (user?.id) {
       localStorage.setItem(getStorageKey(key), JSON.stringify(data));
     }
   };
-
   // Create a new order (simulate order completion)
-  const createOrder = (cartItems: any[]) => {
+  const createOrder = (cartItems: CartItem[]) => {
     const newOrder: Order = {
       id: `ORD-${Date.now()}`,
       date: new Date().toISOString().split('T')[0],

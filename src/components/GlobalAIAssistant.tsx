@@ -15,7 +15,7 @@ interface Message {
 
 interface GlobalAIAssistantProps {
   mode: 'general' | 'products' | 'cart';
-  context?: any;
+  context?: unknown;
   isOpen: boolean;
   onToggle: () => void;
   buttonText?: string;
@@ -63,7 +63,7 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
       };
       setMessages([welcomeMessage]);
     }
-  }, [isOpen, mode]);
+  }, [isOpen, mode, getWelcomeMessage, messages.length]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -104,8 +104,7 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
         setMessages(prev => [...prev, botMessage]);
       } else {
         throw new Error(data.error || "Failed to get response");
-      }
-    } catch (error) {
+      }    } catch {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "bot",
@@ -161,10 +160,9 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, dragOffset]);
-
+  }, [isDragging, dragOffset, handleMouseMove]);
   const formatAIResponse = (text: string) => {
-    let cleanText = text
+    const cleanText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .trim();

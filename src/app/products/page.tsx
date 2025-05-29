@@ -47,7 +47,6 @@ export default function ProductsPage() {
     { label: "₹500 - ₹1000", min: 500, max: 1000 },
     { label: "₹1000 - ₹2000", min: 1000, max: 2000 },
     { label: "Above ₹2000", min: 2000, max: Infinity },  ];
-
   // Filter function
   const applyFilters = useCallback(() => {
     let filtered = products;
@@ -128,10 +127,8 @@ export default function ProductsPage() {
         break;
       default: // bestSelling
         filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
-    }
-
-    setFilteredProducts(filtered);
-  }, [searchQuery, filters, sortBy]);
+    }    setFilteredProducts(filtered);
+  }, [searchQuery, filters, sortBy, priceRanges]);
   useEffect(() => {
     applyFilters();
   }, [applyFilters]);

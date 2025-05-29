@@ -24,7 +24,7 @@ export const useWishlist = () => {
         setWishlist(JSON.parse(saved));
       }
     }
-  }, [user?.id]);
+  }, [user?.id, getStorageKey]);
 
   // Save to localStorage
   const saveToStorage = (newWishlist: WishlistItem[]) => {

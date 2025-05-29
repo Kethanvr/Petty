@@ -6,13 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  MessageCircle,
-  X,
+  MessageCircle,  X,
   Minimize2,
   Maximize2,
   Send,
   Bot,
-  User,
   Loader2
 } from "lucide-react";
 import { Product } from "@/lib/products";
@@ -59,7 +57,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
       };
       setMessages([welcomeMessage]);
     }
-  }, [product.id, isOpen]);
+  }, [product.id, product.name, isOpen]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -99,8 +97,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
         setMessages(prev => [...prev, botMessage]);
       } else {
         throw new Error(data.error || "Failed to get response");
-      }
-    } catch (error) {
+      }    } catch {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "bot",
@@ -117,21 +114,8 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
-    }
-  };
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (isMinimized) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(true);
-      const rect = e.currentTarget.getBoundingClientRect();
-      setDragOffset({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    }
-  };
-
+    }  };
+  
   const handleHeaderMouseDown = (e: React.MouseEvent) => {
     if (isMinimized) {
       e.preventDefault();
@@ -170,7 +154,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, dragOffset]);
+  }, [isDragging, dragOffset, handleMouseMove]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -196,7 +180,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
     `What's the recommended serving size?`,
   ];  const formatAIResponse = (text: string) => {
     // Clean up the text first
-    let cleanText = text
+    const cleanText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
       .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic text
       .trim();
@@ -206,9 +190,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
     
     return sections.map((section, sectionIndex) => {
       const lines = section.split('\n').map(line => line.trim()).filter(line => line);
-      
-      // Check if this entire section is a bullet list
-      const allBullets = lines.every(line => line.startsWith('•') || line.startsWith('-'));
+        // Check if this entire section is a bullet list
       const hasBullets = lines.some(line => line.startsWith('•') || line.startsWith('-'));
       
       if (hasBullets) {
