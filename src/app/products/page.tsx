@@ -9,10 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
+import AuthRequiredModal from "@/components/AuthRequiredModal";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/lib/useWishlist";
 import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
@@ -24,8 +26,12 @@ function ProductsContent() {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { user } = useUser();
   
-  // Quick View Modal state
+  // Auth required modal state
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalAction, setAuthModalAction] = useState("");
+    // Quick View Modal state
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
     // Filter states
@@ -41,6 +47,33 @@ function ProductsContent() {
   });
 
   const [sortBy, setSortBy] = useState("bestSelling");
+
+  // Helper functions for authentication checks
+  const handleAddToCart = (product: Product, quantity: number = 1, selectedQuantity: string = "1kg", selectedAge: string = "Adult") => {
+    if (!user) {
+      setAuthModalAction("add to cart");
+      setAuthModalOpen(true);
+      return;
+    }
+    addToCart(product, quantity, selectedQuantity, selectedAge);
+  };
+
+  const handleAddToWishlist = (productId: number) => {
+    if (!user) {
+      setAuthModalAction("add to wishlist");
+      setAuthModalOpen(true);
+      return;
+    }
+    addToWishlist(productId);
+  };
+  const handleRemoveFromWishlist = (productId: number) => {
+    if (!user) {
+      setAuthModalAction("manage wishlist");
+      setAuthModalOpen(true);
+      return;
+    }
+    removeFromWishlist(productId);
+  };
 
   // Get unique values for filters
   const uniqueCategories = [...new Set(products.map(p => p.category))];
@@ -734,9 +767,9 @@ function ProductsContent() {
                             e.preventDefault();
                             e.stopPropagation();
                             if (isInWishlist(product.id)) {
-                              removeFromWishlist(product.id);
+                              handleRemoveFromWishlist(product.id);
                             } else {
-                              addToWishlist(product.id);
+                              handleAddToWishlist(product.id);
                             }
                           }}
                           suppressHydrationWarning={true}
@@ -868,7 +901,7 @@ function ProductsContent() {
                           e.stopPropagation();
                           // Add default values since we don't have selections in the product listing
                           if (product.inStock) {
-                            addToCart(product, 1, "1kg", "Adult");
+                            handleAddToCart(product, 1, "1kg", "Adult");
                           }
                         }}
                         suppressHydrationWarning={true}
@@ -1065,15 +1098,16 @@ function ProductsContent() {
                           <Eye className="w-4 h-4 mr-2" />
                           View Details
                         </Button>
-                      </Link><Button
+                      </Link>                      <Button
                         variant="outline"
                         className="px-6 border-purple-200 text-purple-700 hover:bg-purple-50"
                         disabled={!quickViewProduct.inStock}
+                        onClick={() => handleAddToCart(quickViewProduct)}
                         suppressHydrationWarning={true}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         Add to Cart
-                      </Button>                    </div>
+                      </Button></div>
                   </div>
                 </div>              </div>
             </div>
@@ -1392,9 +1426,7 @@ function ProductsContent() {
                       })}
                     </div>
                   </CardContent>
-                </Card>
-
-                {/* Apply Button */}
+                </Card>                {/* Apply Button */}
                 <Button
                   onClick={() => setIsMobileFiltersOpen(false)}
                   className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3"
@@ -1405,6 +1437,13 @@ function ProductsContent() {
             </div>
           </div>
         )}
+
+        {/* Auth Required Modal */}
+        <AuthRequiredModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          action={authModalAction}
+        />
       </div>
     </div>
   );
