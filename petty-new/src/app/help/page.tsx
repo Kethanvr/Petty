@@ -5,17 +5,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
-export default function ContactPage() {
+export default function HelpPage() {
   return (
     <div className="min-h-screen bg-[#f0f4ff]">
       {/* Hero Section */}
       <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-16">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl font-bold text-[#222] mb-6">Contact Us</h1>
+            <h1 className="text-5xl font-bold text-[#222] mb-6">Help & Support</h1>
             <p className="text-xl text-[#666] leading-relaxed">
-              Have questions about our products or need help with your order?
-              We're here to help and would love to hear from you!
+              Need assistance with your pet food orders or have questions about our products?
+              Our support team is here to help you every step of the way!
             </p>
           </div>
         </div>
@@ -26,14 +26,13 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div>
-            <Card className="shadow-lg">
-              <CardHeader>
+            <Card className="shadow-lg">              <CardHeader>
                 <CardTitle className="text-2xl text-[#222]">
-                  Send us a Message
+                  Get Support
                 </CardTitle>
                 <p className="text-[#666]">
-                  Fill out the form below and we'll get back to you as soon as
-                  possible.
+                  Having trouble with your order or need help choosing the right food for your pet?
+                  Send us a message and we'll get back to you quickly.
                 </p>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -160,13 +159,10 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-bold text-[#222] mb-2">
                         Our Address
-                      </h3>
-                      <p className="text-[#666]">
-                        123 Pet Street
+                      </h3>                      <p className="text-[#666]">
+                        Brookfield, Bangalore
                         <br />
-                        Pet Food District
-                        <br />
-                        Mumbai, Maharashtra 400001
+                        Karnataka 560032
                         <br />
                         India
                       </p>
@@ -184,8 +180,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-bold text-[#222] mb-2">
                         Phone Number
-                      </h3>
-                      <p className="text-[#666]">
+                      </h3>                      <p className="text-[#666]">
                         +91 98765 43210
                         <br />
                         +91 87654 32109

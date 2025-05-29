@@ -67,7 +67,7 @@ export default function AboutPage() {
           </div>        </section>
 
         {/* Petty AI Section */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-[30px] p-8 md:p-12 text-white">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-3 bg-white/20 px-6 py-3 rounded-full mb-6">
@@ -179,7 +179,7 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Values Section */}
         <section className="mb-16">
