@@ -26,6 +26,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "https://t4.ftcdn.net/jpg/05/65/62/93/360_F_565629355_3MAzwiVK6CtXTgzW3YSjHqMWfd8R3OtG.jpg",
   },
+  viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no",
 };
 
 // Add Script to fix hydration issues with generated IDs
@@ -54,17 +55,79 @@ function FixHydrationScript() {
   );
 }
 
+// Add Script to prevent zoom on mobile
+function PreventZoomScript() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          (function() {
+            // Prevent zoom on mobile devices
+            function preventZoom() {
+              document.addEventListener('touchmove', function(e) {
+                if (e.scale !== 1) {
+                  e.preventDefault();
+                }
+              }, { passive: false });
+              
+              document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+              });
+              
+              document.addEventListener('gesturechange', function(e) {
+                e.preventDefault();
+              });
+              
+              document.addEventListener('gestureend', function(e) {
+                e.preventDefault();
+              });
+              
+              // Prevent double-tap zoom
+              let lastTouchEnd = 0;
+              document.addEventListener('touchend', function(e) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                  e.preventDefault();
+                }
+                lastTouchEnd = now;
+              }, false);
+              
+              // Prevent zoom on input focus
+              document.addEventListener('focusin', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                  e.target.style.fontSize = '16px';
+                }
+              });
+            }
+            
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', preventZoom);
+            } else {
+              preventZoom();
+            }
+          })();
+        `,
+      }}
+    />
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <head>
+    <ClerkProvider>      <html lang="en">        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="apple-touch-fullscreen" content="yes" />
           <FixHydrationScript />
-        </head>        <body
+          <PreventZoomScript />
+        </head><body
           className={`${geist.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
           suppressHydrationWarning={true}
         >

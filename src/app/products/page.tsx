@@ -9,16 +9,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
-import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";  const [filteredProducts, setFilteredProducts] = useState(products);
+  const searchQuery = searchParams.get("search") || "";
+  const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);
-    // Quick View Modal state
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  
+  // Quick View Modal state
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
     // Filter states
@@ -205,7 +208,9 @@ function ProductsContent() {
                   ? `Found ${filteredProducts.length} products matching your search`
                   : "Discover our complete collection of premium pet foods designed to keep your furry friends healthy and happy."}
               </p>            </div>
-            <div className="flex items-center gap-2">
+            
+            {/* Mobile-friendly AI Assistant and Controls */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               {/* Products AI Assistant */}
               <GlobalAIAssistant
                 mode="products"
@@ -213,14 +218,13 @@ function ProductsContent() {
                 isOpen={isProductsAIOpen}
                 onToggle={() => setIsProductsAIOpen(!isProductsAIOpen)}
                 buttonText="Ask AI About Products"
-                className="mr-2"
+                className="w-full sm:w-auto"
               />
-              
-              <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all">
-                <Filter className="w-4 h-4 mr-2" />
-                Filters
-              </Button>
-              <Button 
+                <div className="hidden sm:flex items-center gap-2">
+                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all">
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filters
+                </Button>              <Button 
                 variant={viewMode === "grid" ? "default" : "outline"} 
                 size="sm" 
                 className={viewMode === "grid" ? "bg-purple-600 hover:bg-purple-700" : "border-purple-200 hover:bg-purple-50"}
@@ -236,14 +240,30 @@ function ProductsContent() {
               >
                 <List className="w-4 h-4" />
               </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">          {/* Sidebar Filters */}
-          <aside className="lg:w-64 space-y-6">
+      </div>      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Mobile Filter Button - More prominent */}
+          <div className="lg:hidden mb-6">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-purple-100">
+              <Button
+                onClick={() => setIsMobileFiltersOpen(true)}
+                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 text-base font-medium"
+              >
+                <Menu className="w-5 h-5 mr-3" />
+                Filters & Sort
+                {(Object.values(filters).flat().length + (filters.inStock ? 1 : 0)) > 0 && (
+                  <span className="ml-2 bg-white/20 text-white text-sm px-2 py-1 rounded-full">
+                    {Object.values(filters).flat().length + (filters.inStock ? 1 : 0)} active
+                  </span>
+                )}
+              </Button>
+            </div>
+          </div>          {/* Desktop Sidebar Filters - Completely hidden on mobile */}
+          <aside className="desktop-filters hidden lg:block lg:w-64 space-y-6">
             {/* Filter Header */}
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
@@ -1033,10 +1053,335 @@ function ProductsContent() {
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         Add to Cart
-                      </Button>
-                    </div>
+                      </Button>                    </div>
                   </div>
                 </div>              </div>
+            </div>
+          </div>
+        )}        {/* Mobile Filters Sidebar */}
+        {isMobileFiltersOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+              onClick={() => setIsMobileFiltersOpen(false)}
+            />
+              {/* Filter Sidebar - Slide from left */}
+            <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto transform transition-transform duration-300 ease-in-out translate-x-0">
+              {/* Header */}
+              <div className="sticky top-0 z-10 p-4 border-b bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Filter className="w-5 h-5" />
+                    <h2 className="text-lg font-semibold">Filters & Sort</h2>
+                  </div>
+                  <Button
+                    onClick={() => setIsMobileFiltersOpen(false)}
+                    variant="ghost"
+                    size="sm"
+                    className="text-white hover:bg-white/20"
+                  >
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="p-4 space-y-6">
+                {/* Quick Actions */}
+                <div className="flex justify-between items-center bg-purple-50 p-3 rounded-lg">
+                  <span className="text-sm text-purple-700 font-medium">
+                    {Object.values(filters).flat().length + (filters.inStock ? 1 : 0)} filters active
+                  </span>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={clearAllFilters}
+                    className="text-purple-600 hover:text-purple-700 hover:bg-purple-100"
+                  >
+                    Clear All
+                  </Button>
+                </div>
+
+                {/* Sort Section */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Filter className="w-4 h-4 mr-2 text-purple-600" />
+                      Sort Products
+                    </h3>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="w-full p-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white text-gray-700 text-base"
+                    >
+                      <option value="bestSelling">Best Selling</option>
+                      <option value="priceLowToHigh">Price: Low to High</option>
+                      <option value="priceHighToLow">Price: High to Low</option>
+                      <option value="rating">Highest Rated</option>
+                      <option value="newest">Newest First</option>
+                      <option value="alphabetical">A-Z</option>
+                    </select>
+                  </CardContent>
+                </Card>
+
+                {/* Stock Filter */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Truck className="w-4 h-4 mr-2 text-purple-600" />
+                      Availability
+                    </h3>
+                    <label className="flex items-center space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={filters.inStock}
+                        onChange={() => handleFilterChange('inStock', !filters.inStock)}
+                        className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                      />
+                      <span className="text-sm text-gray-700">In Stock Only</span>
+                    </label>
+                  </CardContent>
+                </Card>                {/* Categories */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Filter className="w-4 h-4 mr-2 text-purple-600" />
+                      Categories
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {uniqueCategories.map((category) => {
+                        const count = products.filter(p => p.category === category).length;
+                        return (
+                          <div key={category} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.categories.includes(category)}
+                                onChange={() => handleFilterChange('categories', category)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {category}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>                {/* Pet Types */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Heart className="w-4 h-4 mr-2 text-purple-600" />
+                      Pet Types
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {uniquePetTypes.map((petType) => {
+                        const count = products.filter(p => p.petType === petType).length;
+                        return (
+                          <div key={petType} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.petTypes.includes(petType)}
+                                onChange={() => handleFilterChange('petTypes', petType)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {petType}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Price Ranges */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Zap className="w-4 h-4 mr-2 text-purple-600" />
+                      Price Range
+                    </h3>
+                    <div className="space-y-2">
+                      {priceRanges.map((range) => {
+                        const count = products.filter(p => 
+                          p.price >= range.min && p.price <= range.max
+                        ).length;
+                        return (
+                          <div key={range.label} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.priceRanges.includes(range.label)}
+                                onChange={() => handleFilterChange('priceRanges', range.label)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {range.label}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Brands */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Award className="w-4 h-4 mr-2 text-purple-600" />
+                      Brands
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {uniqueBrands.map((brand) => {
+                        const count = products.filter(p => p.brand === brand).length;
+                        return (
+                          <div key={brand} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.brands.includes(brand)}
+                                onChange={() => handleFilterChange('brands', brand)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {brand}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Ratings */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Star className="w-4 h-4 mr-2 text-purple-600" />
+                      Minimum Rating
+                    </h3>
+                    <div className="space-y-2">
+                      {[5, 4, 3, 2, 1].map((rating) => {
+                        const count = products.filter(p => p.rating >= rating).length;
+                        return (
+                          <div key={rating} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.ratings.includes(rating)}
+                                onChange={() => handleFilterChange('ratings', rating)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <div className="flex items-center space-x-1 flex-1">
+                                {[...Array(rating)].map((_, i) => (
+                                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                                ))}
+                                <span className="text-sm text-gray-700 ml-1">& up</span>
+                              </div>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Special Features */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Zap className="w-4 h-4 mr-2 text-purple-600" />
+                      Special Features
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {uniqueSpecialFeatures.map((feature) => {
+                        const count = products.filter(p => p.specialFeatures.includes(feature)).length;
+                        return (
+                          <div key={feature} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.specialFeatures.includes(feature)}
+                                onChange={() => handleFilterChange('specialFeatures', feature)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {feature}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Target Life Stage */}
+                <Card className="border-purple-100 shadow-sm">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                      <Heart className="w-4 h-4 mr-2 text-purple-600" />
+                      Life Stage
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {uniqueTargetLife.map((life) => {
+                        const count = products.filter(p => p.targetLife.includes(life)).length;
+                        return (
+                          <div key={life} className="flex items-center justify-between py-1">
+                            <label className="flex items-center space-x-2 cursor-pointer flex-1">
+                              <input
+                                type="checkbox"
+                                checked={filters.targetLife.includes(life)}
+                                onChange={() => handleFilterChange('targetLife', life)}
+                                className="w-4 h-4 rounded border-purple-200 text-purple-600 focus:ring-purple-500"
+                              />
+                              <span className="text-sm text-gray-700 flex-1">
+                                {life}
+                              </span>
+                            </label>
+                            <Badge variant="secondary" className="bg-purple-100 text-purple-700 text-xs ml-2">
+                              {count}
+                            </Badge>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Apply Button */}
+                <Button
+                  onClick={() => setIsMobileFiltersOpen(false)}
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3"
+                >
+                  Apply Filters ({filteredProducts.length} products)
+                </Button>
+              </div>
             </div>
           </div>
         )}

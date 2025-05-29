@@ -30,12 +30,19 @@ export default function FloatingAI() {
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [position, setPosition] = useState<Position>({ x: 20, y: 20 });
+  const [isLoading, setIsLoading] = useState(false);  const [position, setPosition] = useState<Position>({ x: 20, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<Position>({ x: 0, y: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
+
+  // Adjust initial position for mobile
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      setPosition({ x: window.innerWidth - 80, y: window.innerHeight - 200 });
+    }
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -184,34 +191,33 @@ export default function FloatingAI() {
       };
     }  }, [isDragging, dragStart, handleMouseMove]);  if (!isGlobalAIOpen) {
     return null;
-  }
-
-  if (isMinimized) {
+  }  if (isMinimized) {
     return (
       <div
         ref={dragRef}
-        className="fixed z-50 cursor-move"
+        className="fixed z-50 cursor-move floating-ai-button"
         style={{ 
           left: `${position.x}px`, 
           top: `${position.y}px`
         }}
         onMouseDown={handleMouseDown}
-      >        <Card className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+      >        
+        <Card className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 floating-ai touch-target">
           <div className="flex items-center space-x-2">
-            <Bot className="w-5 h-5" />
-            <span className="text-sm font-medium">General AI</span>
+            <Bot className="w-5 h-5 md:w-4 md:h-4" />
+            <span className="text-sm font-medium hidden sm:inline">General AI</span>
             <Button
               onClick={() => setIsMinimized(false)}
               variant="ghost"
               size="sm"
-              className="h-6 w-6 p-0 text-white hover:bg-white/20"
+              className="h-6 w-6 p-0 text-white hover:bg-white/20 touch-target"
             >
               <Maximize2 className="w-3 h-3" />
             </Button>            <Button
               onClick={() => setIsGlobalAIOpen(false)}
               variant="ghost"
               size="sm"
-              className="h-6 w-6 p-0 text-white hover:bg-white/20"
+              className="h-6 w-6 p-0 text-white hover:bg-white/20 touch-target"
             >
               <X className="w-3 h-3" />
             </Button>
@@ -219,17 +225,15 @@ export default function FloatingAI() {
         </Card>
       </div>
     );
-  }  return (
+  }return (
     <>
       {/* Backdrop overlay */}
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
         onClick={() => setIsGlobalAIOpen(false)}
-      />
-      
-      {/* Centered AI Chat */}
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-        <Card className="w-full max-w-md h-[600px] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden">
+      />        {/* Centered AI Chat */}
+      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 safe-area-bottom">
+        <Card className="ai-chat-container w-full max-w-md max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-120px)] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -246,15 +250,14 @@ export default function FloatingAI() {
                 onClick={() => setIsMinimized(true)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-white hover:bg-white/20"
+                className="h-8 w-8 p-0 text-white hover:bg-white/20 touch-target"
               >
                 <Minimize2 className="w-4 h-4" />
-              </Button>            
-              <Button
+              </Button>              <Button
                 onClick={() => setIsGlobalAIOpen(false)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-white hover:bg-white/20"
+                className="h-8 w-8 p-0 text-white hover:bg-white/20 touch-target"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -262,7 +265,7 @@ export default function FloatingAI() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[480px]">
+          <div className="ai-chat-messages flex-1 overflow-y-auto p-4 space-y-4 max-h-[480px]">
             {messages.map((message, index) => (
               <div
                 key={index}
