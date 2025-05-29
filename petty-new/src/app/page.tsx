@@ -14,7 +14,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#7E22CE] to-[#9333EA] text-white">
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
             <div className="space-y-6">
@@ -46,7 +46,7 @@ export default function HomePage() {
 
             {/* Hero Image - Replaced grid cards with single image */}
             <div className="flex justify-center items-center">
-              <div className="relative w-full h-[350px] rounded-lg overflow-hidden shadow-xl">
+              <div className="relative w-full h-[450px] rounded-lg overflow-hidden shadow-xl">
                 <Image 
                   src="/pet-animals-hero.jpg" 
                   fill

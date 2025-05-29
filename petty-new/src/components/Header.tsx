@@ -78,8 +78,7 @@ export default function Header() {
           {/* Search Bar - Hidden on mobile */}
           <div className="search-bar hidden md:block flex-1 max-w-md mx-8">
             <div className="relative" onClick={(e) => e.stopPropagation()}>
-              <form onSubmit={handleSearchSubmit}>
-                <div className="relative">
+              <form onSubmit={handleSearchSubmit}>                <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <Input
                     type="text"
