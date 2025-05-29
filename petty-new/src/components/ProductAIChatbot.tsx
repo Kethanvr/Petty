@@ -194,74 +194,116 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
     `What are the nutritional benefits of this product?`,
     `Can this be given to senior pets?`,
     `What's the recommended serving size?`,
-  ];
+  ];  const formatAIResponse = (text: string) => {
+    // Clean up the text first
+    let cleanText = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic text
+      .trim();
 
-  const formatAIResponse = (text: string) => {
-    // Split the text into paragraphs and format them
-    const paragraphs = text.split('\n\n').filter(p => p.trim());
+    // Split into sections by double line breaks first
+    const sections = cleanText.split('\n\n').filter(section => section.trim());
     
-    return paragraphs.map((paragraph, index) => {
-      let formattedParagraph = paragraph.trim();
+    return sections.map((section, sectionIndex) => {
+      const lines = section.split('\n').map(line => line.trim()).filter(line => line);
       
-      // Format bullet points
-      if (formattedParagraph.includes('•') || formattedParagraph.includes('-')) {
-        const lines = formattedParagraph.split('\n');
+      // Check if this entire section is a bullet list
+      const allBullets = lines.every(line => line.startsWith('•') || line.startsWith('-'));
+      const hasBullets = lines.some(line => line.startsWith('•') || line.startsWith('-'));
+      
+      if (hasBullets) {
+        // Separate bullet items from regular text
+        const bulletItems = lines.filter(line => line.startsWith('•') || line.startsWith('-'));
+        const regularLines = lines.filter(line => !line.startsWith('•') && !line.startsWith('-'));
+        
         return (
-          <div key={index} className="mb-3">
-            {lines.map((line, lineIndex) => {
-              const trimmedLine = line.trim();
-              if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
-                return (
-                  <div key={lineIndex} className="flex items-start mb-1">
-                    <span className="text-[#7E22CE] mr-2 mt-0.5">•</span>
-                    <span>{trimmedLine.replace(/^[•-]\s*/, '')}</span>
-                  </div>
-                );
-              }
-              return <div key={lineIndex} className="mb-1">{trimmedLine}</div>;
-            })}
+          <div key={sectionIndex} className="mb-4">
+            {/* Render regular text first */}
+            {regularLines.map((line, lineIndex) => (
+              <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
+                 dangerouslySetInnerHTML={{ __html: formatInlineText(line) }} 
+              />
+            ))}
+            
+            {/* Render bullet list */}
+            {bulletItems.length > 0 && (
+              <ul className="space-y-2 mb-3">
+                {bulletItems.map((item, i) => {
+                  const content = item.replace(/^[•-]\s*/, '').trim();
+                  return (
+                    <li key={i} className="flex items-start">
+                      <span className="text-[#7E22CE] mr-3 mt-1 text-lg font-bold">•</span>
+                      <span className="text-gray-700 leading-relaxed flex-1" 
+                            dangerouslySetInnerHTML={{ __html: formatInlineText(content) }} 
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         );
       }
       
-      // Format numbered lists
-      if (/^\d+\./.test(formattedParagraph)) {
-        const lines = formattedParagraph.split('\n');
+      // Handle numbered lists
+      else if (lines.some(line => /^\d+\./.test(line))) {
+        const numberedItems = lines.filter(line => /^\d+\./.test(line));
+        const regularLines = lines.filter(line => !/^\d+\./.test(line));
+        
         return (
-          <div key={index} className="mb-3">
-            {lines.map((line, lineIndex) => {
-              const trimmedLine = line.trim();
-              if (/^\d+\./.test(trimmedLine)) {
-                const [number, ...rest] = trimmedLine.split('.');
-                return (
-                  <div key={lineIndex} className="flex items-start mb-1">
-                    <span className="text-[#7E22CE] font-semibold mr-2 mt-0.5">{number}.</span>
-                    <span>{rest.join('.').trim()}</span>
-                  </div>
-                );
-              }
-              return <div key={lineIndex} className="mb-1">{trimmedLine}</div>;
-            })}
+          <div key={sectionIndex} className="mb-4">
+            {/* Render regular text first */}
+            {regularLines.map((line, lineIndex) => (
+              <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
+                 dangerouslySetInnerHTML={{ __html: formatInlineText(line) }} 
+              />
+            ))}
+            
+            {/* Render numbered list */}
+            {numberedItems.length > 0 && (
+              <ol className="space-y-2 mb-3">
+                {numberedItems.map((item, i) => {
+                  const content = item.replace(/^\d+\.\s*/, '').trim();
+                  const number = item.match(/^(\d+)\./)?.[1];
+                  return (
+                    <li key={i} className="flex items-start">
+                      <span className="text-[#7E22CE] font-bold mr-3 mt-1">
+                        {number}.
+                      </span>
+                      <span className="text-gray-700 leading-relaxed flex-1" 
+                            dangerouslySetInnerHTML={{ __html: formatInlineText(content) }} 
+                      />
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
           </div>
         );
       }
       
-      // Highlight important phrases and keywords
-      formattedParagraph = formattedParagraph
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#7E22CE]">$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-        .replace(/(Petty AI|petty ai)/gi, '<span class="font-semibold text-[#7E22CE]">Petty AI</span>')
-        .replace(/(important|crucial|essential|recommended|warning|note)/gi, '<span class="font-semibold text-orange-600">$1</span>')
-        .replace(/(\d+(?:\.\d+)?\s*(?:kg|g|lbs?|oz|cups?|tbsp|tsp))/gi, '<span class="font-semibold text-blue-600">$1</span>');
-      
-      return (
-        <div 
-          key={index} 
-          className="mb-3 leading-relaxed" 
-          dangerouslySetInnerHTML={{ __html: formattedParagraph }}
-        />
-      );
+      // Regular paragraphs
+      else {
+        return (
+          <div key={sectionIndex} className="mb-4">
+            {lines.map((line, lineIndex) => (
+              <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
+                 dangerouslySetInnerHTML={{ __html: formatInlineText(line) }} 
+              />
+            ))}
+          </div>
+        );
+      }
     });
+  };
+    const formatInlineText = (text: string) => {
+    // Process bold, italic, and special formatting
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#7E22CE]">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+      .replace(/(Petty AI|petty ai)/gi, '<span class="font-semibold text-[#7E22CE]">Petty AI</span>')
+      .replace(/(important|crucial|essential|recommended|warning|note)/gi, '<span class="font-semibold text-orange-600">$1</span>')
+      .replace(/(\d+(?:\.\d+)?\s*(?:kg|g|lbs?|oz|cups?|tbsp|tsp|years?|months?|weeks?))/gi, '<span class="font-semibold text-blue-600">$1</span>');
   };
 
   return (
