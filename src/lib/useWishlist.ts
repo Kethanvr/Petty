@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
 import { products } from "./products";
 
@@ -14,7 +14,7 @@ export const useWishlist = () => {
   const { user } = useUser();
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
 
-  const getStorageKey = () => `petty_${user?.id}_wishlist`;
+  const getStorageKey = useCallback(() => `petty_${user?.id}_wishlist`, [user?.id]);
 
   // Load wishlist from localStorage
   useEffect(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products, Product } from "@/lib/products";
@@ -12,7 +12,7 @@ import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";  const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -41,12 +41,12 @@ export default function ProductsPage() {
   const uniquePetTypes = [...new Set(products.map(p => p.petType))];
   const uniqueSpecialFeatures = [...new Set(products.flatMap(p => p.specialFeatures))];
   const uniqueTargetLife = [...new Set(products.flatMap(p => p.targetLife))];
-
-  const priceRanges = [
+  const priceRanges = useMemo(() => [
     { label: "Under ₹500", min: 0, max: 500 },
     { label: "₹500 - ₹1000", min: 500, max: 1000 },
     { label: "₹1000 - ₹2000", min: 1000, max: 2000 },
-    { label: "Above ₹2000", min: 2000, max: Infinity },  ];
+    { label: "Above ₹2000", min: 2000, max: Infinity },
+  ], []);
   // Filter function
   const applyFilters = useCallback(() => {
     let filtered = products;
@@ -1036,12 +1036,19 @@ export default function ProductsPage() {
                       </Button>
                     </div>
                   </div>
-                </div>
-              </div>
+                </div>              </div>
             </div>
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Loading products...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 }

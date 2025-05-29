@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -76,9 +76,8 @@ export default function ProfilePage() {  const [activeTab, setActiveTab] = useSt
       marketing: false,
     },
   });
-
   // Local storage keys
-  const getStorageKey = (key: string) => `petty_${user?.id}_${key}`;
+  const getStorageKey = useCallback((key: string) => `petty_${user?.id}_${key}`, [user?.id]);
   // Load data from localStorage on component mount
   useEffect(() => {
     if (user?.id) {
