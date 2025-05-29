@@ -199,7 +199,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
         const regularLines = lines.filter(line => !line.startsWith('•') && !line.startsWith('-'));
         
         return (
-          <div key={sectionIndex} className="mb-4">
+          <div key={sectionIndex} className="mb-5">
             {/* Render regular text first */}
             {regularLines.map((line, lineIndex) => (
               <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
@@ -209,13 +209,13 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
             
             {/* Render bullet list */}
             {bulletItems.length > 0 && (
-              <ul className="space-y-2 mb-3">
+              <ul className="space-y-3 mb-4">
                 {bulletItems.map((item, i) => {
                   const content = item.replace(/^[•-]\s*/, '').trim();
                   return (
                     <li key={i} className="flex items-start">
-                      <span className="text-[#7E22CE] mr-3 mt-1 text-lg font-bold">•</span>
-                      <span className="text-gray-700 leading-relaxed flex-1" 
+                      <span className="text-[#7E22CE] mr-3 mt-1 text-xl font-bold">•</span>
+                      <span className="text-gray-700 leading-relaxed flex-1 text-base" 
                             dangerouslySetInnerHTML={{ __html: formatInlineText(content) }} 
                       />
                     </li>
@@ -233,26 +233,26 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
         const regularLines = lines.filter(line => !/^\d+\./.test(line));
         
         return (
-          <div key={sectionIndex} className="mb-4">
+          <div key={sectionIndex} className="mb-5">
             {/* Render regular text first */}
             {regularLines.map((line, lineIndex) => (
-              <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
+              <p key={lineIndex} className="mb-3 text-gray-700 leading-relaxed text-base" 
                  dangerouslySetInnerHTML={{ __html: formatInlineText(line) }} 
               />
             ))}
             
             {/* Render numbered list */}
             {numberedItems.length > 0 && (
-              <ol className="space-y-2 mb-3">
+              <ol className="space-y-3 mb-4">
                 {numberedItems.map((item, i) => {
                   const content = item.replace(/^\d+\.\s*/, '').trim();
                   const number = item.match(/^(\d+)\./)?.[1];
                   return (
                     <li key={i} className="flex items-start">
-                      <span className="text-[#7E22CE] font-bold mr-3 mt-1">
+                      <span className="text-[#7E22CE] font-bold mr-3 mt-1 text-lg">
                         {number}.
                       </span>
-                      <span className="text-gray-700 leading-relaxed flex-1" 
+                      <span className="text-gray-700 leading-relaxed flex-1 text-base" 
                             dangerouslySetInnerHTML={{ __html: formatInlineText(content) }} 
                       />
                     </li>
@@ -267,9 +267,9 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
       // Regular paragraphs
       else {
         return (
-          <div key={sectionIndex} className="mb-4">
+          <div key={sectionIndex} className="mb-5">
             {lines.map((line, lineIndex) => (
-              <p key={lineIndex} className="mb-2 text-gray-700 leading-relaxed" 
+              <p key={lineIndex} className="mb-3 text-gray-700 leading-relaxed text-base" 
                  dangerouslySetInnerHTML={{ __html: formatInlineText(line) }} 
               />
             ))}
@@ -278,14 +278,14 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
       }
     });
   };
-    const formatInlineText = (text: string) => {
+  const formatInlineText = (text: string) => {
     // Process bold, italic, and special formatting
     return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#7E22CE]">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-      .replace(/(Petty AI|petty ai)/gi, '<span class="font-semibold text-[#7E22CE]">Petty AI</span>')
-      .replace(/(important|crucial|essential|recommended|warning|note)/gi, '<span class="font-semibold text-orange-600">$1</span>')
-      .replace(/(\d+(?:\.\d+)?\s*(?:kg|g|lbs?|oz|cups?|tbsp|tsp|years?|months?|weeks?))/gi, '<span class="font-semibold text-blue-600">$1</span>');
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#7E22CE] text-base">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-base">$1</em>')
+      .replace(/(Petty AI|petty ai)/gi, '<span class="font-semibold text-[#7E22CE] text-base">Petty AI</span>')
+      .replace(/(important|crucial|essential|recommended|warning|note)/gi, '<span class="font-semibold text-orange-600 text-base">$1</span>')
+      .replace(/(\d+(?:\.\d+)?\s*(?:kg|g|lbs?|oz|cups?|tbsp|tsp|years?|months?|weeks?))/gi, '<span class="font-semibold text-blue-600 text-base">$1</span>');
   };
 
   return (
@@ -295,7 +295,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
         className="bg-[#7E22CE] hover:bg-[#6B21A8] text-white shadow-lg hover:shadow-xl transition-all duration-300"
         size="lg"
       >
-        <MessageCircle className="w-5 h-5 mr-2" />
+        <MessageCircle className="w-6 h-6 mr-2" />
         Ask Petty AI About This Product
       </Button>      {/* Chat Modal */}
       {isOpen && (
@@ -303,7 +303,7 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
           className={`fixed ${isMinimized ? 'inset-auto' : 'inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center'} z-50 p-4`}
           onClick={(e) => e.stopPropagation()}
         >            <Card 
-            className={`${isMinimized ? 'w-64 h-16 cursor-move draggable-card' : 'w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh]'} flex flex-col transition-all duration-300 shadow-2xl bg-white`}
+            className={`${isMinimized ? 'w-72 h-18 cursor-move draggable-card' : 'w-full sm:w-[500px] md:w-[600px] lg:w-[650px] h-[600px] max-h-[90vh]'} flex flex-col transition-all duration-300 shadow-2xl bg-white`}
             style={isMinimized ? { 
               position: 'fixed',
               top: position.y || 20,
@@ -317,8 +317,8 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
               onMouseDown={isMinimized ? handleHeaderMouseDown : undefined}
             >
               <div className="flex items-center space-x-2">
-                <Bot className="w-5 h-5" />
-                <CardTitle className="text-lg">Petty AI</CardTitle>
+                <Bot className="w-6 h-6" />
+                <CardTitle className="text-xl">Petty AI</CardTitle>
               </div>
               <div className="flex items-center space-x-2">                <Button
                   variant="ghost"
@@ -347,34 +347,34 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
                     <Badge variant="secondary" className="bg-[#7E22CE]/10 text-[#7E22CE]">
                       {product.category}
                     </Badge>
-                    <span className="text-sm text-gray-600 truncate">{product.name}</span>
+                    <span className="text-base text-gray-600 truncate">{product.name}</span>
                   </div>
                 </div>
 
                 {/* Messages */}
-                <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+                <CardContent className="flex-1 overflow-y-auto p-5 space-y-5">
                   {messages.map((message) => (
                     <div
                       key={message.id}
                       className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`max-w-[80%] p-3 rounded-lg ${
+                        className={`max-w-[85%] p-4 rounded-lg ${
                           message.type === "user"
                             ? "bg-[#7E22CE] text-white"
                             : "bg-gray-100 text-gray-900"
                         }`}
-                      >                        <div className="flex items-start space-x-2">
-                          {message.type === "bot" && <Bot className="w-4 h-4 mt-0.5 text-[#7E22CE]" />}
+                      >                        <div className="flex items-start space-x-3">
+                          {message.type === "bot" && <Bot className="w-5 h-5 mt-0.5 text-[#7E22CE]" />}
                           <div className="flex-1">
                             {message.type === "bot" ? (
-                              <div className="text-sm">
+                              <div className="text-base">
                                 {formatAIResponse(message.content)}
                               </div>
                             ) : (
-                              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                              <p className="text-base whitespace-pre-wrap">{message.content}</p>
                             )}
-                            <span className="text-xs opacity-70 mt-1 block">
+                            <span className="text-sm opacity-70 mt-1.5 block">
                               {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
@@ -383,10 +383,10 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
                     </div>
                   ))}                  {isLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-gray-100 p-3 rounded-lg flex items-center space-x-2">
-                        <Bot className="w-4 h-4 text-[#7E22CE]" />
-                        <Loader2 className="w-4 h-4 animate-spin text-[#7E22CE]" />
-                        <span className="text-sm text-gray-600">Petty AI is thinking...</span>
+                      <div className="bg-gray-100 p-4 rounded-lg flex items-center space-x-3">
+                        <Bot className="w-5 h-5 text-[#7E22CE]" />
+                        <Loader2 className="w-5 h-5 animate-spin text-[#7E22CE]" />
+                        <span className="text-base text-gray-600">Petty AI is thinking...</span>
                       </div>
                     </div>
                   )}
@@ -414,22 +414,22 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
                 )}
 
                 {/* Input */}
-                <div className="p-4 border-t bg-white rounded-b-lg">
-                  <div className="flex space-x-2">
+                <div className="p-5 border-t bg-white rounded-b-lg">
+                  <div className="flex space-x-3">
                     <Input
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyDown={handleKeyPress}
                       placeholder="Ask about this product..."
-                      className="flex-1"
+                      className="flex-1 text-base h-12"
                       disabled={isLoading}
                     />
                     <Button
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim() || isLoading}
-                      className="bg-[#7E22CE] hover:bg-[#6B21A8]"
+                      className="bg-[#7E22CE] hover:bg-[#6B21A8] h-12 w-12"
                     >
-                      <Send className="w-4 h-4" />
+                      <Send className="w-5 h-5" />
                     </Button>
                   </div>
                 </div>
