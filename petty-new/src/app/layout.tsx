@@ -20,9 +20,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Petty - High Quality Pet Foods With An Affordable Cost",
+  title: "Petty - AI Powered Pet Food Website | Premium Nutrition & Smart Care",
   description:
-    "When it comes to buy food for your pets it's always a difficult choice for us to buy food with high quality and at a reasonable price. Petty offers you High Quality Pet Foods With An Affordable Cost.",
+    "Discover Petty - the AI-powered pet food platform offering premium nutrition at affordable prices. Get personalized pet care advice, smart product recommendations, and expert guidance with our intelligent Petty AI assistant.",
   icons: {
     icon: "https://t4.ftcdn.net/jpg/05/65/62/93/360_F_565629355_3MAzwiVK6CtXTgzW3YSjHqMWfd8R3OtG.jpg",
   },

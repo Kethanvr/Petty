@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { getFeaturedProducts } from "@/lib/products";
-import { Star, Shield, Truck, Headphones, Award } from "lucide-react";
+import { Star, Shield, Truck, Headphones, Award, Bot, Brain, MessageCircle, Search, ShoppingCart, Zap } from "lucide-react";
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
@@ -124,6 +124,212 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Introducing Petty AI Section */}
+      <section className="py-20 bg-gradient-to-br from-purple-50 via-white to-purple-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-100 to-purple-200 px-6 py-3 rounded-full mb-6">
+              <Bot className="w-6 h-6 text-purple-600" />
+              <span className="text-purple-700 font-semibold">Introducing Petty AI</span>
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Meet Your AI Pet Care Assistant
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Revolutionary artificial intelligence technology that transforms how you care for your pets. 
+              Get instant expert advice, personalized recommendations, and 24/7 support tailored to your furry friend's unique needs.
+            </p>
+          </div>
+
+          {/* Main AI Features Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
+              <CardContent className="p-8 text-center h-full">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MessageCircle className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">General Pet Care</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Get instant answers to all your pet care questions. From feeding schedules and grooming tips 
+                  to health concerns and behavioral advice - Petty AI is your 24/7 veterinary consultant.
+                </p>
+                <div className="space-y-2 text-sm text-purple-600">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4" />
+                    <span>Instant expert responses</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    <span>Veterinary-backed advice</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
+              <CardContent className="p-8 text-center h-full">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Search className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Product Finder</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Discover the perfect products for your pet with AI-powered recommendations. 
+                  Our intelligent system analyzes your pet's breed, age, health conditions, and dietary needs.
+                </p>
+                <div className="space-y-2 text-sm text-blue-600">
+                  <div className="flex items-center gap-2">
+                    <Brain className="w-4 h-4" />
+                    <span>Personalized recommendations</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Search className="w-4 h-4" />
+                    <span>Intelligent product matching</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-purple-100 hover:border-purple-300 bg-white">
+              <CardContent className="p-8 text-center h-full">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <ShoppingCart className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Cart Optimization</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Let AI optimize your shopping cart for maximum value and nutrition. 
+                  Get suggestions for complementary products and money-saving bundle deals.
+                </p>
+                <div className="space-y-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4" />
+                    <span>Smart bundle suggestions</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Award className="w-4 h-4" />
+                    <span>Maximum value optimization</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Revolutionizing Pet Care with AI */}
+          <div className="bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 rounded-[30px] p-8 md:p-12 text-white mb-16">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-3 bg-white/20 px-6 py-3 rounded-full mb-6">
+                <Bot className="w-6 h-6 text-white" />
+                <span className="text-white font-semibold">Meet Petty AI</span>
+              </div>
+              <h2 className="text-4xl font-bold mb-6">Revolutionizing Pet Care with AI</h2>
+              <p className="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+                Petty AI is more than just a chatbot - it's your intelligent pet care companion, 
+                designed to provide expert guidance and personalized recommendations for your furry friends.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Brain className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Intelligent Analysis</h3>
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    Advanced AI algorithms analyze your pet's needs and provide tailored nutrition advice 
+                    based on breed, age, health conditions, and dietary preferences.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Search className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">Smart Discovery</h3>
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    Find the perfect products instantly with AI-powered search and comparison features 
+                    that understand ingredient benefits and nutritional values.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <MessageCircle className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">24/7 Support</h3>
+                  <p className="text-purple-100 text-sm leading-relaxed">
+                    Get instant answers to your pet care questions any time of day. 
+                    From feeding schedules to health concerns, Petty AI is always ready to help.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-3xl font-bold mb-6">How Petty AI Helps You</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-yellow-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Instant Nutrition Guidance</h4>
+                      <p className="text-purple-100 text-sm">Get immediate advice on feeding schedules, portion sizes, and dietary requirements.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <Shield className="w-4 h-4 text-green-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Health & Wellness Tips</h4>
+                      <p className="text-purple-100 text-sm">Receive expert advice on maintaining your pet's health and preventing common issues.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <Search className="w-4 h-4 text-blue-300" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Product Recommendations</h4>
+                      <p className="text-purple-100 text-sm">Discover products perfectly suited to your pet's specific needs and preferences.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="relative">
+                  <div className="w-64 h-64 mx-auto bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
+                    <Bot className="w-24 h-24 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce">
+                    <span className="text-2xl">🧠</span>
+                  </div>
+                  <div className="absolute -bottom-2 -left-2 w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center animate-pulse">
+                    <span className="text-xl">💡</span>
+                  </div>
+                </div>
+                
+                <h4 className="text-xl font-bold mt-6 mb-2">Always Learning, Always Improving</h4>
+                <p className="text-purple-100 text-sm">
+                  Our AI continuously learns from the latest veterinary research and user feedback 
+                  to provide you with the most accurate and up-to-date pet care information.
+                </p>
+              </div>
+            </div>
+          </div>
+
+         
         </div>
       </section>
 
@@ -277,6 +483,43 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+       {/* Visual AI Representation */}
+          <div className="text-center">
+            <div className="relative inline-block">
+              <div className="w-32 h-32 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                <Bot className="w-16 h-16 text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce">
+                <span className="text-xl">🧠</span>
+              </div>
+              <div className="absolute -bottom-2 -left-2 w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center animate-pulse">
+                <span className="text-lg">💡</span>
+              </div>
+            </div>
+            
+            <h4 className="text-2xl font-bold text-gray-900 mb-4">Ready to Experience the Future of Pet Care?</h4>
+            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+              Try Petty AI today and discover how artificial intelligence can help you provide the best care for your beloved pets. 
+              Simply click the "Petty AI" button in the header or use the "/" keyboard shortcut to get started!
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => setIsHomeAIOpen(true)}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl text-lg font-semibold"
+              >
+                Try Petty AI Now
+              </Button>
+              <Link href="/about">
+                <Button
+                  variant="outline"
+                  className="border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 rounded-xl text-lg font-semibold"
+                >
+                  Learn More About AI
+                </Button>
+              </Link>
+            </div>
+          </div>
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-[#7E22CE] to-[#9333EA] text-white">
@@ -294,6 +537,7 @@ export default function HomePage() {
             </Button>
           </Link>
         </div>
+        
       </section>
 
       {/* Global AI Assistant for Homepage */}
