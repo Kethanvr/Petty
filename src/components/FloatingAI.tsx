@@ -225,15 +225,17 @@ export default function FloatingAI() {
         </Card>
       </div>
     );
-  }return (
-    <>
-      {/* Backdrop overlay */}
+  }  return (
+    <>      {/* Backdrop overlay */}
       <div 
         className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-        onClick={() => setIsGlobalAIOpen(false)}
-      />        {/* Centered AI Chat */}
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 safe-area-bottom">
-        <Card className="ai-chat-container w-full max-w-md max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-120px)] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden">
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsGlobalAIOpen(false);
+        }}
+      />{/* Centered AI Chat */}
+      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 safe-area-bottom" onClick={(e) => e.stopPropagation()}>
+        <Card className="ai-chat-container w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">

@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
+import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/lib/useWishlist";
 import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
@@ -20,6 +22,8 @@ function ProductsContent() {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   
   // Quick View Modal state
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -723,13 +727,21 @@ function ProductsContent() {
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           Quick View
-                        </Button>
-                        <Button 
+                        </Button>                        <Button 
                           size="sm" 
-                          className="bg-white/90 text-gray-800 hover:bg-white border-0 shadow-lg backdrop-blur-sm"
+                          className={`${isInWishlist(product.id) ? "bg-red-500 text-white" : "bg-white/90 text-gray-800"} hover:bg-white hover:text-red-500 border-0 shadow-lg backdrop-blur-sm`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (isInWishlist(product.id)) {
+                              removeFromWishlist(product.id);
+                            } else {
+                              addToWishlist(product.id);
+                            }
+                          }}
                           suppressHydrationWarning={true}
                         >
-                          <Heart className="w-4 h-4" />
+                          <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? "fill-white" : ""}`} />
                         </Button>
                       </div>
                       
@@ -851,6 +863,14 @@ function ProductsContent() {
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                         disabled={!product.inStock}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Add default values since we don't have selections in the product listing
+                          if (product.inStock) {
+                            addToCart(product, 1, "1kg", "Adult");
+                          }
+                        }}
                         suppressHydrationWarning={true}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />

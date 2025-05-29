@@ -236,10 +236,12 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
         <MessageCircle className="w-5 h-5 mr-2" />
         {buttonText}
       </Button>      {/* AI Modal */}
-      {isOpen && (
-        <div className={`fixed ${isMinimized ? 'inset-auto' : 'inset-0 bg-black bg-opacity-50 flex items-center justify-center'} z-50 p-4`}>
+      {isOpen && (        <div 
+          className={`fixed ${isMinimized ? 'inset-auto' : 'inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center'} z-50 p-4`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <Card 
-            className={`${isMinimized ? 'w-64 h-16 cursor-move draggable-card' : 'w-full max-w-2xl max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-2rem)]'} flex flex-col transition-all duration-300 shadow-2xl bg-white`}
+            className={`${isMinimized ? 'w-64 h-16 cursor-move draggable-card' : 'w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh]'} flex flex-col transition-all duration-300 shadow-2xl bg-white ai-chat-container`}
             style={isMinimized ? { 
               position: 'fixed',
               top: position.y || 20,

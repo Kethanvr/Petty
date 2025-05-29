@@ -248,6 +248,14 @@ input, select, textarea, button {
     max-height: calc(100vh - 100px) !important;
   }
   
+  /* Desktop AI chat adjustments */
+  @media (min-width: 768px) {
+    .ai-chat-container {
+      max-width: 450px !important;
+      max-height: 500px !important;
+    }
+  }
+  
   .ai-chat-messages {
     max-height: 300px !important;
   }
@@ -643,6 +651,14 @@ body {
   .ai-chat-container {
     max-width: calc(100vw - 32px) !important;
     max-height: calc(100vh - 100px) !important;
+  }
+  
+  /* Desktop AI chat adjustments */
+  @media (min-width: 768px) {
+    .ai-chat-container {
+      max-width: 450px !important;
+      max-height: 500px !important;
+    }
   }
   
   .ai-chat-messages {
