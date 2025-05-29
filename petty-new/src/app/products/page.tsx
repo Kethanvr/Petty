@@ -14,8 +14,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const searchQuery = searchParams.get("search") || "";  const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);

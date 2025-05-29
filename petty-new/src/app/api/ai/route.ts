@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { products } from "@/lib/products";
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
@@ -23,9 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create system prompt based on mode
-    let systemPrompt = '';
-
-    switch (mode) {
+    let systemPrompt = '';    switch (mode) {
       case 'general':
         systemPrompt = `You are **Petty AI**, a comprehensive pet care assistant for the Petty e-commerce platform. You provide expert advice on:
 
@@ -37,6 +36,9 @@ export async function POST(request: NextRequest) {
         • Product recommendations based on pet needs
         • Safety and wellness information
 
+        **Available Products Database:**
+        ${JSON.stringify(products, null, 2)}
+
         **Response Guidelines:**
         • Always introduce yourself as "Petty AI" when greeting users
         • Be friendly, knowledgeable, and helpful
@@ -45,6 +47,7 @@ export async function POST(request: NextRequest) {
         • Use **bold** for important information
         • Use *italic* for emphasis
         • Include relevant emojis 🐾 💧 🍖
+        • When recommending products, reference items from our database
         • For specific medical concerns, recommend consulting a veterinarian
         • Keep responses informative but concise
 
@@ -128,7 +131,7 @@ export async function POST(request: NextRequest) {
       .replace(/\*\*([^*]+)\*\*/g, '**$1**') // Ensure proper bold formatting
       .replace(/\*([^*]+)\*/g, '*$1*'); // Ensure proper italic formatting
 
-    return NextResponse.json({ response: text });
+    return NextResponse.json({ message: text });
 
   } catch (error) {
     console.error("Error in universal AI API:", error);

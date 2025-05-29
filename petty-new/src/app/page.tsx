@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,20 @@ import { Star, Shield, Truck, Headphones, Award } from "lucide-react";
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
   const [isHomeAIOpen, setIsHomeAIOpen] = useState(false);
+
+  // Auto-focus search bar on home page load
+  useEffect(() => {
+    // Small delay to ensure the header is fully rendered
+    const timer = setTimeout(() => {
+      // Look for the search input in desktop view first
+      const desktopSearchInput = document.querySelector('input[placeholder*="Discover trending pet foods"]') as HTMLInputElement;
+      if (desktopSearchInput && window.innerWidth >= 768) {
+        desktopSearchInput.focus();
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

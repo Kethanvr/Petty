@@ -6,6 +6,7 @@ import { CartProvider } from "@/context/CartContext";
 import { AIProvider } from "@/context/AIContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingAI from "@/components/FloatingAI";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const geist = Geist({
@@ -72,6 +73,7 @@ export default function RootLayout({
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
+              <FloatingAI />
             </CartProvider>
           </AIProvider>
         </body>

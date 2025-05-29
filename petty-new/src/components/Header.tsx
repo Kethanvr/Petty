@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 import { useCart } from "@/context/CartContext";
-import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
+import { useAI } from "@/context/AIContext";
 import { ShoppingCart, Search, Menu, X, Filter, TrendingUp, Bot } from "lucide-react";
 import {
   SignInButton,
@@ -21,12 +22,14 @@ import { searchProducts } from "@/lib/utils";
 
 export default function Header() {
   const { state } = useCart();
-  const [isGlobalAIOpen, setIsGlobalAIOpen] = useState(false);const [searchQuery, setSearchQuery] = useState("");
+  const { setIsGlobalAIOpen } = useAI();
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<typeof products>([]);
   const [showResults, setShowResults] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-
   useEffect(() => {
     if (searchQuery.trim() !== "") {
       const results = searchProducts(products, searchQuery);
@@ -37,6 +40,30 @@ export default function Header() {
       setShowResults(false);
     }
   }, [searchQuery]);
+  // Keyboard shortcut for search focus
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        // Check if we're not already in an input field
+        const activeElement = document.activeElement;
+        if (activeElement?.tagName !== 'INPUT' && activeElement?.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          // Focus desktop search on larger screens, mobile search on smaller screens
+          if (window.innerWidth >= 768) {
+            searchInputRef.current?.focus();
+          } else {
+            mobileSearchInputRef.current?.focus();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim() !== "") {
@@ -65,20 +92,34 @@ export default function Header() {
   }, [showResults]);
   return (
     <header className="bg-[#9333EA] text-white sticky top-0 z-50 shadow-lg backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-5">
+      <div className="container mx-auto px-4 py-5">        
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="logo">
-            <Link href="/">
-              <h1 className="indie-flower-regular text-4xl font-bold text-white cursor-pointer">
-                Petty
-              </h1>
-            </Link>
-          </div>          {/* Modern Search Bar - Hidden on mobile */}
+          {/* Petty AI Button and Logo */}
+          <div className="flex items-center gap-4">            
+            <Button
+              onClick={() => setIsGlobalAIOpen(true)}
+              className="bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all duration-200 flex items-center gap-2"
+              variant="outline"
+            >
+              <Bot className="w-4 h-4" />
+              <span className="hidden sm:inline">Petty AI</span>
+            </Button>
+            
+            <div className="logo">
+              <Link href="/">
+                <h1 className="indie-flower-regular text-4xl font-bold text-white cursor-pointer">
+                  Petty
+                </h1>
+              </Link>
+            </div>
+          </div>
+          
+          {/* Modern Search Bar - Hidden on mobile */}
           <div className="search-bar hidden md:block flex-1 max-w-2xl mx-8">
             <div className="relative" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleSearchSubmit}>
-                <div className="relative group">                  {/* Background with glass morphism effect */}
+                <div className="relative group">
+                  {/* Background with glass morphism effect */}
                   <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg group-focus-within:scale-[1.01]"></div>
                   
                   {/* Search Icon */}
@@ -86,8 +127,10 @@ export default function Header() {
                   
                   {/* Trending Icon */}
                   <TrendingUp className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 w-3.5 h-3.5" />
-                    {/* Search Input */}
+                  
+                  {/* Search Input */}
                   <Input
+                    ref={searchInputRef}
                     type="text"
                     placeholder="Discover trending pet foods..."
                     value={searchQuery}
@@ -111,7 +154,8 @@ export default function Header() {
                     </div>
                   )}
                 </div>
-              </form>              {/* Modern Search Results Dropdown */}
+              </form>
+              {/* Modern Search Results Dropdown */}
               {showResults && searchResults.length > 0 && (
                 <Card className="absolute z-50 w-full mt-2 max-h-[400px] overflow-y-auto bg-white/90 backdrop-blur-lg shadow-2xl border border-purple-300/20 rounded-2xl">
                   <div className="p-2">
@@ -188,8 +232,7 @@ export default function Header() {
                 >
                   Products
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
                   href="/about"
                   className="text-lg text-white hover:text-purple-200 transition-colors"
@@ -198,13 +241,6 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="text-lg text-white hover:text-purple-200 transition-colors"
-                >
-                  Contact us
-                </Link>
-              </li>              <li>
                 <Link
                   href="/profile"
                   className="text-lg text-white hover:text-purple-200 transition-colors"
@@ -215,16 +251,6 @@ export default function Header() {
             </ul>
           </nav>          {/* Cart and Profile Section */}
           <div className="flex items-center gap-4">
-            {/* AI Assistant */}
-            <button
-              onClick={() => setIsGlobalAIOpen(!isGlobalAIOpen)}
-              className="relative p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 group"
-              title="Ask Petty AI"
-            >
-              <Bot className="w-5 h-5 text-white group-hover:text-purple-200 transition-colors" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
-            </button>
-
             {/* Cart Icon with Badge */}
             <Link href="/cart" className="relative">
               <ShoppingCart className="w-6 h-6 text-white hover:text-purple-200 transition-colors" />
@@ -272,11 +298,13 @@ export default function Header() {
               )}
             </button>
           </div>
-        </div>        {/* Modern Mobile Search Bar */}
+        </div>        
+        {/* Modern Mobile Search Bar */}
         <div className="md:hidden mt-4">
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <form onSubmit={handleSearchSubmit}>
-              <div className="relative group">                {/* Background with glass morphism effect */}
+              <div className="relative group">
+                {/* Background with glass morphism effect */}
                 <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg"></div>
                 
                 {/* Search Icon */}
@@ -284,8 +312,10 @@ export default function Header() {
                 
                 {/* Trending Icon */}
                 <TrendingUp className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 w-3.5 h-3.5" />
-                  {/* Search Input */}
+                
+                {/* Search Input */}
                 <Input
+                  ref={mobileSearchInputRef}
                   type="text"
                   placeholder="Discover trending pet foods..."
                   value={searchQuery}
@@ -378,8 +408,7 @@ export default function Header() {
                 >
                   Products
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
                   href="/about"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -389,14 +418,6 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="block text-lg text-white hover:text-purple-200 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact us
-                </Link>
-              </li>              <li>
                 <Link
                   href="/profile"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -432,17 +453,7 @@ export default function Header() {
                   />
                 </SignedIn>
               </li>
-            </ul>          </nav>
-        )}
-
-        {/* Global AI Assistant */}
-        <GlobalAIAssistant
-          mode="general"
-          isOpen={isGlobalAIOpen}
-          onToggle={() => setIsGlobalAIOpen(!isGlobalAIOpen)}
-          buttonText="Ask Petty AI"
-          className="hidden" // Hide the button since we have our custom one
-        />
+            </ul>          </nav>        )}
       </div>
     </header>
   );
