@@ -11,6 +11,23 @@ export interface Product {
   brand: string;
   ageCategories: string[];
   quantities: string[];
+  // Enhanced fields for search and filtering
+  searchIndex: string; // Combined searchable text
+  tags: string[]; // Tags for filtering and search
+  petType: string; // Dog, Cat, Fish, Small Pet, Bird, etc.
+  nutritionalInfo?: {
+    protein?: string;
+    fat?: string;
+    fiber?: string;
+    moisture?: string;
+  };
+  specialFeatures: string[]; // Grain-free, Organic, High-protein, etc.
+  targetLife: string[]; // Puppy, Adult, Senior, All Life Stages
+  flavor?: string; // Chicken, Beef, Fish, etc.
+  weight: string; // Primary weight/size
+  inStock: boolean;
+  isNew?: boolean;
+  isBestSeller?: boolean;
 }
 
 export const products: Product[] = [
@@ -35,6 +52,15 @@ export const products: Product[] = [
     brand: "Pedigree",
     ageCategories: ["Puppy", "Adult", "Senior"],
     quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "pedigree adult dry dog food chicken vegetables wholesome meal essential nutrients cereals soybean carrots peas milk",
+    tags: ["dog", "adult", "dry food", "chicken", "vegetables", "nutritious", "balanced"],
+    petType: "Dog",
+    specialFeatures: ["Essential Nutrients", "Wholesome Meal", "Natural Goodness"],
+    targetLife: ["Adult"],
+    flavor: "Chicken & Vegetables",
+    weight: "1kg",
+    inStock: true,
+    isBestSeller: true,
   },
   {
     id: 2,
@@ -57,6 +83,14 @@ export const products: Product[] = [
     brand: "Hill's Science Diet",
     ageCategories: ["Kitten", "Adult", "Senior"],
     quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "hills science diet optimal care chicken recipe cat food high quality protein lean muscles omega vitamin natural ingredients",
+    tags: ["cat", "adult", "dry food", "chicken", "high protein", "omega-6", "vitamin E", "natural"],
+    petType: "Cat",
+    specialFeatures: ["High-Quality Protein", "Omega-6 Enriched", "Vitamin E", "Natural Ingredients"],
+    targetLife: ["Adult"],
+    flavor: "Chicken",
+    weight: "3.5kg",
+    inStock: true,
   },
   {
     id: 3,
@@ -77,17 +111,55 @@ export const products: Product[] = [
     brand: "Petslife",
     ageCategories: ["Young", "Adult", "Senior"],
     quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "petslife hamster premium food high quality nutrition health grains seeds vitamins balanced diet growth energy immune",
+    tags: ["hamster", "small pet", "premium", "grains", "seeds", "vitamins", "balanced diet", "immune health"],
+    petType: "Small Pet",
+    specialFeatures: ["Premium Quality", "Essential Grains", "Vitamins", "Immune Support"],
+    targetLife: ["All Life Stages"],
+    weight: "1kg",
+    inStock: true,
   },
   {
     id: 4,
-    name: "Whiskas Adult (1+ Years) Dry Cat Food",
-    price: 240,
-    originalPrice: 350,
-    discount: 30,
-    rating: 4.4,
+    name: "Hill's Science Diet Adult Perfect Weight Dry Dog Food, Chicken, 1.8 kg",
+    price: 850,
+    originalPrice: 950,
+    discount: 10,
+    rating: 4.6,
     description:
-      "Whiskas Adult Dry Cat Food is specially formulated for cats aged 1 year and above. This nutritious meal provides essential vitamins and minerals for optimal health and vitality.",
+      "Hill's Science Diet Adult Perfect Weight Dry Dog Food, Chicken Recipe helps support lean muscle and ideal weight. This balanced formula includes natural ingredients, and is enriched with antioxidants, vitamin E, and omega-6 to promote a healthy coat and immune system.",
     images: [
+      "https://m.media-amazon.com/images/I/71BdAbA9D7L._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/81Odu0ucTgS._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/71yRZLDkl4L._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/71-Ga3gClqL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/81NWflMIVTL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/61EhoHv7Q9L._SX522_.jpg",
+    ],
+    category: "Dog Food",
+    brand: "Hill's Science Diet",
+    ageCategories: ["Adult", "Senior"],
+    quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "hills science diet perfect weight chicken recipe lean muscle ideal weight natural ingredients antioxidants vitamin omega",
+    tags: ["dog", "adult", "weight management", "chicken", "lean muscle", "antioxidants", "natural", "balanced"],
+    petType: "Dog",
+    specialFeatures: ["Weight Management", "Lean Muscle Support", "Antioxidants", "Vitamin E", "Omega-6"],
+    targetLife: ["Adult"],
+    flavor: "Chicken",
+    weight: "1.8kg",
+    inStock: true,
+  },
+  {
+    id: 5,
+    name: "Whiskas Adult (1+ Years) Dry Cat Food, Mackerel Flavour, 3 kg",
+    price: 850,
+    originalPrice: 950,
+    discount: 10,
+    rating: 4.6,
+    description:
+      "Whiskas Adult Dry Cat Food, Mackerel Flavour, is crafted to provide complete and balanced nutrition for adult cats. Enriched with 41 essential nutrients, this formula supports a healthy heart, strong muscles, and a shiny coat for your cat's well-being.",
+    images: [
+      "https://m.media-amazon.com/images/I/71kQ6sr+bNL._SX522_.jpg",
       "https://m.media-amazon.com/images/I/71NoSSYytvL._SX466_.jpg",
       "https://petsnpets.com/cdn/shop/files/MiowMiowAdultTunaFishCatFood1.2kg.png?v=1716185686&width=1000",
       "https://5.imimg.com/data5/ECOM/Default/2024/1/378810208/RF/HJ/GK/12142841/71krmfpgpjl-sx679.jpg",
@@ -96,101 +168,118 @@ export const products: Product[] = [
     brand: "Whiskas",
     ageCategories: ["Adult", "Senior"],
     quantities: ["250g", "500g", "750g", "1kg"],
-  },
-  {
-    id: 5,
-    name: "Drools Adult Dry Dog Food, Chicken and Rice",
-    price: 320,
-    originalPrice: 400,
-    discount: 20,
-    rating: 4.3,
-    description:
-      "Drools Adult Dry Dog Food with real chicken and rice provides complete nutrition for adult dogs. Rich in protein and essential nutrients for healthy growth and development.",
-    images: [
-      "https://www.wiggles.in/cdn/shop/products/2RightNutritioncopy-100.jpg?v=1706864496&width=1445",
-      "https://m.media-amazon.com/images/I/81vGiZuZbhL._AC_UF1000,1000_QL80_.jpg",
-      "https://m.media-amazon.com/images/I/71MyS7BUCgL.jpg",
-    ],
-    category: "Dog Food",
-    brand: "Drools",
-    ageCategories: ["Adult", "Senior"],
-    quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "whiskas adult dry cat food mackerel flavour complete balanced nutrition essential nutrients healthy heart strong muscles shiny coat",
+    tags: ["cat", "adult", "dry food", "mackerel", "41 nutrients", "complete nutrition", "healthy heart", "strong muscles"],
+    petType: "Cat",
+    specialFeatures: ["41 Essential Nutrients", "Complete Nutrition", "Heart Health", "Muscle Support"],
+    targetLife: ["Adult"],
+    flavor: "Mackerel",
+    weight: "3kg",
+    inStock: true,
   },
   {
     id: 6,
-    name: "Royal Canin Persian Adult Cat Food",
-    price: 680,
-    originalPrice: 750,
-    discount: 9,
-    rating: 4.7,
+    name: "Taiyo Pluss Discovery Premium Hamster Food - 1.1 kg",
+    price: 450,
+    originalPrice: 500,
+    discount: 10,
+    rating: 4.5,
     description:
-      "Royal Canin Persian Adult Cat Food is specially designed for Persian cats with its unique kibble shape and tailored nutrition for long-haired breeds.",
+      "Taiyo Pluss Discovery Premium Hamster Food provides daily nutrition for hamsters with a balanced mix of grains, seeds, and nutrients. This premium formula supports healthy growth and vitality for your small pet.",
     images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6BqpASnBJrw8ZnGpYLLWkgQyPvvXoOiP4cQ&s",
-      "https://m.media-amazon.com/images/I/71BdAbA9D7L._SX522_.jpg",
-      "https://headsupfortails.com/cdn/shop/files/8906002482832.jpg?v=1715947995",
+      "https://m.media-amazon.com/images/I/71Skptfd6KL._SY679_.jpg",
+      "https://m.media-amazon.com/images/I/71u0NWk2PDL._SY879_.jpg",
+      "https://m.media-amazon.com/images/I/51ClQt+vynL.jpg",
     ],
-    category: "Cat Food",
-    brand: "Royal Canin",
-    ageCategories: ["Adult", "Senior"],
-    quantities: ["250g", "500g", "750g", "1kg"],
+    category: "Small Pet Food",
+    brand: "Taiyo Pluss Discovery",
+    ageCategories: ["Young", "Adult", "Senior"],
+    quantities: ["500g", "1kg", "1.1kg"],
+    searchIndex: "taiyo pluss discovery premium hamster food daily nutrition balanced grains seeds nutrients healthy growth vitality",
+    tags: ["hamster", "small pet", "premium", "daily nutrition", "grains", "seeds", "growth", "vitality"],
+    petType: "Small Pet",
+    specialFeatures: ["Premium Formula", "Daily Nutrition", "Balanced Mix", "Growth Support"],
+    targetLife: ["All Life Stages"],
+    weight: "1.1kg",
+    inStock: true,
   },
   {
     id: 7,
-    name: "Farmina N&D Ocean Cod & Orange Adult Dog Food",
-    price: 1200,
-    originalPrice: 1350,
-    discount: 11,
-    rating: 4.8,
+    name: "Pedigree PRO Adult (9 Months Onwards) Small Breed Dry Dog Food, 1.2 kg",
+    price: 900,
+    originalPrice: 1000,
+    discount: 10,
+    rating: 4.7,
     description:
-      "Farmina N&D Ocean features wild-caught cod and orange for a natural, grain-free diet. Perfect for adult dogs with sensitive digestion.",
+      "Pedigree PRO Adult Small Breed Dry Dog Food is specially formulated for small breed dogs aged 9 months and onwards. This premium formula provides complete nutrition with high-quality protein and essential nutrients for optimal health.",
     images: [
-      "https://www.petsy.online/cdn/shop/products/7_7a3eda57-823d-4637-8701-2aea66c9dfc2.jpg?v=1676621537",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrTN50PGyBoDXP3W0qh71LzXi1Li2wId-qOA&s",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCnR-xgTM42Du77zOgbuClO_aanhte9Fx0nA&s",
+      "https://m.media-amazon.com/images/I/61sbRrU9PBL._SX466_.jpg",
+      "https://m.media-amazon.com/images/I/71xTccspTGL._SX466_.jpg",
+      "https://m.media-amazon.com/images/I/71JleyYLj6L._SX466_.jpg",
     ],
     category: "Dog Food",
-    brand: "Farmina",
+    brand: "Pedigree PRO",
     ageCategories: ["Adult", "Senior"],
-    quantities: ["250g", "500g", "750g", "1kg"],
+    quantities: ["500g", "1kg", "1.2kg"],
+    searchIndex: "pedigree pro adult small breed dry dog food premium formula complete nutrition high quality protein essential nutrients",
+    tags: ["dog", "adult", "small breed", "premium", "complete nutrition", "high protein", "essential nutrients"],
+    petType: "Dog",
+    specialFeatures: ["Small Breed Formula", "Premium Quality", "Complete Nutrition", "High-Quality Protein"],
+    targetLife: ["Adult"],
+    weight: "1.2kg",
+    inStock: true,
   },
   {
     id: 8,
-    name: "Purina Pro Plan Adult Dog Food with Chicken",
-    price: 580,
-    originalPrice: 650,
+    name: "Tunai Hamster Food | 500g + 20% Extra | Fortified with DHA Omega 3 & 6",
+    price: 400,
+    originalPrice: 450,
     discount: 11,
     rating: 4.5,
     description:
-      "Purina Pro Plan Adult Dog Food is formulated with real chicken as the first ingredient, providing high-quality protein for muscle maintenance and overall health.",
+      "Tunai Hamster Food provides complete nutrition for hamsters, fortified with DHA Omega 3 & 6 for brain development and overall health. This premium formula supports healthy growth and cognitive function.",
     images: [
-      "https://m.media-amazon.com/images/I/71BdAbA9D7L._SX522_.jpg",
-      "https://headsupfortails.com/cdn/shop/files/8906002482832.jpg?v=1715947995",
-      "https://www.petsy.online/cdn/shop/products/7_7a3eda57-823d-4637-8701-2aea66c9dfc2.jpg?v=1676621537",
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSuB09Z2-Z7v0iBugs1J3FecqiSFmQ-ZllugtRAuolZLgVt_dN3ad4-Mi-GiAb4juKaTrHg64bsAxZix_pDMliUYCp30ziuWR9c1NwEb0UeapsieoRRylZk&usqp=CAE",
+      "https://m.media-amazon.com/images/I/71Skptfd6KL._SY679_.jpg",
     ],
-    category: "Dog Food",
-    brand: "Purina Pro Plan",
-    ageCategories: ["Adult", "Senior"],
-    quantities: ["250g", "500g", "750g", "1kg"],
+    category: "Small Pet Food",
+    brand: "Tunai",
+    ageCategories: ["Young", "Adult", "Senior"],
+    quantities: ["500g", "600g"],
+    searchIndex: "tunai hamster food complete nutrition dha omega brain development health premium formula growth cognitive function",
+    tags: ["hamster", "small pet", "dha", "omega 3", "omega 6", "brain development", "complete nutrition", "premium"],
+    petType: "Small Pet",
+    specialFeatures: ["DHA Fortified", "Omega 3 & 6", "Brain Development", "Complete Nutrition"],
+    targetLife: ["All Life Stages"],
+    weight: "500g + 20% Extra",
+    inStock: true,
   },
   {
     id: 9,
-    name: "Meo Persian Adult Cat Food",
-    price: 420,
-    originalPrice: 480,
-    discount: 13,
-    rating: 4.3,
+    name: "Sheba Kitten and Adult, Irresistible Dry Cat Food, Salmon Flavor",
+    price: 750,
+    originalPrice: 850,
+    discount: 12,
+    rating: 4.8,
     description:
-      "Meo Persian Adult Cat Food is specially formulated for Persian and long-haired cat breeds, promoting healthy skin and coat with omega fatty acids.",
+      "Sheba Kitten and Adult Dry Cat Food with irresistible salmon flavor provides complete nutrition for cats of all life stages. Made with high-quality ingredients to support healthy growth and development.",
     images: [
-      "https://5.imimg.com/data5/ECOM/Default/2024/1/378810208/RF/HJ/GK/12142841/71krmfpgpjl-sx679.jpg",
-      "https://m.media-amazon.com/images/I/71MyS7BUCgL.jpg",
-      "https://petsnpets.com/cdn/shop/files/MiowMiowAdultTunaFishCatFood1.2kg.png?v=1716185686&width=1000",
+      "https://m.media-amazon.com/images/I/6111QWrWA8L._SX522_PIbundle-48,TopRight,0,0_AA522SH20_.jpg",
+      "https://m.media-amazon.com/images/I/61Lvf8A9ggL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/61V3BSTRPkL._SX522_.jpg",
     ],
     category: "Cat Food",
-    brand: "Meo",
-    ageCategories: ["Adult", "Senior"],
-    quantities: ["250g", "500g", "750g", "1kg"],
+    brand: "Sheba",
+    ageCategories: ["Kitten", "Adult", "Senior"],
+    quantities: ["500g", "1kg", "2kg"],
+    searchIndex: "sheba kitten adult dry cat food salmon flavor complete nutrition high quality ingredients healthy growth development",
+    tags: ["cat", "kitten", "adult", "salmon", "dry food", "complete nutrition", "high quality", "all life stages"],
+    petType: "Cat",
+    specialFeatures: ["All Life Stages", "High-Quality Ingredients", "Complete Nutrition", "Irresistible Flavor"],
+    targetLife: ["Kitten", "Adult"],
+    flavor: "Salmon",
+    weight: "1kg",
+    inStock: true,
   },
   {
     id: 10,
@@ -212,6 +301,13 @@ export const products: Product[] = [
     brand: "TED TABBIES",
     ageCategories: ["Fry", "Adult", "Senior"],
     quantities: ["100g", "250g", "500g", "1kg"],
+    searchIndex: "ted tabbies optimum fish food highly nutritious mini pellet formula aquarium fish optimal health vibrant coloration",
+    tags: ["fish", "aquarium", "nutritious", "mini pellet", "all life stages", "optimal health", "vibrant colors"],
+    petType: "Fish",
+    specialFeatures: ["Highly Digestible", "Mini-Pellet Formula", "All Life Stages", "Vibrant Coloration"],
+    targetLife: ["All Life Stages"],
+    weight: "1kg",
+    inStock: true,
   },
   {
     id: 11,
@@ -234,6 +330,14 @@ export const products: Product[] = [
     brand: "Sheba",
     ageCategories: ["Adult", "Senior"],
     quantities: ["48g", "100g", "200g"],
+    searchIndex: "sheba melty premium lickable creamy cat treats sasami selection chicken whitefish flavors bonding moments",
+    tags: ["cat", "treats", "premium", "lickable", "creamy", "chicken", "whitefish", "bonding", "adult"],
+    petType: "Cat",
+    specialFeatures: ["Premium Quality", "Lickable Texture", "Creamy", "Bonding Treats"],
+    targetLife: ["Adult"],
+    flavor: "Chicken & Whitefish",
+    weight: "48g",
+    inStock: true,
   },
   {
     id: 12,
@@ -256,6 +360,13 @@ export const products: Product[] = [
     brand: "Boltz",
     ageCategories: ["Fry", "Adult", "Senior"],
     quantities: ["50g", "100g", "200g"],
+    searchIndex: "boltz freeze dried tubifex worms fish food bettas tetras arowana flowerhorn oscar natural high protein health growth",
+    tags: ["fish", "freeze dried", "tubifex worms", "bettas", "tetras", "arowana", "flowerhorn", "oscar", "high protein", "natural"],
+    petType: "Fish",
+    specialFeatures: ["Freeze Dried", "High Protein", "Natural Food Source", "All Life Stages"],
+    targetLife: ["All Life Stages"],
+    weight: "50g",
+    inStock: true,
   },
   {
     id: 13,
@@ -276,6 +387,13 @@ export const products: Product[] = [
     brand: "Premier Plants",
     ageCategories: ["Juvenile", "Adult", "Senior"],
     quantities: ["250g", "500g", "750g", "1kg"],
+    searchIndex: "premier plants aquarium fish food flowerhorn probiotics balanced diet growth vibrant colors digestion immune health",
+    tags: ["fish", "aquarium", "flowerhorn", "probiotics", "balanced diet", "growth", "vibrant colors", "immune health"],
+    petType: "Fish",
+    specialFeatures: ["Probiotic-Enriched", "Balanced Diet", "Growth Promotion", "Vibrant Colors", "Immune Support"],
+    targetLife: ["All Life Stages"],
+    weight: "500g",
+    inStock: true,
   },
   {
     id: 14,
@@ -298,6 +416,13 @@ export const products: Product[] = [
     brand: "Sera",
     ageCategories: ["Juvenile", "Adult", "Senior"],
     quantities: ["500g", "1000ml"],
+    searchIndex: "sera discus granules fish food balanced diet optimal protein vibrant colors healthy growth easily digestible immune function",
+    tags: ["fish", "discus", "granules", "balanced diet", "optimal protein", "vibrant colors", "easily digestible", "immune function"],
+    petType: "Fish",
+    specialFeatures: ["Discus Specific", "Optimal Protein", "Easily Digestible", "Vibrant Colors", "Immune Support"],
+    targetLife: ["All Life Stages"],
+    weight: "1000ml",
+    inStock: true,
   },
   {
     id: 15,
@@ -319,25 +444,40 @@ export const products: Product[] = [
     brand: "Diamond Naturals",
     ageCategories: ["Adult", "Senior"],
     quantities: ["5lb", "15lb", "28lb"],
+    searchIndex: "diamond naturals grain free real meat recipe premium dry dog food pasture raised beef high quality protein muscle maintenance digestive health",
+    tags: ["dog", "adult", "grain free", "real meat", "premium", "pasture raised beef", "high protein", "digestive health"],
+    petType: "Dog",
+    specialFeatures: ["Grain-Free", "Real Pasture-Raised Beef", "Premium Quality", "High-Quality Protein", "Digestive Health"],
+    targetLife: ["Adult"],
+    flavor: "Beef",
+    weight: "28lb",
+    inStock: true,
   },
   {
     id: 16,
-    name: "Purina Fancy Feast Medleys Gourmet Wet Cat Food",
-    price: 180,
-    originalPrice: 220,
-    discount: 18,
+    name: "PETS EMPIRE Little One Hamsters Food, Complete Nutritional Pet Feed with Dried Carrot & Yuca, 900g",
+    price: 540,
+    originalPrice: 600,
+    discount: 10,
     rating: 4.4,
     description:
-      "Purina Fancy Feast Medleys offers gourmet wet cat food with tender cuts of chicken, beef, or seafood in delicious sauce. Perfect for adult cats who enjoy variety in their meals.",
+      "PETS EMPIRE Little One Hamsters Food provides complete nutritional pet feed with dried carrot and yuca. This premium formula supports healthy growth and development for hamsters of all ages.",
     images: [
-      "https://www.wiggles.in/cdn/shop/products/2RightNutritioncopy-100.jpg?v=1706864496&width=1445",
-      "https://petsnpets.com/cdn/shop/files/MiowMiowAdultTunaFishCatFood1.2kg.png?v=1716185686&width=1000",
-      "https://m.media-amazon.com/images/I/81vGiZuZbhL._AC_UF1000,1000_QL80_.jpg",
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSuB09Z2-Z7v0iBugs1J3FecqiSFmQ-ZllugtRAuolZLgVt_dN3ad4-Mi-GiAb4juKaTrHg64bsAxZix_pDMliUYCp30ziuWR9c1NwEb0UeapsieoRRylZk&usqp=CAE",
+      "https://m.media-amazon.com/images/I/71Skptfd6KL._SY679_.jpg",
+      "https://m.media-amazon.com/images/I/71u0NWk2PDL._SY879_.jpg",
     ],
-    category: "Cat Food",
-    brand: "Purina",
-    ageCategories: ["Adult", "Senior"],
-    quantities: ["85g", "170g", "340g"],
+    category: "Small Pet Food",
+    brand: "PETS EMPIRE",
+    ageCategories: ["Young", "Adult", "Senior"],
+    quantities: ["500g", "900g", "1kg"],
+    searchIndex: "pets empire little one hamsters food complete nutritional pet feed dried carrot yuca premium formula healthy growth development",
+    tags: ["hamster", "small pet", "complete nutrition", "dried carrot", "yuca", "premium formula", "healthy growth"],
+    petType: "Small Pet",
+    specialFeatures: ["Complete Nutrition", "Dried Carrot & Yuca", "Premium Formula", "Growth Support"],
+    targetLife: ["All Life Stages"],
+    weight: "900g",
+    inStock: true,
   },
 ];
 
@@ -352,3 +492,206 @@ export const getProductsByCategory = (category: string): Product[] => {
 export const getFeaturedProducts = (): Product[] => {
   return products.slice(0, 6);
 };
+
+// Enhanced utility functions for better search and filtering
+
+export const getProductsByPetType = (petType: string): Product[] => {
+  return products.filter((product) => 
+    product.petType.toLowerCase() === petType.toLowerCase()
+  );
+};
+
+export const searchProducts = (searchTerm: string): Product[] => {
+  const term = searchTerm.toLowerCase();
+  return products.filter((product) => 
+    product.searchIndex.toLowerCase().includes(term) ||
+    product.name.toLowerCase().includes(term) ||
+    product.brand.toLowerCase().includes(term) ||
+    product.tags.some(tag => tag.toLowerCase().includes(term))
+  );
+};
+
+export const getProductsByTags = (tags: string[]): Product[] => {
+  return products.filter((product) =>
+    tags.some(tag => 
+      product.tags.some(productTag => 
+        productTag.toLowerCase().includes(tag.toLowerCase())
+      )
+    )
+  );
+};
+
+export const getProductsByPriceRange = (minPrice: number, maxPrice: number): Product[] => {
+  return products.filter((product) => 
+    product.price >= minPrice && product.price <= maxPrice
+  );
+};
+
+export const getProductsByBrand = (brand: string): Product[] => {
+  return products.filter((product) => 
+    product.brand.toLowerCase() === brand.toLowerCase()
+  );
+};
+
+export const getProductsBySpecialFeatures = (features: string[]): Product[] => {
+  return products.filter((product) =>
+    features.some(feature => 
+      product.specialFeatures.some(productFeature => 
+        productFeature.toLowerCase().includes(feature.toLowerCase())
+      )
+    )
+  );
+};
+
+export const getBestSellerProducts = (): Product[] => {
+  return products.filter((product) => product.isBestSeller);
+};
+
+export const getNewProducts = (): Product[] => {
+  return products.filter((product) => product.isNew);
+};
+
+export const getProductsByRating = (minRating: number): Product[] => {
+  return products.filter((product) => product.rating >= minRating);
+};
+
+export const getSortedProducts = (
+  sortBy: 'price' | 'rating' | 'discount' | 'name',
+  order: 'asc' | 'desc' = 'asc'
+): Product[] => {
+  return [...products].sort((a, b) => {
+    let comparison = 0;
+    
+    switch (sortBy) {
+      case 'price':
+        comparison = a.price - b.price;
+        break;
+      case 'rating':
+        comparison = a.rating - b.rating;
+        break;
+      case 'discount':
+        comparison = a.discount - b.discount;
+        break;
+      case 'name':
+        comparison = a.name.localeCompare(b.name);
+        break;
+    }
+    
+    return order === 'desc' ? -comparison : comparison;
+  });
+};
+
+export const getUniqueCategories = (): string[] => {
+  return [...new Set(products.map(product => product.category))];
+};
+
+export const getUniqueBrands = (): string[] => {
+  return [...new Set(products.map(product => product.brand))];
+};
+
+export const getUniquePetTypes = (): string[] => {
+  return [...new Set(products.map(product => product.petType))];
+};
+
+export const getAllTags = (): string[] => {
+  const allTags = products.flatMap(product => product.tags);
+  return [...new Set(allTags)];
+};
+
+export const getSpecialFeatures = (): string[] => {
+  const allFeatures = products.flatMap(product => product.specialFeatures);
+  return [...new Set(allFeatures)];
+};
+
+// Advanced filtering function
+export const filterProducts = (filters: {
+  petType?: string;
+  category?: string;
+  brand?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minRating?: number;
+  tags?: string[];
+  specialFeatures?: string[];
+  inStock?: boolean;
+}): Product[] => {
+  return products.filter((product) => {
+    if (filters.petType && product.petType.toLowerCase() !== filters.petType.toLowerCase()) {
+      return false;
+    }
+    
+    if (filters.category && product.category.toLowerCase() !== filters.category.toLowerCase()) {
+      return false;
+    }
+    
+    if (filters.brand && product.brand.toLowerCase() !== filters.brand.toLowerCase()) {
+      return false;
+    }
+    
+    if (filters.minPrice && product.price < filters.minPrice) {
+      return false;
+    }
+    
+    if (filters.maxPrice && product.price > filters.maxPrice) {
+      return false;
+    }
+    
+    if (filters.minRating && product.rating < filters.minRating) {
+      return false;
+    }
+    
+    if (filters.tags && filters.tags.length > 0) {
+      const hasMatchingTag = filters.tags.some(tag => 
+        product.tags.some(productTag => 
+          productTag.toLowerCase().includes(tag.toLowerCase())
+        )
+      );
+      if (!hasMatchingTag) return false;
+    }
+    
+    if (filters.specialFeatures && filters.specialFeatures.length > 0) {
+      const hasMatchingFeature = filters.specialFeatures.some(feature => 
+        product.specialFeatures.some(productFeature => 
+          productFeature.toLowerCase().includes(feature.toLowerCase())
+        )
+      );
+      if (!hasMatchingFeature) return false;
+    }
+    
+    if (filters.inStock !== undefined && product.inStock !== filters.inStock) {
+      return false;
+    }
+    
+    return true;
+  });
+};
+
+// Statistics functions
+export const getProductStats = () => {
+  const totalProducts = products.length;
+  const averagePrice = products.reduce((sum, product) => sum + product.price, 0) / totalProducts;
+  const averageRating = products.reduce((sum, product) => sum + product.rating, 0) / totalProducts;
+  const inStockCount = products.filter(product => product.inStock).length;
+  
+  const categoryStats = getUniqueCategories().map(category => ({
+    category,
+    count: products.filter(product => product.category === category).length
+  }));
+  
+  const petTypeStats = getUniquePetTypes().map(petType => ({
+    petType,
+    count: products.filter(product => product.petType === petType).length
+  }));
+  
+  return {
+    totalProducts,
+    averagePrice: Math.round(averagePrice),
+    averageRating: Math.round(averageRating * 10) / 10,
+    inStockCount,
+    outOfStockCount: totalProducts - inStockCount,
+    categoryStats,
+    petTypeStats
+  };
+};
+
+// Existing functions (keeping for backward compatibility)
