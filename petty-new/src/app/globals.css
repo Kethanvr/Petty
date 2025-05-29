@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f0f4ff;
+  --foreground: #222;
+  --primary: #7e22ce;
+  --primary-foreground: #fffefe;
+  --secondary: #d7b3ff;
+  --secondary-foreground: #222;
+  --muted: #eee;
+  --muted-foreground: #666;
+  --accent: #ffffff;
+  --accent-foreground: #222;
+  --destructive: #ef4444;
+  --destructive-foreground: #fff;
+  --border: #ccc;
+  --input: #fff;
+  --ring: #7e22ce;
+  --radius: 0.5rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", system-ui, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.indie-flower-regular {
+  font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Custom animations from original site */
+.typing {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 4px solid black;
+  white-space: nowrap;
+  animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}
+
+/* Shadcn overrides to match original design */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+/* Button overrides */
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 10px;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-primary:hover {
+  background: #6b1fa3;
+}
+
+/* Custom grid for products */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Art box styling from original */
+.art-box {
+  width: 250px;
+  height: 250px;
+  background: var(--muted);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.art-box img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+/* Header styling */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: var(--primary);
+}
+
+.search-bar input {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  width: 400px;
+}
+
+/* Footer styling */
+.footer-container {
+  background-color: black;
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-links a {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Product card styling */
+.product-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure proper text styling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
+.logo h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--primary-foreground);
+}
