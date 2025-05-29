@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, Brain, MessageCircle, Search, Zap, Shield } from "lucide-react";
+import { Bot } from "lucide-react";
 
 export default function AboutPage() {
   return (

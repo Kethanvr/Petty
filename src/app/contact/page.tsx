@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Github, Linkedin, Twitter, Youtube, MessageCircle, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Twitter, MessageCircle, ExternalLink } from "lucide-react";
 
 export default function ContactPage() {
   return (

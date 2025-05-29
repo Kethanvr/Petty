@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Home, Search, ShoppingBag, ArrowLeft, Frown } from "lucide-react";
+import { Home, ShoppingBag, Frown } from "lucide-react";
 
 export default function NotFoundPage() {
   return (

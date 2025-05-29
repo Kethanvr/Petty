@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/lib/products";
+import { products, Product } from "@/lib/products";
 import { searchProducts } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -18,9 +18,8 @@ export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);
-  
-  // Quick View Modal state
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+    // Quick View Modal state
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
     // Filter states
   const [filters, setFilters] = useState({
@@ -47,10 +46,10 @@ export default function ProductsPage() {
     { label: "Under ₹500", min: 0, max: 500 },
     { label: "₹500 - ₹1000", min: 500, max: 1000 },
     { label: "₹1000 - ₹2000", min: 1000, max: 2000 },
-    { label: "Above ₹2000", min: 2000, max: Infinity },
-  ];
+    { label: "Above ₹2000", min: 2000, max: Infinity },  ];
+
   // Filter function
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = products;
 
     // Search filter
@@ -132,22 +131,23 @@ export default function ProductsPage() {
     }
 
     setFilteredProducts(filtered);
-  };
-
+  }, [searchQuery, filters, sortBy]);
   useEffect(() => {
     applyFilters();
-  }, [searchQuery, filters, sortBy]);
-
-  const handleFilterChange = (filterType: keyof typeof filters, value: any) => {
+  }, [applyFilters]);
+  const handleFilterChange = (
+    filterType: keyof typeof filters, 
+    value: string | number | boolean
+  ) => {
     setFilters(prev => {
       if (filterType === 'inStock') {
-        return { ...prev, [filterType]: value };
+        return { ...prev, [filterType]: value as boolean };
       }
       
-      const currentValues = prev[filterType] as any[];
-      const newValues = currentValues.includes(value)
+      const currentValues = prev[filterType] as (string | number)[];
+      const newValues = currentValues.includes(value as string | number)
         ? currentValues.filter(item => item !== value)
-        : [...currentValues, value];
+        : [...currentValues, value as string | number];
       
       return { ...prev, [filterType]: newValues };
     });
@@ -164,9 +164,8 @@ export default function ProductsPage() {
       inStock: false,
     });
   };
-
   // Quick View Functions
-  const openQuickView = (product: any) => {
+  const openQuickView = (product: Product) => {
     setQuickViewProduct(product);
     setCurrentImageIndex(0);
     document.body.style.overflow = 'hidden'; // Prevent background scrolling

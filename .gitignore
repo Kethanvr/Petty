@@ -2,6 +2,10 @@
 # Ignore all Markdown files except README.md
 *.md
 !README.md
+.env.local.example
+.env.development.local
+.env.local
+.env
 # dependencies
 /node_modules
 /.pnp
