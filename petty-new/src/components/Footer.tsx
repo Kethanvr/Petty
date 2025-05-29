@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { ClientCopyright } from "./ClientCopyright";
 
 export default function Footer() {
+  // Using a static placeholder for server-side rendering
   return (
     <footer className="bg-black text-white">
       <div className="container mx-auto px-4 py-6">
@@ -36,7 +38,7 @@ export default function Footer() {
 
           {/* Footer Logo/Copyright */}
           <div className="footer-logo">
-            <p className="text-center md:text-right">©Petty 2024</p>
+            <ClientCopyright />
           </div>
         </div>
       </div>

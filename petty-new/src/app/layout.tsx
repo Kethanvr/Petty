@@ -26,6 +26,32 @@ export const metadata: Metadata = {
   },
 };
 
+// Add Script to fix hydration issues with generated IDs
+function FixHydrationScript() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
+          (function() {
+            // Remove fdprocessedid attributes before hydration
+            function removeFdProcessedIds() {
+              document.querySelectorAll('[fdprocessedid]').forEach(el => {
+                el.removeAttribute('fdprocessedid');
+              });
+            }
+            
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', removeFdProcessedIds);
+            } else {
+              removeFdProcessedIds();
+            }
+          })();
+        `,
+      }}
+    />
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +60,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <FixHydrationScript />
+        </head>
         <body
           className={`${geist.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
           suppressHydrationWarning={true}
