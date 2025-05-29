@@ -8,6 +8,7 @@ import { searchProducts } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { Star, Filter, Grid, List, Heart, Eye, ShoppingCart, Zap, Award, Truck, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
@@ -17,6 +18,7 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+  const [isProductsAIOpen, setIsProductsAIOpen] = useState(false);
   
   // Quick View Modal state
   const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
@@ -207,9 +209,18 @@ export default function ProductsPage() {
                 {searchQuery
                   ? `Found ${filteredProducts.length} products matching your search`
                   : "Discover our complete collection of premium pet foods designed to keep your furry friends healthy and happy."}
-              </p>
-            </div>
+              </p>            </div>
             <div className="flex items-center gap-2">
+              {/* Products AI Assistant */}
+              <GlobalAIAssistant
+                mode="products"
+                context={filteredProducts}
+                isOpen={isProductsAIOpen}
+                onToggle={() => setIsProductsAIOpen(!isProductsAIOpen)}
+                buttonText="Ask AI About Products"
+                className="mr-2"
+              />
+              
               <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all">
                 <Filter className="w-4 h-4 mr-2" />
                 Filters

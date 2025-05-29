@@ -1,14 +1,18 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { getFeaturedProducts } from "@/lib/products";
 import { Star, Shield, Truck, Headphones, Award } from "lucide-react";
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
+  const [isHomeAIOpen, setIsHomeAIOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -41,6 +45,13 @@ export default function HomePage() {
                     Learn More
                   </Button>
                 </Link>
+                <Button
+                  onClick={() => setIsHomeAIOpen(!isHomeAIOpen)}
+                  variant="outline"
+                  className="border-yellow-300 text-yellow-300 hover:bg-yellow-300 hover:text-[#7E22CE] text-lg px-8 py-4 rounded-xl font-semibold"
+                >
+                  Ask Petty AI
+                </Button>
               </div>
             </div>
 
@@ -270,6 +281,15 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Global AI Assistant for Homepage */}
+      <GlobalAIAssistant
+        mode="general"
+        isOpen={isHomeAIOpen}
+        onToggle={() => setIsHomeAIOpen(!isHomeAIOpen)}
+        buttonText="Ask Petty AI"
+        className="hidden" // Hide the button since we have our custom one
+      />
     </div>
   );
 }

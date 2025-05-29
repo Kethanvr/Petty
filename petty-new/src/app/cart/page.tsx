@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 
 export default function CartPage() {
   const { state, updateQuantity, removeFromCart, clearCart } = useCart();
+  const [isCartAIOpen, setIsCartAIOpen] = useState(false);
 
   if (state.items.length === 0) {
     return (
@@ -37,13 +39,25 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-[#f0f4ff]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-[#222] mb-2">Shopping Cart</h1>
-          <p className="text-[#666]">
-            {state.totalItems} item{state.totalItems !== 1 ? "s" : ""} in your
-            cart
-          </p>
+      <div className="container mx-auto px-4 py-8">        <div className="mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h1 className="text-4xl font-bold text-[#222] mb-2">Shopping Cart</h1>
+              <p className="text-[#666]">
+                {state.totalItems} item{state.totalItems !== 1 ? "s" : ""} in your
+                cart
+              </p>
+            </div>
+            
+            {/* Cart AI Assistant */}
+            <GlobalAIAssistant
+              mode="cart"
+              context={state.items}
+              isOpen={isCartAIOpen}
+              onToggle={() => setIsCartAIOpen(!isCartAIOpen)}
+              buttonText="Ask AI About My Cart"
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

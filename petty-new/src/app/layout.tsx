@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { AIProvider } from "@/context/AIContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -62,16 +63,17 @@ export default function RootLayout({
       <html lang="en">
         <head>
           <FixHydrationScript />
-        </head>
-        <body
+        </head>        <body
           className={`${geist.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
           suppressHydrationWarning={true}
         >
-          <CartProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartProvider>
+          <AIProvider>
+            <CartProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </CartProvider>
+          </AIProvider>
         </body>
       </html>
     </ClerkProvider>

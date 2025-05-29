@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { useCart } from "@/context/CartContext";
-import { ShoppingCart, Search, Menu, X, Filter, TrendingUp } from "lucide-react";
+import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
+import { ShoppingCart, Search, Menu, X, Filter, TrendingUp, Bot } from "lucide-react";
 import {
   SignInButton,
   SignUpButton,
@@ -19,7 +20,8 @@ import { Card } from "./ui/card";
 import { searchProducts } from "@/lib/utils";
 
 export default function Header() {
-  const { state } = useCart();  const [searchQuery, setSearchQuery] = useState("");
+  const { state } = useCart();
+  const [isGlobalAIOpen, setIsGlobalAIOpen] = useState(false);const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<typeof products>([]);
   const [showResults, setShowResults] = useState(false);
@@ -211,10 +213,18 @@ export default function Header() {
                 </Link>
               </li>
             </ul>
-          </nav>
-
-          {/* Cart and Profile Section */}
+          </nav>          {/* Cart and Profile Section */}
           <div className="flex items-center gap-4">
+            {/* AI Assistant */}
+            <button
+              onClick={() => setIsGlobalAIOpen(!isGlobalAIOpen)}
+              className="relative p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 group"
+              title="Ask Petty AI"
+            >
+              <Bot className="w-5 h-5 text-white group-hover:text-purple-200 transition-colors" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+            </button>
+
             {/* Cart Icon with Badge */}
             <Link href="/cart" className="relative">
               <ShoppingCart className="w-6 h-6 text-white hover:text-purple-200 transition-colors" />
@@ -422,9 +432,17 @@ export default function Header() {
                   />
                 </SignedIn>
               </li>
-            </ul>
-          </nav>
+            </ul>          </nav>
         )}
+
+        {/* Global AI Assistant */}
+        <GlobalAIAssistant
+          mode="general"
+          isOpen={isGlobalAIOpen}
+          onToggle={() => setIsGlobalAIOpen(!isGlobalAIOpen)}
+          buttonText="Ask Petty AI"
+          className="hidden" // Hide the button since we have our custom one
+        />
       </div>
     </header>
   );
