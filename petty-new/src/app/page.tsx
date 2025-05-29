@@ -419,67 +419,164 @@ export default function HomePage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
-            Shop by Category
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="aspect-[4/3] overflow-hidden relative">
-                <Image
-                  src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=300&fit=crop"
-                  alt="Dog Food"
-                  width={400}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <h3 className="text-2xl font-bold mb-2">Dog Food</h3>
-                    <p className="text-purple-200">
-                      Premium nutrition for dogs
-                    </p>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Shop by Category
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover premium nutrition tailored for every type of pet. From growing puppies to senior cats, 
+              we have the perfect food for every stage of your pet's life.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Link href="/products?category=dog" className="group block">
+              <Card className="group-hover:shadow-2xl transition-all duration-500 overflow-hidden border-0 bg-white/80 backdrop-blur-sm">
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <Image
+                    src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=500&h=400&fit=crop&auto=format"
+                    alt="Premium Dog Food Collection"
+                    width={500}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-purple-900/70 transition-all duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 className="text-3xl font-bold text-white mb-3">Dog Food</h3>
+                        <p className="text-white/90 text-lg mb-4">
+                          Premium nutrition for active, healthy dogs
+                        </p>
+                        <div className="flex items-center gap-2 text-yellow-300">
+                          <Star className="w-5 h-5 fill-current" />
+                          <span className="text-white font-semibold">4.8+ Rating</span>
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-purple-500 transition-all duration-300">
+                        <span className="text-2xl">🐕</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+                <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-yellow-50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Starting from</p>
+                      <p className="text-2xl font-bold text-orange-600">₹299</p>
+                    </div>
+                    <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold group-hover:scale-105 transition-transform duration-300">
+                      Shop Now →
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="aspect-[4/3] overflow-hidden relative">
-                <Image
-                  src="https://images.unsplash.com/photo-1574231164645-d6f0e8553590?w=400&h=300&fit=crop"
-                  alt="Cat Food"
-                  width={400}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <h3 className="text-2xl font-bold mb-2">Cat Food</h3>
-                    <p className="text-purple-200">Healthy meals for cats</p>
+            <Link href="/products?category=cat" className="group block">
+              <Card className="group-hover:shadow-2xl transition-all duration-500 overflow-hidden border-0 bg-white/80 backdrop-blur-sm">
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <Image
+                    src="https://images.unsplash.com/photo-1574231164645-d6f0e8553590?w=500&h=400&fit=crop&auto=format"
+                    alt="Premium Cat Food Collection"
+                    width={500}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-purple-900/70 transition-all duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 className="text-3xl font-bold text-white mb-3">Cat Food</h3>
+                        <p className="text-white/90 text-lg mb-4">
+                          Delicious meals for feline health & happiness
+                        </p>
+                        <div className="flex items-center gap-2 text-yellow-300">
+                          <Star className="w-5 h-5 fill-current" />
+                          <span className="text-white font-semibold">4.9+ Rating</span>
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-purple-500 transition-all duration-300">
+                        <span className="text-2xl">🐱</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+                <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-purple-50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Starting from</p>
+                      <p className="text-2xl font-bold text-blue-600">₹249</p>
+                    </div>
+                    <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold group-hover:scale-105 transition-transform duration-300">
+                      Shop Now →
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="aspect-[4/3] overflow-hidden relative">
-                <Image
-                  src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop"
-                  alt="Treats"
-                  width={400}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <h3 className="text-2xl font-bold mb-2">Treats</h3>
-                    <p className="text-purple-200">Delicious rewards</p>
+            <Link href="/products?category=treats" className="group block">
+              <Card className="group-hover:shadow-2xl transition-all duration-500 overflow-hidden border-0 bg-white/80 backdrop-blur-sm">
+                <div className="aspect-[4/3] overflow-hidden relative">
+                  <Image
+                    src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&h=400&fit=crop&auto=format"
+                    alt="Premium Pet Treats Collection"
+                    width={500}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-purple-900/70 transition-all duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <h3 className="text-3xl font-bold text-white mb-3">Pet Treats</h3>
+                        <p className="text-white/90 text-lg mb-4">
+                          Healthy rewards & training snacks
+                        </p>
+                        <div className="flex items-center gap-2 text-yellow-300">
+                          <Star className="w-5 h-5 fill-current" />
+                          <span className="text-white font-semibold">4.7+ Rating</span>
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-purple-500 transition-all duration-300">
+                        <span className="text-2xl">🦴</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+                <CardContent className="p-6 bg-gradient-to-r from-green-50 to-emerald-50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">Starting from</p>
+                      <p className="text-2xl font-bold text-green-600">₹99</p>
+                    </div>
+                    <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-semibold group-hover:scale-105 transition-transform duration-300">
+                      Shop Now →
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+          
+          {/* Category Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">500+</div>
+              <p className="text-gray-600">Dog Food Products</p>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600 mb-2">300+</div>
+              <p className="text-gray-600">Cat Food Varieties</p>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600 mb-2">200+</div>
+              <p className="text-gray-600">Healthy Treats</p>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">50+</div>
+              <p className="text-gray-600">Premium Brands</p>
+            </div>
           </div>
         </div>
       </section>
@@ -510,7 +607,7 @@ export default function HomePage() {
               >
                 Try Petty AI Now
               </Button>
-              <Link href="/about">
+              <Link href="/help">
                 <Button
                   variant="outline"
                   className="border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 rounded-xl text-lg font-semibold"
@@ -521,6 +618,8 @@ export default function HomePage() {
             </div>
           </div>
 
+      {/* Add bottom padding to prevent overlapping */}
+      <div className="pb-16"></div>
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-[#7E22CE] to-[#9333EA] text-white">
         <div className="container mx-auto px-4 text-center">
@@ -537,8 +636,8 @@ export default function HomePage() {
             </Button>
           </Link>
         </div>
-        
       </section>
+
 
       {/* Global AI Assistant for Homepage */}
       <GlobalAIAssistant

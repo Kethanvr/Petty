@@ -186,10 +186,10 @@ export const products: Product[] = [
     rating: 4.5,
     description:
       "Taiyo Pluss Discovery Premium Hamster Food provides daily nutrition for hamsters with a balanced mix of grains, seeds, and nutrients. This premium formula supports healthy growth and vitality for your small pet.",
-    images: [
+    images: ["https://m.media-amazon.com/images/I/51ClQt+vynL.jpg",
       "https://m.media-amazon.com/images/I/71Skptfd6KL._SY679_.jpg",
       "https://m.media-amazon.com/images/I/71u0NWk2PDL._SY879_.jpg",
-      "https://m.media-amazon.com/images/I/51ClQt+vynL.jpg",
+      
     ],
     category: "Small Pet Food",
     brand: "Taiyo Pluss Discovery",
