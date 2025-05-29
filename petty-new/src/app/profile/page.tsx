@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   User, 
   ShoppingBag, 
@@ -16,56 +18,160 @@ import {
   Mail,
   Edit,
   Eye,
-  Calendar
+  Calendar,
+  Save,
+  Trash2,
+  Plus
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { products } from "@/lib/products";
+import { useWishlist } from "@/lib/useWishlist";
+
+// Types for local storage data
+interface Order {
+  id: string;
+  date: string;
+  status: string;
+  total: number;
+  items: {
+    productId: number;
+    name: string;
+    price: number;
+    quantity: number;
+  }[];
+}
+
+interface WatchlistItem {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  addedDate: string;
+}
+
+interface UserProfile {
+  phone: string;
+  address: string;
+  notifications: {
+    email: boolean;
+    sms: boolean;
+    marketing: boolean;
+  };
+}
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [isEditing, setIsEditing] = useState(false);
   const { state } = useCart();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
 
-  // Mock data for demonstration
-  const mockOrders = [
-    {
-      id: "ORD-001",
-      date: "2024-01-15",
-      status: "Delivered",
-      total: 89.99,
-      items: 3,
+  // State for user data
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    phone: "",
+    address: "",
+    notifications: {
+      email: true,
+      sms: false,
+      marketing: false,
     },
-    {
-      id: "ORD-002", 
-      date: "2024-01-20",
+  });
+
+  // Local storage keys
+  const getStorageKey = (key: string) => `petty_${user?.id}_${key}`;
+
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    if (user?.id) {
+      // Load orders
+      const savedOrders = localStorage.getItem(getStorageKey("orders"));
+      if (savedOrders) {
+        setOrders(JSON.parse(savedOrders));
+      }
+
+      // Load watchlist
+      const savedWatchlist = localStorage.getItem(getStorageKey("watchlist"));
+      if (savedWatchlist) {
+        setWatchlist(JSON.parse(savedWatchlist));
+      }
+
+      // Load user profile
+      const savedProfile = localStorage.getItem(getStorageKey("profile"));
+      if (savedProfile) {
+        setUserProfile(JSON.parse(savedProfile));
+      }
+    }
+  }, [user?.id]);
+
+  // Save data to localStorage
+  const saveToStorage = (key: string, data: any) => {
+    if (user?.id) {
+      localStorage.setItem(getStorageKey(key), JSON.stringify(data));
+    }
+  };
+
+  // Add item to watchlist
+  const addToWatchlist = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    if (product && !watchlist.find(item => item.id === productId)) {      const newItem: WatchlistItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images[0] || "/pet-animals-hero.jpg",
+        addedDate: new Date().toISOString(),
+      };
+      const updatedWatchlist = [...watchlist, newItem];
+      setWatchlist(updatedWatchlist);
+      saveToStorage("watchlist", updatedWatchlist);
+    }
+  };
+
+  // Remove item from watchlist
+  const removeFromWatchlist = (productId: number) => {
+    const updatedWatchlist = watchlist.filter(item => item.id !== productId);
+    setWatchlist(updatedWatchlist);
+    saveToStorage("watchlist", updatedWatchlist);
+  };
+
+  // Create a new order (simulate order completion)
+  const createOrder = (cartItems: any[]) => {
+    const newOrder: Order = {
+      id: `ORD-${Date.now()}`,
+      date: new Date().toISOString().split('T')[0],
       status: "Processing",
-      total: 45.50,
-      items: 2,
-    },
-    {
-      id: "ORD-003",
-      date: "2024-01-25", 
-      status: "Shipped",
-      total: 67.25,
-      items: 1,
-    },
-  ];
+      total: parseFloat(state.totalPrice.toFixed(2)),
+      items: cartItems.map(item => ({
+        productId: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+      })),
+    };
+    const updatedOrders = [newOrder, ...orders];
+    setOrders(updatedOrders);
+    saveToStorage("orders", updatedOrders);
+  };
 
-  const mockWatchlist = [
-    {
-      id: 1,
-      name: "Premium Dog Food",
-      price: 29.99,
-      image: "/pet-animals-hero.jpg",
-    },
-    {
-      id: 2,
-      name: "Cat Treats",
-      price: 12.99,
-      image: "/pet-animals-hero.jpg",
-    },
-  ];
+  // Update user profile
+  const updateProfile = (newProfile: UserProfile) => {
+    setUserProfile(newProfile);
+    saveToStorage("profile", newProfile);
+    setIsEditing(false);
+  };
+
+  // Calculate member since date
+  const getMemberSince = () => {
+    if (user?.createdAt) {
+      return new Date(user.createdAt).toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+      });
+    }
+    return "Recently";
+  };
 
   const tabs = [
     { id: "overview", label: "Overview", icon: User },
@@ -80,6 +186,7 @@ export default function ProfilePage() {
       case "Delivered": return "bg-green-100 text-green-800";
       case "Processing": return "bg-yellow-100 text-yellow-800";
       case "Shipped": return "bg-blue-100 text-blue-800";
+      case "Cancelled": return "bg-red-100 text-red-800";
       default: return "bg-gray-100 text-gray-800";
     }
   };
@@ -108,18 +215,17 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-gray-500" />
               <span className="text-sm">{user?.primaryEmailAddress?.emailAddress || "example@email.com"}</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </div>            <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-gray-500" />
-              <span className="text-sm">+1 (555) 123-4567</span>
+              <span className="text-sm">{userProfile.phone || "Not provided"}</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-gray-500" />
-              <span className="text-sm">123 Pet Street, Animal City</span>
+              <span className="text-sm">{userProfile.address || "Not provided"}</span>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-gray-500" />
-              <span className="text-sm">Member since Jan 2024</span>
+              <span className="text-sm">Member since {getMemberSince()}</span>
             </div>
           </div>
         </CardContent>
@@ -129,14 +235,14 @@ export default function ProfilePage() {
         <Card>
           <CardContent className="p-6 text-center">
             <ShoppingBag className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-            <h3 className="font-semibold text-lg">{mockOrders.length}</h3>
+            <h3 className="font-semibold text-lg">{orders.length}</h3>
             <p className="text-gray-600">Total Orders</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-6 text-center">
             <Heart className="w-8 h-8 text-red-600 mx-auto mb-2" />
-            <h3 className="font-semibold text-lg">{mockWatchlist.length}</h3>
+            <h3 className="font-semibold text-lg">{watchlist.length}</h3>
             <p className="text-gray-600">Wishlist Items</p>
           </CardContent>
         </Card>
@@ -158,33 +264,42 @@ export default function ProfilePage() {
           <Package className="w-5 h-5" />
           Order History
         </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {mockOrders.map((order) => (
-            <div key={order.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h3 className="font-semibold">{order.id}</h3>
-                  <p className="text-sm text-gray-600">{order.date}</p>
+      </CardHeader>      <CardContent>
+        {orders.length === 0 ? (
+          <div className="text-center py-8">
+            <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-600 mb-4">No orders yet</p>
+            <Link href="/products">
+              <Button>Start Shopping</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {orders.map((order) => (
+              <div key={order.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="font-semibold">{order.id}</h3>
+                    <p className="text-sm text-gray-600">{new Date(order.date).toLocaleDateString()}</p>
+                  </div>
+                  <Badge className={getStatusColor(order.status)}>
+                    {order.status}
+                  </Badge>
                 </div>
-                <Badge className={getStatusColor(order.status)}>
-                  {order.status}
-                </Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">{order.items} items</span>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">${order.total}</span>
-                  <Button size="sm" variant="outline">
-                    <Eye className="w-4 h-4 mr-1" />
-                    View
-                  </Button>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm">{order.items.length} items</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold">${order.total.toFixed(2)}</span>
+                    <Button size="sm" variant="outline">
+                      <Eye className="w-4 h-4 mr-1" />
+                      View
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -196,28 +311,66 @@ export default function ProfilePage() {
           <Heart className="w-5 h-5" />
           Watchlist
         </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {mockWatchlist.map((item) => (
-            <Card key={item.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <img 
-                  src={item.image} 
-                  alt={item.name}
-                  className="w-full h-32 object-cover rounded-md mb-3"
-                />
-                <h3 className="font-semibold mb-2">{item.name}</h3>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-purple-600">${item.price}</span>
-                  <Button size="sm">
+      </CardHeader>      <CardContent>
+        {watchlist.length === 0 ? (
+          <div className="text-center py-8">
+            <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-600 mb-4">No items in your watchlist</p>
+            <Link href="/products">
+              <Button>Browse Products</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {watchlist.map((item) => (
+              <Card key={item.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <img 
+                    src={item.image} 
+                    alt={item.name}
+                    className="w-full h-32 object-cover rounded-md mb-3"
+                  />
+                  <h3 className="font-semibold mb-2">{item.name}</h3>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-bold text-purple-600">${item.price.toFixed(2)}</span>
+                    <button
+                      onClick={() => removeFromWatchlist(item.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <Button size="sm" className="w-full">
                     <ShoppingCart className="w-4 h-4 mr-1" />
                     Add to Cart
                   </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+        
+        {/* Add to Watchlist Section */}
+        <div className="mt-6 pt-6 border-t">
+          <h3 className="font-semibold mb-4">Add Products to Watchlist</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            {products.slice(0, 8).map((product) => (
+              <button
+                key={product.id}
+                onClick={() => addToWatchlist(product.id)}
+                className="text-left p-2 border rounded hover:bg-gray-50 transition-colors"
+                disabled={watchlist.some(item => item.id === product.id)}
+              >
+                <div className="text-sm font-medium truncate">{product.name}</div>
+                <div className="text-xs text-gray-500">${product.price.toFixed(2)}</div>
+                {watchlist.some(item => item.id === product.id) ? (
+                  <Badge className="text-xs mt-1">Added</Badge>
+                ) : (
+                  <div className="text-xs text-purple-600 mt-1">+ Add</div>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -267,79 +420,195 @@ export default function ProfilePage() {
       </CardContent>
     </Card>
   );
+  const SettingsTab = () => {
+    const [editData, setEditData] = useState<UserProfile>(userProfile);
 
-  const SettingsTab = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="w-5 h-5" />
-            Account Settings
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Full Name</label>
-              <div className="flex items-center gap-2">
-                <span className="flex-1 p-2 bg-gray-50 rounded">{user?.fullName || "Pet Lover"}</span>
-                <Button size="sm" variant="outline">
-                  <Edit className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <div className="flex items-center gap-2">
-                <span className="flex-1 p-2 bg-gray-50 rounded">{user?.primaryEmailAddress?.emailAddress || "example@email.com"}</span>
-                <Button size="sm" variant="outline">
-                  <Edit className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Phone</label>
-              <div className="flex items-center gap-2">
-                <span className="flex-1 p-2 bg-gray-50 rounded">+1 (555) 123-4567</span>
-                <Button size="sm" variant="outline">
-                  <Edit className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Address</label>
-              <div className="flex items-center gap-2">
-                <span className="flex-1 p-2 bg-gray-50 rounded">123 Pet Street, Animal City</span>
-                <Button size="sm" variant="outline">
-                  <Edit className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    const handleSave = () => {
+      updateProfile(editData);
+    };
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Preferences</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span>Email Notifications</span>
-            <Button variant="outline">Enable</Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <span>SMS Notifications</span>
-            <Button variant="outline">Enable</Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <span>Marketing Emails</span>
-            <Button variant="outline">Disable</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
+    const handleCancel = () => {
+      setEditData(userProfile);
+      setIsEditing(false);
+    };
+
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="w-5 h-5" />
+                Account Settings
+              </CardTitle>
+              {!isEditing ? (
+                <Button onClick={() => setIsEditing(true)} variant="outline">
+                  <Edit className="w-4 h-4 mr-1" />
+                  Edit
+                </Button>
+              ) : (
+                <div className="flex gap-2">
+                  <Button onClick={handleSave} size="sm">
+                    <Save className="w-4 h-4 mr-1" />
+                    Save
+                  </Button>
+                  <Button onClick={handleCancel} variant="outline" size="sm">
+                    Cancel
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Full Name</label>
+                <div className="flex items-center gap-2">
+                  <span className="flex-1 p-2 bg-gray-50 rounded">{user?.fullName || "Not provided"}</span>
+                  <span className="text-xs text-gray-500">Managed by Clerk</span>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Email</label>
+                <div className="flex items-center gap-2">
+                  <span className="flex-1 p-2 bg-gray-50 rounded">{user?.primaryEmailAddress?.emailAddress || "Not provided"}</span>
+                  <span className="text-xs text-gray-500">Managed by Clerk</span>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Phone</label>
+                {isEditing ? (
+                  <Input
+                    value={editData.phone}
+                    onChange={(e) => setEditData({...editData, phone: e.target.value})}
+                    placeholder="Enter phone number"
+                  />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span className="flex-1 p-2 bg-gray-50 rounded">{userProfile.phone || "Not provided"}</span>
+                  </div>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Address</label>
+                {isEditing ? (
+                  <Textarea
+                    value={editData.address}
+                    onChange={(e) => setEditData({...editData, address: e.target.value})}
+                    placeholder="Enter your address"
+                    rows={2}
+                  />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span className="flex-1 p-2 bg-gray-50 rounded">{userProfile.address || "Not provided"}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Notification Preferences</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span>Email Notifications</span>
+              <Button 
+                variant={userProfile.notifications.email ? "default" : "outline"}
+                onClick={() => {
+                  const newProfile = {
+                    ...userProfile,
+                    notifications: {
+                      ...userProfile.notifications,
+                      email: !userProfile.notifications.email
+                    }
+                  };
+                  updateProfile(newProfile);
+                }}
+              >
+                {userProfile.notifications.email ? "Enabled" : "Disabled"}
+              </Button>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>SMS Notifications</span>
+              <Button 
+                variant={userProfile.notifications.sms ? "default" : "outline"}
+                onClick={() => {
+                  const newProfile = {
+                    ...userProfile,
+                    notifications: {
+                      ...userProfile.notifications,
+                      sms: !userProfile.notifications.sms
+                    }
+                  };
+                  updateProfile(newProfile);
+                }}
+              >
+                {userProfile.notifications.sms ? "Enabled" : "Disabled"}
+              </Button>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Marketing Emails</span>
+              <Button 
+                variant={userProfile.notifications.marketing ? "default" : "outline"}
+                onClick={() => {
+                  const newProfile = {
+                    ...userProfile,
+                    notifications: {
+                      ...userProfile.notifications,
+                      marketing: !userProfile.notifications.marketing
+                    }
+                  };
+                  updateProfile(newProfile);
+                }}
+              >
+                {userProfile.notifications.marketing ? "Enabled" : "Disabled"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {state.items.length > 0 && (
+              <Button 
+                onClick={() => createOrder(state.items)}
+                className="w-full"
+              >
+                Create Test Order (${state.totalPrice.toFixed(2)})
+              </Button>
+            )}
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                if (confirm("Are you sure you want to clear all data?")) {
+                  setOrders([]);
+                  setWatchlist([]);
+                  setUserProfile({
+                    phone: "",
+                    address: "",
+                    notifications: { email: true, sms: false, marketing: false }
+                  });
+                  localStorage.removeItem(getStorageKey("orders"));
+                  localStorage.removeItem(getStorageKey("watchlist"));
+                  localStorage.removeItem(getStorageKey("profile"));
+                }
+              }}
+              className="w-full"
+            >
+              Clear All Data
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
