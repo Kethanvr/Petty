@@ -216,14 +216,14 @@ function ProductsContent() {
             {/* Mobile-friendly AI Assistant and Controls */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               {/* Products AI Assistant */}
-              <GlobalAIAssistant
-                mode="products"
-                context={filteredProducts}
-                isOpen={isProductsAIOpen}
-                onToggle={() => setIsProductsAIOpen(!isProductsAIOpen)}
-                buttonText="Ask AI About Products"
-                className="w-full sm:w-auto"
-              />
+                {/* <GlobalAIAssistant
+                  mode="products"
+                  context={filteredProducts}
+                  isOpen={isProductsAIOpen}
+                  onToggle={() => setIsProductsAIOpen(!isProductsAIOpen)}
+                  buttonText="Ask AI About Products"
+                  className="w-full sm:w-auto"
+                /> */}
                 <div className="hidden sm:flex items-center gap-2">
                 <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all">
                   <Filter className="w-4 h-4 mr-2" />
