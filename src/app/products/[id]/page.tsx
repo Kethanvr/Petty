@@ -15,16 +15,22 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShoppingCart, Star, Minus, Plus, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
 import ProductAIChatbot from "@/components/ProductAIChatbot";
+import AuthRequiredModal from "@/components/AuthRequiredModal";
+import { useUser } from "@clerk/nextjs";
 
 export default function ProductPage() {  const params = useParams();
-  const productId = parseInt(params.id as string);
-  const product = getProductById(productId);
+  const productId = parseInt(params.id as string);  const product = getProductById(productId);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { user } = useUser();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedAge, setSelectedAge] = useState("Adult");
   const [selectedQuantity, setSelectedQuantity] = useState("1kg");
   const [itemQuantity, setItemQuantity] = useState(1);
+
+  // Auth required modal state
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalAction, setAuthModalAction] = useState("");
 
   const isProductInWishlist = isInWishlist(productId);
 
@@ -35,8 +41,13 @@ export default function ProductPage() {  const params = useParams();
   // Get suggested products (random other products)
   const suggestedProducts = products
     .filter((p) => p.id !== product.id)
-    .slice(0, 4);
-  const handleToggleWishlist = () => {
+    .slice(0, 4);  const handleToggleWishlist = () => {
+    if (!user) {
+      setAuthModalAction(isProductInWishlist ? "manage wishlist" : "add to wishlist");
+      setAuthModalOpen(true);
+      return;
+    }
+    
     if (isProductInWishlist) {
       removeFromWishlist(productId);
     } else {
@@ -45,6 +56,11 @@ export default function ProductPage() {  const params = useParams();
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      setAuthModalAction("add to cart");
+      setAuthModalOpen(true);
+      return;
+    }
     addToCart(product, itemQuantity, selectedQuantity, selectedAge);
   };
 
@@ -408,8 +424,14 @@ export default function ProductPage() {  const params = useParams();
                 </Card>
               </Link>
             ))}
-          </div>
-        </section>
+          </div>        </section>
+
+        {/* Auth Required Modal */}
+        <AuthRequiredModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          action={authModalAction}
+        />
       </div>
     </div>
   );
