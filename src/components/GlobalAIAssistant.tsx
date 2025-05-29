@@ -257,12 +257,11 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
                   Petty AI {mode === 'general' ? '- Pet Care' : mode === 'products' ? '- Product Helper' : '- Cart Assistant'}
                 </h3>
               </div>
-              <div className="flex items-center space-x-1">
-                <Button
+              <div className="flex items-center space-x-1">                <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsMinimized(!isMinimized)}
-                  className="text-white hover:bg-white/20 p-1 h-8 w-8"
+                  className="text-white hover:bg-white/20 p-1 h-8 w-8 ai-minimize-button"
                 >
                   {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                 </Button>

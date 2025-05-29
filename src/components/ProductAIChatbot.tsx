@@ -318,12 +318,11 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
                 <Bot className="w-5 h-5" />
                 <CardTitle className="text-lg">Petty AI</CardTitle>
               </div>
-              <div className="flex items-center space-x-2">
-                <Button
+              <div className="flex items-center space-x-2">                <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsMinimized(!isMinimized)}
-                  className="text-white hover:bg-white/20"
+                  className="text-white hover:bg-white/20 ai-minimize-button"
                 >
                   {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                 </Button>

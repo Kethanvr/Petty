@@ -245,12 +245,11 @@ export default function FloatingAI() {
                 <p className="text-purple-100 text-sm">Pet Care & Product Info</p>
               </div>
             </div>
-            <div className="flex items-center space-x-1">
-              <Button
+            <div className="flex items-center space-x-1">              <Button
                 onClick={() => setIsMinimized(true)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-white hover:bg-white/20 touch-target"
+                className="h-8 w-8 p-0 text-white hover:bg-white/20 touch-target ai-minimize-button"
               >
                 <Minimize2 className="w-4 h-4" />
               </Button>              <Button

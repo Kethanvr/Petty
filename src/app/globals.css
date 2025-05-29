@@ -251,6 +251,11 @@ input, select, textarea, button {
   .ai-chat-messages {
     max-height: 300px !important;
   }
+  
+  /* Hide minimize button on mobile for all AI overlays */
+  .ai-minimize-button {
+    display: none !important;
+  }
 }
 
 /* Safe area insets for mobile devices */
@@ -642,6 +647,11 @@ body {
   
   .ai-chat-messages {
     max-height: 300px !important;
+  }
+  
+  /* Hide minimize button on mobile for all AI overlays */
+  .ai-minimize-button {
+    display: none !important;
   }
 }
 
