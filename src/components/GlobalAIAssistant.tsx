@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,20 +37,18 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
   // Welcome messages based on mode
-  const getWelcomeMessage = () => {
+  const getWelcomeMessage = useCallback(() => {
     switch (mode) {
       case 'general':
         return "Hi! I'm Petty AI, your comprehensive pet care assistant. I can help with general pet care questions, nutrition advice, breed guidance, and product recommendations. What would you like to know?";
       case 'products':
         return "Hi! I'm Petty AI, here to help you compare products and find the perfect items for your pet. I can analyze multiple products and recommend the best options based on your pet's needs!";
       case 'cart':
-        return "Hi! I'm Petty AI, your shopping cart assistant. I can review your cart items, suggest complementary products, check compatibility, and help optimize your order for your pet's needs!";
-      default:
+        return "Hi! I'm Petty AI, your shopping cart assistant. I can review your cart items, suggest complementary products, check compatibility, and help optimize your order for your pet's needs!";      default:
         return "Hi! I'm Petty AI, here to help with all your pet care needs!";
     }
-  };
+  }, [mode]);
 
   // Initialize with welcome message when opened
   useEffect(() => {
@@ -137,20 +135,18 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
       });
     }
   };
-
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDragging && isMinimized) {
       setPosition({
         x: e.clientX - dragOffset.x,
         y: e.clientY - dragOffset.y,
       });
     }
-  };
+  }, [isDragging, isMinimized, dragOffset]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-
   useEffect(() => {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
@@ -160,7 +156,7 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, dragOffset, handleMouseMove]);
+  }, [isDragging, handleMouseMove]);
   const formatAIResponse = (text: string) => {
     const cleanText = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')

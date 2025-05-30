@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -131,15 +131,14 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
       }
     }
   };
-
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDragging && isMinimized) {
       setPosition({
         x: e.clientX - dragOffset.x,
         y: e.clientY - dragOffset.y,
       });
     }
-  };
+  }, [isDragging, isMinimized, dragOffset]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -147,14 +146,13 @@ export default function ProductAIChatbot({ product }: ProductAIChatbotProps) {
 
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove);      document.addEventListener('mouseup', handleMouseUp);
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, dragOffset, handleMouseMove]);
+  }, [isDragging, handleMouseMove]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -286,11 +287,12 @@ export default function ProfilePage() {  const [activeTab, setActiveTab] = useSt
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {wishlist.map((item) => (
-              <Card key={item.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-4">
-                  <img 
+              <Card key={item.id} className="hover:shadow-md transition-shadow">                <CardContent className="p-4">
+                  <Image 
                     src={item.image} 
                     alt={item.name}
+                    width={300}
+                    height={128}
                     className="w-full h-32 object-cover rounded-md mb-3"
                   />
                   <h3 className="font-semibold mb-2">{item.name}</h3>

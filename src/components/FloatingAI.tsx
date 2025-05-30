@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Bot, X, Minimize2, Maximize2, Send, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -160,8 +160,7 @@ export default function FloatingAI() {
       }
     }
   };
-
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDragging && isMinimized) {
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
@@ -175,12 +174,11 @@ export default function FloatingAI() {
         y: Math.max(0, Math.min(newY, maxY))
       });
     }
-  };
+  }, [isDragging, isMinimized, dragStart]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-
   useEffect(() => {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
@@ -189,7 +187,8 @@ export default function FloatingAI() {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
-    }  }, [isDragging, dragStart, handleMouseMove]);  // Prevent body scroll when modal is open on mobile
+    }
+  }, [isDragging, handleMouseMove]);// Prevent body scroll when modal is open on mobile
   useEffect(() => {
     if (isGlobalAIOpen && !isMinimized) {
       document.body.style.overflow = 'hidden';

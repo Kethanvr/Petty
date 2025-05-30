@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -169,11 +170,12 @@ export default function Header() {
                           className="px-3 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 cursor-pointer rounded-xl transition-all duration-200 group border border-transparent hover:border-purple-100"
                           onClick={() => handleProductClick(product.id)}
                         >
-                          <div className="flex items-center">
-                            <div className="relative w-12 h-12 rounded-xl overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
-                              <img
+                          <div className="flex items-center">                            <div className="relative w-12 h-12 rounded-xl overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
+                              <Image
                                 src={product.images[0]}
                                 alt={product.name}
+                                width={48}
+                                height={48}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                               />
                               {index < 3 && (
@@ -354,11 +356,12 @@ export default function Header() {
                         className="px-3 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 cursor-pointer rounded-xl transition-all duration-200 group border border-transparent hover:border-purple-100"
                         onClick={() => handleProductClick(product.id)}
                       >
-                        <div className="flex items-center">
-                          <div className="relative w-10 h-10 rounded-lg overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
-                            <img 
+                        <div className="flex items-center">                          <div className="relative w-10 h-10 rounded-lg overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
+                            <Image 
                               src={product.images[0]} 
                               alt={product.name} 
+                              width={40}
+                              height={40}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200" 
                             />
                             {index < 3 && (
