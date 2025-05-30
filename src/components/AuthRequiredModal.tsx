@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { X, Lock, UserPlus, LogIn } from "lucide-react";
@@ -13,7 +13,25 @@ interface AuthRequiredModalProps {
 }
 
 export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequiredModalProps) {
-  if (!isOpen) return null;  return (
+  // Prevent body scroll when modal is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+  return (
     <div 
       className="auth-modal-container"
       onClick={(e) => {
