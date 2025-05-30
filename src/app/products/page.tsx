@@ -925,18 +925,9 @@ function ProductsContent() {
                   Discover more amazing products for your furry friends
                 </p>
               </div>
-            </div>
-          </main>        </div>
-          {/* Floating Action Button for Quick Filter (Mobile) */}
-        <div className="fixed bottom-6 right-6 lg:hidden z-20">
-          <Button
-            size="lg"
-            className="rounded-full w-14 h-14 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 shadow-2xl border-0"
-            suppressHydrationWarning={true}
-          >
-            <Filter className="w-6 h-6" />
-          </Button>
-        </div>{/* Quick View Modal */}
+            </div>          </main>        </div>
+
+        {/* Quick View Modal */}
         {quickViewProduct && (
           <div 
             className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"

@@ -13,10 +13,16 @@ interface AuthRequiredModalProps {
 }
 
 export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequiredModalProps) {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  if (!isOpen) return null;  return (
+    <div 
+      className="auth-modal-container"
+      onClick={(e) => {
+        // Only close if clicking the backdrop, not the modal content
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
@@ -24,7 +30,10 @@ export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequi
       />
       
       {/* Modal Content */}
-      <Card className="relative w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl border-0 overflow-hidden animate-fadeInUp">
+      <Card 
+        className="auth-modal-content relative bg-white rounded-2xl shadow-2xl border-0 overflow-hidden animate-fadeInUp"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <CardHeader className="text-center pb-4 pt-8">
           <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -40,10 +49,9 @@ export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequi
 
         {/* Content */}
         <CardContent className="px-8 pb-8">
-          <div className="space-y-3">
-            {/* Sign In Button */}
+          <div className="space-y-3">            {/* Sign In Button */}
             <SignInButton mode="modal">
-              <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+              <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl touch-target">
                 <LogIn className="w-5 h-5 mr-2" />
                 Sign In to Continue
               </Button>
@@ -53,7 +61,7 @@ export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequi
             <SignUpButton mode="modal">
               <Button 
                 variant="outline" 
-                className="w-full border-2 border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 py-3 rounded-xl font-semibold transition-all duration-300"
+                className="w-full border-2 border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 py-3 rounded-xl font-semibold transition-all duration-300 touch-target"
               >
                 <UserPlus className="w-5 h-5 mr-2" />
                 Create New Account
@@ -85,14 +93,12 @@ export default function AuthRequiredModal({ isOpen, onClose, action }: AuthRequi
               </div>
             </div>
           </div>
-        </CardContent>
-
-        {/* Close Button */}
+        </CardContent>        {/* Close Button */}
         <Button
           variant="ghost"
           size="sm"
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 rounded-full"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 rounded-full touch-target"
         >
           <X className="w-5 h-5" />
         </Button>

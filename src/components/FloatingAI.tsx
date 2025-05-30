@@ -189,13 +189,28 @@ export default function FloatingAI() {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
-    }  }, [isDragging, dragStart, handleMouseMove]);  if (!isGlobalAIOpen) {
+    }  }, [isDragging, dragStart, handleMouseMove]);  // Prevent body scroll when modal is open on mobile
+  useEffect(() => {
+    if (isGlobalAIOpen && !isMinimized) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    };
+  }, [isGlobalAIOpen, isMinimized]);  if (!isGlobalAIOpen) {
     return null;
   }  if (isMinimized) {
     return (
       <div
         ref={dragRef}
-        className="fixed z-50 cursor-move floating-ai-button"
+        className="fixed z-50 cursor-move floating-ai-minimized"
         style={{ 
           left: `${position.x}px`, 
           top: `${position.y}px`
@@ -226,16 +241,18 @@ export default function FloatingAI() {
       </div>
     );
   }  return (
-    <>      {/* Backdrop overlay */}
+    <>
+      {/* Centered AI Chat with backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+        className="ai-chat-modal-overlay" 
         onClick={(e) => {
-          e.stopPropagation();
-          setIsGlobalAIOpen(false);
+          // Only close if clicking the backdrop, not the modal content
+          if (e.target === e.currentTarget) {
+            setIsGlobalAIOpen(false);
+          }
         }}
-      />{/* Centered AI Chat */}
-      <div className="fixed inset-0 flex items-center justify-center z-50 p-4 safe-area-bottom" onClick={(e) => e.stopPropagation()}>
-        <Card className="ai-chat-container w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden">
+      >
+        <Card className="ai-chat-container w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh] bg-white shadow-2xl border border-purple-200 rounded-2xl overflow-hidden relative z-50" onClick={(e) => e.stopPropagation()}>
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-4 flex items-center justify-between">
             <div className="flex items-center space-x-3">

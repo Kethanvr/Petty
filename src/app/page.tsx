@@ -6,13 +6,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { GlobalAIAssistant } from "@/components/GlobalAIAssistant";
 import { getFeaturedProducts } from "@/lib/products";
 import { Star, Shield, Truck, Headphones, Award, Bot, Brain, MessageCircle, Search, ShoppingCart, Zap } from "lucide-react";
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
-  const [isHomeAIOpen, setIsHomeAIOpen] = useState(false);
 
   // Auto-focus search bar on home page load
   useEffect(() => {
@@ -59,13 +57,6 @@ export default function HomePage() {
                     Learn More
                   </Button>
                 </Link>
-                <Button
-                  onClick={() => setIsHomeAIOpen(!isHomeAIOpen)}
-                  variant="outline"
-                  className="border-yellow-300 text-yellow-300 hover:bg-yellow-300 hover:text-[#7E22CE] text-lg px-8 py-4 rounded-xl font-semibold"
-                >
-                  Ask Petty AI
-                </Button>
               </div>
             </div>
 
@@ -624,18 +615,19 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                onClick={() => setIsHomeAIOpen(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl text-lg font-semibold"
-              >
-                Try Petty AI Now
-              </Button>
+              <Link href="/help">
+                <Button
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl text-lg font-semibold"
+                >
+                  Learn More About Our Products
+                </Button>
+              </Link>
               <Link href="/help">
                 <Button
                   variant="outline"
                   className="border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 rounded-xl text-lg font-semibold"
                 >
-                  Learn More About AI
+                  Get Help & Support
                 </Button>
               </Link>
             </div>
@@ -660,16 +652,6 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
-
-      {/* Global AI Assistant for Homepage */}
-      <GlobalAIAssistant
-        mode="general"
-        isOpen={isHomeAIOpen}
-        onToggle={() => setIsHomeAIOpen(!isHomeAIOpen)}
-        buttonText="Ask Petty AI"
-        className="hidden" // Hide the button since we have our custom one
-      />
     </div>
   );
 }

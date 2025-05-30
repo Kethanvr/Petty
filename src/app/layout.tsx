@@ -136,12 +136,10 @@ export default function RootLayout({
           <meta name="apple-touch-fullscreen" content="yes" />
           <FixHydrationScript />
           <PreventZoomScript />
-        </head>
-        <body
-          className={`${geist.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        </head>        <body
+          className={`${geist.variable} ${geistMono.variable} antialiased flex flex-col`}
           suppressHydrationWarning={true}
-        >
-          <AIProvider>
+        >          <AIProvider>
             <CartProvider>
               <Header />
               <main className="flex-1">{children}</main>

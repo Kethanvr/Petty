@@ -225,6 +225,23 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
       .replace(/(\d+(?:\.\d+)?\s*(?:kg|g|lbs?|oz|cups?|tbsp|tsp|years?|months?|weeks?))/gi, '<span class="font-semibold text-blue-600">$1</span>');
   };
 
+  // Prevent body scroll when modal is open on mobile
+  useEffect(() => {
+    if (isOpen && !isMinimized) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen, isMinimized]);
+
   return (
     <>
       {/* AI Button */}
@@ -236,12 +253,17 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
         <MessageCircle className="w-5 h-5 mr-2" />
         {buttonText}
       </Button>      {/* AI Modal */}
-      {isOpen && (        <div 
-          className={`fixed ${isMinimized ? 'inset-auto' : 'inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center'} z-50 p-4`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Card 
-            className={`${isMinimized ? 'w-64 h-16 cursor-move draggable-card' : 'w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh]'} flex flex-col transition-all duration-300 shadow-2xl bg-white ai-chat-container`}
+      {isOpen && (
+        <div 
+          className={`${isMinimized ? 'fixed inset-auto z-50' : 'ai-chat-modal-overlay'}`}
+          onClick={(e) => {
+            // Only close if clicking the backdrop, not the modal content
+            if (e.target === e.currentTarget && !isMinimized) {
+              onToggle();
+            }
+          }}
+        >          <Card 
+            className={`${isMinimized ? 'w-64 h-16 cursor-move draggable-card floating-ai-minimized' : 'w-full sm:w-[400px] md:w-[450px] h-[500px] max-h-[80vh] ai-chat-container relative z-50'} flex flex-col transition-all duration-300 shadow-2xl bg-white`}
             style={isMinimized ? { 
               position: 'fixed',
               top: position.y || 20,
@@ -250,6 +272,7 @@ export const GlobalAIAssistant: React.FC<GlobalAIAssistantProps> = ({
               userSelect: 'none'
             } : {}}
             onMouseDown={isMinimized ? handleMouseDown : undefined}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <CardHeader className={`flex flex-row items-center justify-between space-y-0 pb-3 bg-[#7E22CE] text-white rounded-t-lg ${isMinimized ? 'cursor-move' : ''}`}>

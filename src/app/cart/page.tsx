@@ -111,8 +111,7 @@ export default function CartPage() {
                 variant="outline"
                 onClick={() => window.location.href = '/profile?tab=wishlist'}
                 className="border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
-              >
-                <Heart className="w-4 h-4 mr-2" />
+              >                <Heart className="w-4 h-4 mr-2" />
                 View Wishlist
               </Button>
               
