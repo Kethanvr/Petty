@@ -35,22 +35,19 @@ html {
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Prevent double-tap zoom */
-  touch-action: manipulation;
-  /* Prevent zoom on iOS */
+  /* Allow scrolling but prevent zoom */
+  touch-action: pan-y pan-x;
+  /* Ensure scrolling works on mobile */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent zoom on iOS but allow text selection */
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 /* Prevent zoom on all inputs and form elements */
 input, select, textarea, button {
   /* Prevent zoom on focus for iOS */
   font-size: 16px !important;
-  /* Prevent zoom on touch */
+  /* Allow scrolling but prevent zoom */
   touch-action: manipulation;
   /* Prevent callout menu */
   -webkit-touch-callout: none;
@@ -58,10 +55,16 @@ input, select, textarea, button {
 
 /* Comprehensive mobile zoom prevention */
 @media screen and (max-width: 768px) {
-  * {
-    /* Prevent zoom on double tap */
+  /* Allow scrolling and text selection by default */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  /* Only prevent zoom on interactive elements */
+  button, input, select, textarea, .button, .card {
     touch-action: manipulation;
-    /* Prevent text selection causing zoom */
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -69,11 +72,12 @@ input, select, textarea, button {
   }
   
   /* Allow text selection for content areas */
-  p, span, div:not(.button):not(.card), h1, h2, h3, h4, h5, h6 {
+  p, span, div:not(.button):not(.card), h1, h2, h3, h4, h5, h6, main, article, section {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+    touch-action: pan-y pan-x;
   }
   
   /* Ensure all inputs have minimum 16px font size to prevent zoom */
@@ -849,3 +853,107 @@ h6 {
 .animate-fadeInUp {
   animation: fadeInUp 0.3s ease-out forwards;
 }
+
+/* Mobile scrolling enhancements */
+@media screen and (max-width: 768px) {
+  html {
+    /* Ensure smooth scrolling on mobile */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  body {
+    /* Ensure body can scroll properly */
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Allow momentum scrolling on iOS */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Ensure main content area can scroll */
+  main {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    min-height: 100%;
+  }
+  
+  /* Fix for potential fixed positioning issues */
+  .fixed {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* Ensure all containers allow proper scrolling */
+@media screen and (max-width: 768px) {
+  .container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Specific adjustments for known issue elements */
+  .known-issue-element {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* Fix for sticky header on mobile */
+@media screen and (max-width: 768px) {
+  /* Ensure sticky elements don't interfere with scrolling */
+  .sticky {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Ensure page content doesn't get clipped */
+  main {
+    padding-top: 0;
+    margin-top: 0;
+  }
+  
+  /* Prevent scroll lock on any overlays */
+  .modal-overlay, .fixed {
+    touch-action: pan-y pan-x;
+  }
+  
+  /* Ensure touch targets are properly sized for mobile */
+  button, input, select, textarea, .button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Final mobile scroll fixes */
+@media screen and (max-width: 768px) {
+  /* Reset any problematic styles that might prevent scrolling */
+  * {
+    /* Ensure no element accidentally prevents scrolling */
+    max-height: none !important;
+  }
+  
+  html, body {
+    /* Ensure proper height and scrolling */
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* Ensure main content area allows proper scrolling */
+  body > div {
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  
+  /* Fix potential flexbox issues that might prevent scrolling */
+  .flex-col {
+    min-height: 0;
+  }
+}
+
+/* End mobile scroll fixes */

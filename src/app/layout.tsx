@@ -55,17 +55,18 @@ function FixHydrationScript() {
   );
 }
 
-// Add Script to prevent zoom on mobile
+// Add Script to prevent zoom on mobile while allowing scroll
 function PreventZoomScript() {
   return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
           (function() {
-            // Prevent zoom on mobile devices
+            // Prevent zoom on mobile devices while allowing scroll
             function preventZoom() {
+              // Only prevent pinch zoom, allow scroll
               document.addEventListener('touchmove', function(e) {
-                if (e.scale !== 1) {
+                if (e.touches.length > 1) {
                   e.preventDefault();
                 }
               }, { passive: false });
@@ -82,12 +83,18 @@ function PreventZoomScript() {
                 e.preventDefault();
               });
               
-              // Prevent double-tap zoom
+              // Prevent double-tap zoom but allow single taps
               let lastTouchEnd = 0;
               document.addEventListener('touchend', function(e) {
                 const now = (new Date()).getTime();
-                if (now - lastTouchEnd <= 300) {
-                  e.preventDefault();
+                if (now - lastTouchEnd <= 300 && e.touches.length === 0) {
+                  // Only prevent if it's on interactive elements
+                  const target = e.target;
+                  if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || 
+                      target.tagName === 'SELECT' || target.tagName === 'TEXTAREA' ||
+                      target.classList.contains('button') || target.closest('button')) {
+                    e.preventDefault();
+                  }
                 }
                 lastTouchEnd = now;
               }, false);
@@ -121,7 +128,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, shrink-to-fit=no, viewport-fit=cover" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
