@@ -118,7 +118,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>      <html lang="en">        <head>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -127,7 +129,8 @@ export default function RootLayout({
           <meta name="apple-touch-fullscreen" content="yes" />
           <FixHydrationScript />
           <PreventZoomScript />
-        </head><body
+        </head>
+        <body
           className={`${geist.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
           suppressHydrationWarning={true}
         >
