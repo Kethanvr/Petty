@@ -105,12 +105,11 @@ export default function Header() {
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [showResults]);  return (
-    <header className="bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#9333EA] text-white sticky top-0 z-50 shadow-2xl backdrop-blur-sm border-b border-purple-300/20">
-      <div className="container mx-auto px-4 py-5">
-        <div className="flex justify-between items-center">
+  }, [showResults]);  return (    <header className="bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#9333EA] text-white sticky top-0 z-50 shadow-2xl backdrop-blur-sm border-b border-purple-300/20">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center gap-6 min-h-[60px]">
           {/* Enhanced Petty AI Button and Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Button
               onClick={() => setIsGlobalAIOpen(true)}
               className="bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all duration-300 flex items-center gap-2 hover:scale-105 shadow-lg backdrop-blur-sm"
@@ -122,15 +121,13 @@ export default function Header() {
 
             <div className="logo">
               <Link href="/">
-                <h1 className="indie-flower-regular text-4xl font-bold text-white cursor-pointer hover:scale-105 transition-transform duration-300 drop-shadow-lg">
+                <h1 className="indie-flower-regular text-3xl lg:text-4xl font-bold text-white cursor-pointer hover:scale-105 transition-transform duration-300 drop-shadow-lg">
                   Petty
                 </h1>
               </Link>
             </div>
-          </div>
-
-          {/* Modern Search Bar - Hidden on mobile */}
-          <div className="search-bar hidden md:block flex-1 max-w-2xl mx-8">
+          </div>          {/* Modern Search Bar - Hidden on mobile */}
+          <div className="search-bar hidden md:block flex-1 max-w-md lg:max-w-xl mx-4">
             <div className="relative" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleSearchSubmit}>
                 <div className="relative group">
@@ -242,7 +239,7 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-8">
             <Link
               href="/"
-              className="text-white hover:text-purple-200 transition-all duration-300 text-lg font-medium hover:scale-105 relative group"
+              className="text-white hover:text-purple-200 transition-all duration-300 text-base font-medium hover:scale-105 relative group whitespace-nowrap"
             >
               Home
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
@@ -250,7 +247,7 @@ export default function Header() {
             <div className="relative group">
               <Link
                 href="/products"
-                className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-1 text-lg font-medium group-hover:scale-105"
+                className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-1 text-base font-medium group-hover:scale-105 whitespace-nowrap"
               >
                 Products
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
@@ -378,19 +375,136 @@ export default function Header() {
               </div></div>            {/* Enhanced Pet Insurance - Direct Link */}
             <Link
               href="/insurance"
-              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-lg font-medium hover:scale-105"
+              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
             >
               <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
                 <Shield className="w-4 h-4" />
               </div>
-              Pet Insurance            </Link>
-          </nav>{/* Enhanced Auto-Refill Promo Banner */}
-          <div className="hidden xl:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-4 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-            <Zap className="w-4 h-4 animate-pulse" />
-            <span className="font-medium">Auto-Refill Available!</span>
-            <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
-          </div>          {/* Enhanced Cart and Profile Section */}
+              Pet Insurance
+            </Link>
+
+            {/* Pet Guide Video Link */}
+            <Link
+              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
+            >
+              <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              Pet Guide Video
+            </Link>
+          </nav>          {/* Right side container with better spacing */}
           <div className="flex items-center gap-4">
+            {/* Enhanced Auto-Refill Promo Banner */}
+            <div
+            onClick={() => {
+              const modal = document.createElement('div');
+              modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+              modal.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-lg w-full p-8 animate-fadeIn">
+                  <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Auto-Refill Service</h3>
+                    <p class="text-gray-600">Never run out of pet food again!</p>
+                  </div>
+                  
+                  <div class="space-y-4 mb-6">
+                    <div class="flex items-start gap-3">
+                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-gray-900">Automatic Delivery</h4>
+                        <p class="text-sm text-gray-600">Your pet's food is automatically delivered based on your schedule (weekly, bi-weekly, or monthly)</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-gray-900">Save Up to 20%</h4>
+                        <p class="text-sm text-gray-600">Get exclusive discounts on every auto-refill order - the more frequent, the bigger the savings!</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-gray-900">Flexible Control</h4>
+                        <p class="text-sm text-gray-600">Skip, pause, or modify your deliveries anytime through your account dashboard</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-gray-900">Free Shipping</h4>
+                        <p class="text-sm text-gray-600">All auto-refill orders come with free delivery, no minimum order required</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-2xl">🎯</span>
+                      <span class="font-semibold text-green-800">Smart Recommendations</span>
+                    </div>
+                    <p class="text-sm text-green-700">Our AI learns your pet's consumption patterns and suggests the perfect delivery schedule!</p>
+                  </div>
+                  
+                  <div class="flex gap-3">
+                    <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-xl hover:bg-gray-200 transition-colors font-medium">
+                      Maybe Later
+                    </button>
+                    <button onclick="window.location.href='/products?auto-refill=true'; this.closest('.fixed').remove()" class="flex-1 bg-gradient-to-r from-green-400 to-emerald-500 text-white py-3 px-4 rounded-xl hover:from-green-500 hover:to-emerald-600 transition-all font-medium">
+                      Setup Auto-Refill
+                    </button>
+                  </div>
+                </div>
+              `;
+              
+              document.body.appendChild(modal);
+              
+              // Add click outside to close
+              modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                  modal.remove();
+                }
+              });
+                // Add escape key to close
+              const handleEscape = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                  modal.remove();
+                  document.removeEventListener('keydown', handleEscape);
+                }
+              };              document.addEventListener('keydown', handleEscape);            }}
+            className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer whitespace-nowrap"
+          >
+            <Zap className="w-4 h-4 animate-pulse" />
+            <span className="font-medium">Auto-Refill!</span>
+            <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
+          </div>
+
             {/* Enhanced Cart Icon with Badge */}
             <Link href="/cart" className="relative group">
               <div className="p-2 rounded-lg hover:bg-white/10 transition-all duration-300 group-hover:scale-110">
@@ -401,18 +515,16 @@ export default function Header() {
                   {state.totalItems}
                 </Badge>
               )}
-            </Link>
-
-            {/* Enhanced Clerk Authentication */}
-            <div className="profile hidden md:flex items-center gap-3">
+            </Link>            {/* Enhanced Clerk Authentication */}
+            <div className="profile hidden lg:flex items-center gap-3">
               <SignedOut>
                 <SignInButton mode="modal">
-                  <button className="text-sm bg-white text-purple-700 px-5 py-2.5 rounded-full cursor-pointer hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105">
+                  <button className="text-sm bg-white text-purple-700 px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
                     Sign In
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button className="text-sm bg-gradient-to-r from-purple-600 to-purple-700 text-white px-5 py-2.5 rounded-full cursor-pointer hover:from-purple-700 hover:to-purple-800 transition-all duration-300 border border-purple-400 font-medium shadow-lg hover:shadow-xl hover:scale-105">
+                  <button className="text-sm bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-full cursor-pointer hover:from-purple-700 hover:to-purple-800 transition-all duration-300 border border-purple-400 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
                     Sign Up
                   </button>
                 </SignUpButton>
@@ -428,7 +540,7 @@ export default function Header() {
                   />
                 </div>
               </SignedIn>
-            </div>            {/* Enhanced Mobile Menu Button */}
+            </div>{/* Enhanced Mobile Menu Button */}
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-all duration-300 hover:scale-110"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -565,6 +677,17 @@ export default function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Pet Insurance
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Pet Guide Video
                 </Link>
               </li>
               <li>

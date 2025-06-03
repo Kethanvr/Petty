@@ -31,7 +31,7 @@ import {
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
   const bestSellers = getBestSellerProducts().slice(0, 4);
-  const popularProducts = getProductsByCategory("Dog Food").concat(getProductsByCategory("Cat Food")).slice(0, 8);
+  const popularProducts = getProductsByCategory("Dog Food").concat(getProductsByCategory("Cat Food")).slice(0, 4);
   
   // State for purchase overlay
   const [showPurchaseOverlay, setShowPurchaseOverlay] = useState(false);
