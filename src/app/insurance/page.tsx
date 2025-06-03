@@ -14,6 +14,7 @@ import {
   Users,
   Clock,
   MapPin,
+  X,
 } from "lucide-react";
 import {
   insurancePlans,
@@ -26,6 +27,7 @@ export default function InsurancePage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
     "monthly"
   );
+  const [showBetaOverlay, setShowBetaOverlay] = useState(false);
   const features = getInsuranceFeatures();
 
   const formatPrice = (plan: InsurancePlan) => {
@@ -35,13 +37,16 @@ export default function InsurancePage() {
       return `₹${plan.yearlyPrice}/year`;
     }
   };
-
   const getSavingsText = (plan: InsurancePlan) => {
     if (billingCycle === "yearly") {
       const savings = calculateYearlySavings(plan);
       return `Save ₹${savings} annually`;
     }
     return null;
+  };
+
+  const handleChoosePlan = () => {
+    setShowBetaOverlay(true);
   };
 
   return (
@@ -214,9 +219,8 @@ export default function InsurancePage() {
                       <div className="text-gray-500">Age Limit</div>
                       <div className="font-semibold">Up to {plan.ageLimit}</div>
                     </div>
-                  </div>
-
-                  <Button
+                  </div>                  <Button
+                    onClick={handleChoosePlan}
                     className={`w-full py-3 font-semibold transition-all ${
                       plan.popularPlan || plan.bestValue
                         ? "bg-[#7E22CE] hover:bg-[#6b1fa3] text-white"
@@ -352,8 +356,7 @@ export default function InsurancePage() {
                 size="lg"
                 className="bg-white text-[#7E22CE] hover:bg-gray-100 font-semibold px-8 py-3"
               >
-                Get Free Quote
-              </Button>
+                Get Free Quote              </Button>
               <Button
                 size="lg"
                 variant="outline"
@@ -366,6 +369,49 @@ export default function InsurancePage() {
           </div>
         </div>
       </section>
+
+      {/* Beta Testing Overlay */}
+      {showBetaOverlay && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
+            <button
+              onClick={() => setShowBetaOverlay(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-yellow-600" />
+              </div>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Website Under Beta Testing
+              </h3>
+              
+              <p className="text-gray-600 mb-6">
+                Our pet insurance feature is currently under development and beta testing. 
+                This functionality will be implemented in future updates to provide you with 
+                the best possible insurance experience for your pets.
+              </p>
+              
+              <div className="space-y-3">
+                <Button
+                  onClick={() => setShowBetaOverlay(false)}
+                  className="w-full bg-[#7E22CE] hover:bg-[#6b1fa3] text-white"
+                >
+                  Got it, thanks!
+                </Button>
+                
+                <p className="text-sm text-gray-500">
+                  Stay tuned for updates! We're working hard to bring you comprehensive pet insurance soon.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
