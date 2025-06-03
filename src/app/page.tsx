@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getFeaturedProducts, getBestSellerProducts, getProductsByCategory } from "@/lib/products";
-import { getInsuranceFeatures } from "@/lib/insurance";
-import { getFeaturedGuides } from "@/lib/petCareGuides";
 import {
   Star,
   Shield,
@@ -26,14 +24,39 @@ import {
   CheckCircle,
   Users,
   Clock,
+  X,
+  Loader2,
 } from "lucide-react";
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
   const bestSellers = getBestSellerProducts().slice(0, 4);
   const popularProducts = getProductsByCategory("Dog Food").concat(getProductsByCategory("Cat Food")).slice(0, 8);
-  const insuranceFeatures = getInsuranceFeatures().slice(0, 3);
-  const featuredGuides = getFeaturedGuides().slice(0, 3);
+  
+  // State for purchase overlay
+  const [showPurchaseOverlay, setShowPurchaseOverlay] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle purchase click
+  const handlePurchaseClick = () => {
+    setShowPurchaseOverlay(true);
+  };
+
+  const handleConfirmPurchase = () => {
+    setIsLoading(true);
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+      setShowPurchaseOverlay(false);
+      // Show "coming soon" message
+      alert("Website will be live soon! We're working hard to bring you the best pet care experience.");
+    }, 2000);
+  };
+
+  const handleCloseOverlay = () => {
+    setShowPurchaseOverlay(false);
+    setIsLoading(false);
+  };
 
   // Auto-focus search bar on home page load
   useEffect(() => {
@@ -446,14 +469,24 @@ export default function HomePage() {
                         {product.rating}
                       </span>
                     </div>
-                    <Link href={`/products/${product.id}`}>
+                    <div className="flex gap-2">
+                      <Link href={`/products/${product.id}`}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-purple-600 text-purple-600 hover:bg-purple-50"
+                        >
+                          View
+                        </Button>
+                      </Link>
                       <Button
+                        onClick={handlePurchaseClick}
                         size="sm"
                         className="bg-[#7E22CE] hover:bg-[#6b1fa3]"
                       >
-                        View Details
+                        Buy
                       </Button>
-                    </Link>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -540,14 +573,24 @@ export default function HomePage() {
                         {product.rating}
                       </span>
                     </div>
-                    <Link href={`/products/${product.id}`}>
+                    <div className="flex gap-1">
+                      <Link href={`/products/${product.id}`}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-purple-600 text-purple-600 hover:bg-purple-50 text-xs px-2"
+                        >
+                          View
+                        </Button>
+                      </Link>
                       <Button
+                        onClick={handlePurchaseClick}
                         size="sm"
-                        className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-xs"
+                        className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-xs px-2"
                       >
-                        View Details
+                        Buy
                       </Button>
-                    </Link>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -564,169 +607,6 @@ export default function HomePage() {
                 Explore All Products
               </Button>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Pet Insurance Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Shield className="w-8 h-8 text-[#7E22CE]" />
-                <Badge className="bg-[#7E22CE] hover:bg-[#7E22CE] text-white">
-                  Pet Health Insurance
-                </Badge>
-              </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Protect Your Pet's Health
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Comprehensive health insurance plans starting from ₹99/month.
-                Get cashless treatment, 24/7 emergency support, and access to
-                1200+ partner clinics.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {insuranceFeatures.map((feature, index) => (
-                <Card
-                  key={index}
-                  className="text-center hover:shadow-lg transition-shadow"
-                >
-                  <CardContent className="p-8">
-                    <div className="text-4xl mb-4">{feature.icon}</div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-600">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-[#7E22CE] mb-2">
-                    ₹99-₹349
-                  </div>
-                  <div className="text-gray-600">Monthly Plans</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-[#7E22CE] mb-2">
-                    1,200+
-                  </div>
-                  <div className="text-gray-600">Partner Clinics</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-[#7E22CE] mb-2">
-                    48hr
-                  </div>
-                  <div className="text-gray-600">Claim Processing</div>
-                </div>
-              </div>
-              <div className="text-center mt-8">
-                <Link href="/insurance">
-                  <Button
-                    size="lg"
-                    className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-white px-8"
-                  >
-                    <Shield className="w-5 h-5 mr-2" />
-                    Get Pet Insurance
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pet Care Guides Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <BookOpen className="w-8 h-8 text-[#7E22CE]" />
-                <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
-                  Expert Content
-                </Badge>
-              </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Pet Care Guides & Video Tutorials
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Learn from veterinarians and pet experts with our comprehensive
-                video guides. Everything from nutrition to training, all in one
-                place.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {featuredGuides.map((guide) => (
-                <Card
-                  key={guide.id}
-                  className="overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  <div className="relative aspect-video">
-                    <Image
-                      src={guide.thumbnail}
-                      alt={guide.title}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                      <Button
-                        size="sm"
-                        className="bg-white text-gray-900 hover:bg-gray-100"
-                      >
-                        <Play className="w-4 h-4 mr-1" />
-                        Watch
-                      </Button>
-                    </div>
-                    <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                      {guide.duration}
-                    </div>
-                  </div>
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline">{guide.petType}</Badge>
-                      <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                        {guide.difficulty}
-                      </Badge>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                      {guide.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                      {guide.description}
-                    </p>
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>By {guide.authorName}</span>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        <span>{guide.views.toLocaleString()} views</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link href="/care-guides">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
-                >
-                  <BookOpen className="w-5 h-5 mr-2" />
-                  View All Guides
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>
@@ -782,14 +662,24 @@ export default function HomePage() {
                       </span>
                     )}
                   </div>
-                  <Link href={`/products/${product.id}`}>
+                  <div className="flex gap-2">
+                    <Link href={`/products/${product.id}`} className="flex-1">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full border-purple-600 text-purple-600 hover:bg-purple-50"
+                      >
+                        View Details
+                      </Button>
+                    </Link>
                     <Button
+                      onClick={handlePurchaseClick}
                       size="sm"
-                      className="w-full bg-[#7E22CE] hover:bg-[#6b1fa3]"
+                      className="flex-1 bg-[#7E22CE] hover:bg-[#6b1fa3]"
                     >
-                      Shop Now
+                      Buy Now
                     </Button>
-                  </Link>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -856,6 +746,108 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Purchase Confirmation Overlay */}
+      {showPurchaseOverlay && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+            {!isLoading ? (
+              <>
+                {/* Modal Header */}
+                <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6 relative">
+                  <button
+                    onClick={handleCloseOverlay}
+                    className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <ShoppingCart className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Purchase Confirmation</h3>
+                    <p className="text-purple-100">Ready to buy this amazing product?</p>
+                  </div>
+                </div>
+
+                {/* Modal Content */}
+                <div className="p-6">
+                  <div className="text-center mb-6">
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                      <div className="flex items-center justify-center gap-2 text-yellow-700">
+                        <Clock className="w-5 h-5" />
+                        <span className="font-medium">Coming Soon!</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-4">
+                      We're excited to let you know that our full e-commerce functionality is currently under development.
+                    </p>
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                      <p className="text-purple-700 text-sm">
+                        <strong>🚀 Website launching soon!</strong><br />
+                        You'll be able to purchase all your favorite pet products very soon.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={handleCloseOverlay}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      Got it!
+                    </Button>
+                    <Button
+                      onClick={handleConfirmPurchase}
+                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      Notify Me When Live
+                    </Button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Loading State */
+              <div className="p-8 text-center">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Loader2 className="w-8 h-8 text-purple-600 animate-spin" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Processing...</h3>
+                  <p className="text-gray-600">Setting up your notification preferences</p>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 text-sm text-gray-600">
+                    <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-3 h-3 text-white" />
+                    </div>
+                    <span>Checking product availability...</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-gray-600">
+                    <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-3 h-3 text-white" />
+                    </div>
+                    <span>Setting up notifications...</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-gray-600">
+                    <Loader2 className="w-4 h-4 text-purple-600 animate-spin" />
+                    <span>Almost done...</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 bg-purple-50 border border-purple-200 rounded-lg p-4">
+                  <p className="text-purple-700 text-sm">
+                    <strong>🎉 Great news!</strong><br />
+                    We'll notify you as soon as our store goes live!
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

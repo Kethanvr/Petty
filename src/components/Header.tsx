@@ -375,173 +375,16 @@ export default function Header() {
                     ✂️ Grooming & Health
                   </button>
                 </div>
-              </div></div>            {/* Enhanced Pet Insurance with dropdown */}
-            <div className="relative group">
-              <Link
-                href="/insurance"
-                className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-lg font-medium group-hover:scale-105"
-              >
-                <div className="p-1.5 bg-white/10 rounded-lg group-hover:bg-white/20 transition-all duration-300">
-                  <Shield className="w-4 h-4" />
-                </div>
-                Pet Insurance
-                <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-300" />
-              </Link>
-              
-              {/* Insurance Dropdown */}
-              <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0">
-                <div className="p-6">
-                  <div className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      <Shield className="w-4 h-4 text-white" />
-                    </div>
-                    Protect Your Pet Today
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div className="p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100 hover:border-blue-200 transition-colors cursor-pointer">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-gray-800">🐕 Dog Insurance</h4>
-                          <p className="text-xs text-gray-600 mt-1">Starting from ₹99/month</p>
-                        </div>
-                        <div className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-                          Popular
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg border border-pink-100 hover:border-pink-200 transition-colors cursor-pointer">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-gray-800">🐱 Cat Insurance</h4>
-                          <p className="text-xs text-gray-600 mt-1">Starting from ₹79/month</p>
-                        </div>
-                        <div className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">
-                          Best Value
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100 hover:border-yellow-200 transition-colors cursor-pointer">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-gray-800">🐰 Exotic Pets</h4>
-                          <p className="text-xs text-gray-600 mt-1">Custom plans available</p>
-                        </div>
-                        <div className="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium">
-                          New
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2.5 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02]">
-                      Get Free Quote →
-                    </button>
-                  </div>
-                </div>
+              </div></div>            {/* Enhanced Pet Insurance - Direct Link */}
+            <Link
+              href="/insurance"
+              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-lg font-medium hover:scale-105"
+            >
+              <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+                <Shield className="w-4 h-4" />
               </div>
-            </div>
-
-            {/* Enhanced Care Guides with dropdown */}
-            <div className="relative group">
-              <Link
-                href="/care-guides"
-                className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-lg font-medium group-hover:scale-105"
-              >
-                <div className="p-1.5 bg-white/10 rounded-lg group-hover:bg-white/20 transition-all duration-300">
-                  <BookOpen className="w-4 h-4" />
-                </div>
-                Care Guides
-                <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-300" />
-              </Link>
-              
-              {/* Care Guides Dropdown */}
-              <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0">
-                <div className="p-6">
-                  <div className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
-                      <BookOpen className="w-4 h-4 text-white" />
-                    </div>
-                    Expert Pet Care Tips
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Link
-                      href="/care-guides?category=nutrition"
-                      className="block p-3 hover:bg-gradient-to-r hover:from-green-50 hover:to-teal-50 rounded-lg transition-all duration-200 group/item"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center group-hover/item:bg-green-200 transition-colors">
-                          🥗
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-800 group-hover/item:text-green-700 transition-colors">Nutrition Guide</h4>
-                          <p className="text-xs text-gray-600">Healthy feeding tips</p>
-                        </div>
-                      </div>
-                    </Link>
-                    
-                    <Link
-                      href="/care-guides?category=training"
-                      className="block p-3 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 rounded-lg transition-all duration-200 group/item"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover/item:bg-blue-200 transition-colors">
-                          🎯
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-800 group-hover/item:text-blue-700 transition-colors">Training Tips</h4>
-                          <p className="text-xs text-gray-600">Behavior & obedience</p>
-                        </div>
-                      </div>
-                    </Link>
-                    
-                    <Link
-                      href="/care-guides?category=health"
-                      className="block p-3 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 rounded-lg transition-all duration-200 group/item"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center group-hover/item:bg-red-200 transition-colors">
-                          🩺
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-800 group-hover/item:text-red-700 transition-colors">Health Care</h4>
-                          <p className="text-xs text-gray-600">Preventive medicine</p>
-                        </div>
-                      </div>
-                    </Link>
-                    
-                    <Link
-                      href="/care-guides?category=grooming"
-                      className="block p-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-lg transition-all duration-200 group/item"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center group-hover/item:bg-purple-200 transition-colors">
-                          ✂️
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-800 group-hover/item:text-purple-700 transition-colors">Grooming</h4>
-                          <p className="text-xs text-gray-600">Beauty & hygiene</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                  
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <Link
-                      href="/care-guides"
-                      className="block w-full text-center bg-gradient-to-r from-green-500 to-teal-600 text-white py-2.5 rounded-lg font-medium hover:from-green-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-[1.02]"
-                    >
-                      View All Guides →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>          {/* Enhanced Auto-Refill Promo Banner */}
+              Pet Insurance            </Link>
+          </nav>{/* Enhanced Auto-Refill Promo Banner */}
           <div className="hidden xl:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-4 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
             <Zap className="w-4 h-4 animate-pulse" />
             <span className="font-medium">Auto-Refill Available!</span>
@@ -715,23 +558,13 @@ export default function Header() {
                 >
                   Products
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
                   href="/insurance"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Pet Insurance
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/care-guides"
-                  className="block text-lg text-white hover:text-purple-200 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Care Guides
                 </Link>
               </li>
               <li>
