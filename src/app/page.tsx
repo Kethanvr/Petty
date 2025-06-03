@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getFeaturedProducts, getBestSellerProducts } from "@/lib/products";
+import { getFeaturedProducts, getBestSellerProducts, getProductsByCategory } from "@/lib/products";
 import { getInsuranceFeatures } from "@/lib/insurance";
 import { getFeaturedGuides } from "@/lib/petCareGuides";
 import {
@@ -31,6 +31,7 @@ import {
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
   const bestSellers = getBestSellerProducts().slice(0, 4);
+  const popularProducts = getProductsByCategory("Dog Food").concat(getProductsByCategory("Cat Food")).slice(0, 8);
   const insuranceFeatures = getInsuranceFeatures().slice(0, 3);
   const featuredGuides = getFeaturedGuides().slice(0, 3);
 
@@ -400,8 +401,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {featuredProducts.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 mb-12">
+            {featuredProducts.slice(0, 6).map((product) => (
               <Card
                 key={product.id}
                 className="group hover:shadow-lg transition-all duration-300"
@@ -467,6 +468,100 @@ export default function HomePage() {
                 className="border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white"
               >
                 View All Products
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Products Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Popular Products
+            </h2>
+            <p className="text-lg text-gray-600">
+              Discover more amazing products loved by pet parents
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {popularProducts.map((product) => (
+              <Card
+                key={product.id}
+                className="group hover:shadow-lg transition-all duration-300"
+              >
+                <div className="aspect-square overflow-hidden rounded-t-lg relative">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {product.discount > 0 && (
+                    <Badge className="absolute top-2 right-2 bg-red-500 hover:bg-red-500 text-white">
+                      -{product.discount}%
+                    </Badge>
+                  )}
+                  {product.isBestSeller && (
+                    <Badge className="absolute top-2 left-2 bg-yellow-500 hover:bg-yellow-500 text-white">
+                      <Star className="w-3 h-3 mr-1" />
+                      Best Seller
+                    </Badge>
+                  )}
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge variant="outline" className="text-xs">{product.category}</Badge>
+                    <Badge variant="outline" className="text-xs">{product.petType}</Badge>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm">
+                    {product.name}
+                  </h3>
+                  <p className="text-xs text-gray-500 mb-2">
+                    {product.brand}
+                  </p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-lg font-bold text-[#7E22CE]">
+                      ₹{product.price}
+                    </span>
+                    {product.originalPrice > product.price && (
+                      <span className="text-sm text-gray-500 line-through">
+                        ₹{product.originalPrice}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm text-gray-600">
+                        {product.rating}
+                      </span>
+                    </div>
+                    <Link href={`/products/${product.id}`}>
+                      <Button
+                        size="sm"
+                        className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-xs"
+                      >
+                        View Details
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/products">
+              <Button
+                size="lg"
+                className="bg-[#7E22CE] hover:bg-[#6b1fa3] text-white"
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                Explore All Products
               </Button>
             </Link>
           </div>
