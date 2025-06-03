@@ -8,7 +8,19 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useCart } from "@/context/CartContext";
 import { useAI } from "@/context/AIContext";
-import { ShoppingCart, Search, Menu, X, Filter, TrendingUp, Bot } from "lucide-react";
+import {
+  ShoppingCart,
+  Search,
+  Menu,
+  X,
+  Filter,
+  TrendingUp,
+  Bot,
+  ChevronDown,
+  Shield,
+  BookOpen,
+  Zap,
+} from "lucide-react";
 import {
   SignInButton,
   SignUpButton,
@@ -44,10 +56,13 @@ export default function Header() {
   // Keyboard shortcut for search focus
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
         // Check if we're not already in an input field
         const activeElement = document.activeElement;
-        if (activeElement?.tagName !== 'INPUT' && activeElement?.tagName !== 'TEXTAREA') {
+        if (
+          activeElement?.tagName !== "INPUT" &&
+          activeElement?.tagName !== "TEXTAREA"
+        ) {
           e.preventDefault();
           // Focus desktop search on larger screens, mobile search on smaller screens
           if (window.innerWidth >= 768) {
@@ -59,9 +74,9 @@ export default function Header() {
       }
     };
 
-    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
     return () => {
-      document.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
@@ -93,10 +108,10 @@ export default function Header() {
   }, [showResults]);
   return (
     <header className="bg-[#9333EA] text-white sticky top-0 z-50 shadow-lg backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-5">        
+      <div className="container mx-auto px-4 py-5">
         <div className="flex justify-between items-center">
           {/* Petty AI Button and Logo */}
-          <div className="flex items-center gap-4">            
+          <div className="flex items-center gap-4">
             <Button
               onClick={() => setIsGlobalAIOpen(true)}
               className="bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all duration-200 flex items-center gap-2"
@@ -105,7 +120,7 @@ export default function Header() {
               <Bot className="w-4 h-4" />
               <span className="hidden sm:inline">Petty AI</span>
             </Button>
-            
+
             <div className="logo">
               <Link href="/">
                 <h1 className="indie-flower-regular text-4xl font-bold text-white cursor-pointer">
@@ -114,7 +129,7 @@ export default function Header() {
               </Link>
             </div>
           </div>
-          
+
           {/* Modern Search Bar - Hidden on mobile */}
           <div className="search-bar hidden md:block flex-1 max-w-2xl mx-8">
             <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -122,13 +137,13 @@ export default function Header() {
                 <div className="relative group">
                   {/* Background with glass morphism effect */}
                   <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg group-focus-within:scale-[1.01]"></div>
-                  
+
                   {/* Search Icon */}
                   <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4 transition-colors duration-200 group-focus-within:text-white" />
-                  
+
                   {/* Trending Icon */}
                   <TrendingUp className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 w-3.5 h-3.5" />
-                  
+
                   {/* Search Input */}
                   <Input
                     ref={searchInputRef}
@@ -138,7 +153,7 @@ export default function Header() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/80 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
                   />
-                  
+
                   {/* Filter Button */}
                   <button
                     type="button"
@@ -146,7 +161,7 @@ export default function Header() {
                   >
                     <Filter className="w-4 h-4" />
                   </button>
-                    {/* Search suggestion badge - positioned differently */}
+                  {/* Search suggestion badge - positioned differently */}
                   {searchQuery.length > 0 && (
                     <div className="absolute right-11 top-1/2 transform -translate-y-1/2">
                       <span className="text-xs text-white bg-purple-500/60 px-1.5 py-0.5 rounded-full">
@@ -170,7 +185,9 @@ export default function Header() {
                           className="px-3 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 cursor-pointer rounded-xl transition-all duration-200 group border border-transparent hover:border-purple-100"
                           onClick={() => handleProductClick(product.id)}
                         >
-                          <div className="flex items-center">                            <div className="relative w-12 h-12 rounded-xl overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
+                          <div className="flex items-center">
+                            {" "}
+                            <div className="relative w-12 h-12 rounded-xl overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
                               <Image
                                 src={product.images[0]}
                                 alt={product.name}
@@ -194,7 +211,9 @@ export default function Header() {
                                 </p>
                                 <div className="flex items-center space-x-1">
                                   <TrendingUp className="w-3 h-3 text-green-500" />
-                                  <span className="text-xs text-gray-500">Popular</span>
+                                  <span className="text-xs text-gray-500">
+                                    Popular
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -203,9 +222,15 @@ export default function Header() {
                       ))}
                     </ul>
                     <div className="mt-2 pt-2 border-t border-gray-100">
-                      <button 
+                      <button
                         className="w-full text-center text-sm text-purple-600 hover:text-purple-700 font-medium py-2 rounded-lg hover:bg-purple-50 transition-colors"
-                        onClick={() => router.push(`/products?search=${encodeURIComponent(searchQuery)}`)}
+                        onClick={() =>
+                          router.push(
+                            `/products?search=${encodeURIComponent(
+                              searchQuery
+                            )}`
+                          )
+                        }
                       >
                         View all results →
                       </button>
@@ -214,44 +239,165 @@ export default function Header() {
                 </Card>
               )}
             </div>
+          </div>          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <Link
+              href="/"
+              className="text-white hover:text-purple-200 transition-colors text-lg font-medium"
+            >
+              Home
+            </Link>
+            <div className="relative group">
+              <Link
+                href="/products"
+                className="text-white hover:text-purple-200 transition-colors flex items-center gap-1 text-lg font-medium"
+              >
+                Products
+                <ChevronDown className="w-4 h-4" />
+              </Link>{/* Products Dropdown */}
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">                <div className="p-4 space-y-2">
+                  <Link
+                    href="/products"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded font-medium border-b border-gray-100 mb-2"
+                  >
+                    🐾 All Products
+                  </Link>
+                  <Link
+                    href="/products?category=Dog Food"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
+                  >
+                    🐕 Dog Food & Treats
+                  </Link>
+                  <Link
+                    href="/products?category=Cat Food"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
+                  >
+                    🐱 Cat Food & Treats
+                  </Link>                  <button
+                    onClick={() => {
+                      // Create a toast-like notification
+                      const notification = document.createElement('div');
+                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      notification.innerHTML = `
+                        <div class="flex items-center gap-2">
+                          <span>🎾</span>
+                          <span>Toys & Entertainment will be available soon!</span>
+                        </div>
+                      `;
+                      document.body.appendChild(notification);
+                      setTimeout(() => {
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => document.body.removeChild(notification), 300);
+                      }, 3000);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    🎾 Toys & Entertainment
+                  </button>
+                  <button
+                    onClick={() => {
+                      const notification = document.createElement('div');
+                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      notification.innerHTML = `
+                        <div class="flex items-center gap-2">
+                          <span>🥣</span>
+                          <span>Bowls & Feeders will be available soon!</span>
+                        </div>
+                      `;
+                      document.body.appendChild(notification);
+                      setTimeout(() => {
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => document.body.removeChild(notification), 300);
+                      }, 3000);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    🥣 Bowls & Feeders
+                  </button>
+                  <button
+                    onClick={() => {
+                      const notification = document.createElement('div');
+                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      notification.innerHTML = `
+                        <div class="flex items-center gap-2">
+                          <span>🛏️</span>
+                          <span>Beds & Comfort will be available soon!</span>
+                        </div>
+                      `;
+                      document.body.appendChild(notification);
+                      setTimeout(() => {
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => document.body.removeChild(notification), 300);
+                      }, 3000);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    🛏️ Beds & Comfort
+                  </button>
+                  <button
+                    onClick={() => {
+                      const notification = document.createElement('div');
+                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      notification.innerHTML = `
+                        <div class="flex items-center gap-2">
+                          <span>📱</span>
+                          <span>Smart Pet Tech will be available soon!</span>
+                        </div>
+                      `;
+                      document.body.appendChild(notification);
+                      setTimeout(() => {
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => document.body.removeChild(notification), 300);
+                      }, 3000);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    📱 Smart Pet Tech
+                  </button>
+                  <button
+                    onClick={() => {
+                      const notification = document.createElement('div');
+                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      notification.innerHTML = `
+                        <div class="flex items-center gap-2">
+                          <span>✂️</span>
+                          <span>Grooming & Health will be available soon!</span>
+                        </div>
+                      `;
+                      document.body.appendChild(notification);
+                      setTimeout(() => {
+                        notification.style.transform = 'translateX(100%)';
+                        setTimeout(() => document.body.removeChild(notification), 300);
+                      }, 3000);
+                    }}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
+                  >
+                    ✂️ Grooming & Health
+                  </button>
+                </div>
+              </div></div>            <Link
+              href="/insurance"
+              className="text-white hover:text-purple-200 transition-colors flex items-center gap-1 text-lg font-medium"
+            >
+              <Shield className="w-4 h-4" />
+              Pet Insurance
+            </Link>
+            <Link
+              href="/care-guides"
+              className="text-white hover:text-purple-200 transition-colors flex items-center gap-1 text-lg font-medium"
+            >
+              <BookOpen className="w-4 h-4" />
+              Care Guides
+            </Link>
+          </nav>
+
+          {/* Auto-Refill Promo Banner */}
+          <div className="hidden xl:flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm">
+            <Zap className="w-4 h-4" />
+            <span className="font-medium">Auto-Refill Available</span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:block">
-            <ul className="flex gap-6 items-center">
-              <li>
-                <Link
-                  href="/"
-                  className="text-lg text-white hover:text-purple-200 transition-colors"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="text-lg text-white hover:text-purple-200 transition-colors"
-                >
-                  Products
-                </Link>
-              </li>              <li>
-                <Link
-                  href="/about"
-                  className="text-lg text-white hover:text-purple-200 transition-colors"
-                >
-                  About us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/profile"
-                  className="text-lg text-white hover:text-purple-200 transition-colors"
-                >
-                  Profile
-                </Link>
-              </li>
-            </ul>
-          </nav>          {/* Cart and Profile Section */}
+          {/* Cart and Profile Section */}
           <div className="flex items-center gap-4">
             {/* Cart Icon with Badge */}
             <Link href="/cart" className="relative">
@@ -300,7 +446,7 @@ export default function Header() {
               )}
             </button>
           </div>
-        </div>        
+        </div>
         {/* Modern Mobile Search Bar */}
         <div className="md:hidden mt-4">
           <div className="relative" onClick={(e) => e.stopPropagation()}>
@@ -308,13 +454,13 @@ export default function Header() {
               <div className="relative group">
                 {/* Background with glass morphism effect */}
                 <div className="absolute inset-0 bg-purple-700/30 backdrop-blur-md rounded-2xl border border-purple-500/20 shadow-md transition-all duration-300 group-focus-within:bg-purple-600/40 group-focus-within:shadow-lg"></div>
-                
+
                 {/* Search Icon */}
                 <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4 transition-colors duration-200 group-focus-within:text-white" />
-                
+
                 {/* Trending Icon */}
                 <TrendingUp className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 w-3.5 h-3.5" />
-                
+
                 {/* Search Input */}
                 <Input
                   ref={mobileSearchInputRef}
@@ -324,7 +470,7 @@ export default function Header() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="relative z-10 pl-16 pr-16 py-3 w-full bg-transparent border-none text-white placeholder-white/80 text-sm font-medium focus:outline-none focus:ring-0 rounded-2xl"
                 />
-                
+
                 {/* Filter Button */}
                 <button
                   type="button"
@@ -332,7 +478,7 @@ export default function Header() {
                 >
                   <Filter className="w-4 h-4" />
                 </button>
-                  {/* Search suggestion badge - for mobile */}
+                {/* Search suggestion badge - for mobile */}
                 {searchQuery.length > 0 && (
                   <div className="absolute right-11 top-1/2 transform -translate-y-1/2">
                     <span className="text-xs text-white bg-purple-500/60 px-1.5 py-0.5 rounded-full">
@@ -341,7 +487,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            </form>            
+            </form>
             {/* Modern Mobile Search Results Dropdown */}
             {showResults && searchResults.length > 0 && (
               <Card className="absolute z-50 w-full mt-2 max-h-[350px] overflow-y-auto bg-white/90 backdrop-blur-lg shadow-2xl border border-purple-300/20 rounded-2xl">
@@ -351,18 +497,20 @@ export default function Header() {
                   </div>
                   <ul className="space-y-1">
                     {searchResults.map((product, index) => (
-                      <li 
+                      <li
                         key={product.id}
                         className="px-3 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 cursor-pointer rounded-xl transition-all duration-200 group border border-transparent hover:border-purple-100"
                         onClick={() => handleProductClick(product.id)}
                       >
-                        <div className="flex items-center">                          <div className="relative w-10 h-10 rounded-lg overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
-                            <Image 
-                              src={product.images[0]} 
-                              alt={product.name} 
+                        <div className="flex items-center">
+                          {" "}
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden mr-3 border-2 border-gray-100 group-hover:border-purple-200 transition-colors">
+                            <Image
+                              src={product.images[0]}
+                              alt={product.name}
                               width={40}
                               height={40}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200" 
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-200"
                             />
                             {index < 3 && (
                               <div className="absolute -top-1 -right-1 bg-gradient-to-r from-orange-400 to-red-500 text-white text-xs px-1 py-0.5 rounded-full font-medium">
@@ -371,12 +519,18 @@ export default function Header() {
                             )}
                           </div>
                           <div className="flex-1">
-                            <p className="text-gray-800 text-sm font-medium truncate group-hover:text-purple-700 transition-colors">{product.name}</p>
+                            <p className="text-gray-800 text-sm font-medium truncate group-hover:text-purple-700 transition-colors">
+                              {product.name}
+                            </p>
                             <div className="flex items-center justify-between mt-1">
-                              <p className="text-purple-600 text-sm font-semibold">₹{product.price}</p>
+                              <p className="text-purple-600 text-sm font-semibold">
+                                ₹{product.price}
+                              </p>
                               <div className="flex items-center space-x-1">
                                 <TrendingUp className="w-3 h-3 text-green-500" />
-                                <span className="text-xs text-gray-500">Popular</span>
+                                <span className="text-xs text-gray-500">
+                                  Popular
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -402,8 +556,7 @@ export default function Header() {
                 >
                   Home
                 </Link>
-              </li>
-              <li>
+              </li>              <li>
                 <Link
                   href="/products"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -411,13 +564,23 @@ export default function Header() {
                 >
                   Products
                 </Link>
-              </li>              <li>
+              </li>
+              <li>
                 <Link
-                  href="/about"
+                  href="/insurance"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  About us
+                  Pet Insurance
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/care-guides"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Care Guides
                 </Link>
               </li>
               <li>
@@ -429,7 +592,6 @@ export default function Header() {
                   Profile
                 </Link>
               </li>
-
               {/* Mobile Authentication */}
               <li className="pt-4 border-t border-purple-400">
                 <SignedOut>
@@ -456,7 +618,9 @@ export default function Header() {
                   />
                 </SignedIn>
               </li>
-            </ul>          </nav>        )}
+            </ul>{" "}
+          </nav>
+        )}
       </div>
     </header>
   );

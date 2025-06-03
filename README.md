@@ -1,131 +1,300 @@
-# 🐾 Petty - Intelligent Pet Care Platform
+# Petty - Intelligent Pet Care Platform
 
-<div align="center">
+## Project Overview
 
-![Petty Hero](public/pet-animals-hero.jpg)
+### Problem Statement
 
-**Premium Pet Food at Affordable Prices** ✨
+The pet care industry faces several critical challenges that impact both pet owners and their animals:
 
-*Where artificial intelligence meets exceptional pet care*
+1. **Information Overload**: Pet owners are overwhelmed by contradictory advice about pet nutrition, health, and care. The abundance of information makes it difficult to make confident decisions about their pets' needs.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.3.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.0.0-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![AI Powered](https://img.shields.io/badge/AI-Powered-purple?style=for-the-badge&logo=openai)](https://openai.com/)
+2. **Decision Paralysis**: The market is saturated with pet products claiming various benefits, making it challenging for pet owners to select appropriate products for their specific pet's requirements.
+
+3. **Price vs. Quality Balance**: High-quality pet care products often come at premium prices, forcing pet parents to choose between affordability and quality.
+
+4. **Lack of Personalization**: Generic pet care recommendations fail to address the unique needs of individual pets based on their breed, age, health conditions, and dietary requirements.
+
+5. **Accessibility to Expertise**: Professional veterinary and nutritional advice is expensive and not readily available for day-to-day decisions, leading pet owners to rely on unreliable sources.
+
+### Our Solution
+
+Petty addresses these challenges through an innovative platform that combines:
+
+1. **AI-Powered Guidance**: We've developed Petty AI, an intelligent assistant specifically trained on veterinary knowledge, pet nutrition science, and product information to provide personalized, evidence-based recommendations.
+
+2. **Curated Product Selection**: We carefully select high-quality products at reasonable prices, eliminating the quality-vs-cost dilemma for pet parents.
+
+3. **Context-Aware Intelligence**: Our AI system operates in different modes (general care, product comparison, shopping assistance) to provide relevant guidance at each stage of the pet care journey.
+
+4. **Data-Driven Recommendations**: By analyzing pet profiles, product compositions, and scientific research, our platform offers truly personalized suggestions rather than generic advice.
+
+### Implementation Approach
+
+Our solution is implemented through:
+
+1. **Advanced AI Integration**: We leverage Google's Gemini API to power our AI assistant, enabling natural language processing to understand complex pet care queries and provide meaningful responses.
+
+2. **Context-Specific Assistance**:
+   - General Mode helps with broad pet care knowledge and advice
+   - Products Mode assists with comparing options and finding ideal products
+   - Cart Mode evaluates selected items together to optimize purchases
+
+3. **Enhanced Product Data Model**: Our product database includes comprehensive details beyond basic information, such as:
+   - Nutritional profiles
+   - Ingredient analysis
+   - Age and breed suitability
+   - Special dietary considerations
+   - Pet type specifications
+
+4. **User-Centric Design Philosophy**: The platform is designed to minimize overwhelm and maximize confidence in decision-making through:
+   - Clean, intuitive interfaces
+   - Contextual AI assistance
+   - Clear product information
+   - Transparent recommendations
+
+5. **Education-First Approach**: Rather than simply selling products, we focus on educating pet owners about their pets' needs, helping them make informed decisions independently over time.
+
+### Impact and Outcomes
+
+Through Petty, we aim to achieve:
+
+1. **Improved Pet Wellness**: Better-informed care decisions leading to healthier, happier pets
+
+2. **Reduced Owner Anxiety**: Decreased stress and increased confidence in pet care choices
+
+3. **Financial Efficiency**: Optimized spending on appropriate high-quality products rather than unnecessary or unsuitable items
+
+4. **Knowledge Empowerment**: Progressive education of pet owners about proper pet care practices
+
+5. **Accessibility of Expertise**: Democratizing access to expert-level pet care knowledge regardless of economic status or location
+
+## Current Features
+
+### AI-Powered Assistance
+
+Our platform features an intelligent AI assistant specifically designed for pet care:
+
+1. **Global AI Assistant**: Available throughout the platform, this contextually-aware AI system helps users with pet care questions, product selection, and purchase decisions.
+
+2. **Multiple Intelligence Modes**:
+   - **General Pet Care Mode**: Provides comprehensive advice on nutrition, health, behavior, and training based on veterinary guidelines and scientific research.
+   - **Product Analysis Mode**: Compares multiple products side-by-side, analyzing ingredient quality, nutritional profiles, and suitability for specific pets.
+   - **Shopping Optimization Mode**: Evaluates cart items collectively to identify missing essentials, potential conflicts, and opportunities for better value.
+
+3. **Personalized Knowledge Delivery**: The AI adapts its responses based on the context of the conversation, the user's pet information, and their specific questions, providing increasingly relevant guidance over time.
+
+### E-commerce Functionality
+
+Our shopping platform is built with careful attention to pet owner needs:
+
+1. **Enhanced Product Database**: Products feature extensive metadata beyond basic descriptions, including:
+   - Detailed nutritional information
+   - Life-stage appropriateness
+   - Breed-specific considerations
+   - Special health-related features
+   - Ingredient quality indicators
+
+2. **Intelligent Categorization**: Products are organized by pet type, age category, special needs, and other relevant factors to simplify decision-making.
+
+3. **Transparent Information**: Clear presentation of product benefits, ingredients, and suitability factors to build trust and facilitate informed choices.
+
+4. **Seamless Shopping Experience**: Intuitive cart functionality with persistent sessions that maintain user selections across visits.
+
+### User-Centered Design
+
+The platform prioritizes clarity and user confidence:
+
+1. **Accessible Interface**: Clean, straightforward design that works across devices without overwhelming the user with options.
+
+2. **Context-Awareness**: The system remembers user interactions and preferences to provide increasingly relevant experiences.
+
+3. **Educational Content Integration**: Information about pet care best practices is seamlessly integrated with product pages rather than separated into a distinct knowledge base.
+
+4. **Decision Support Tools**: Features that help users compare options, understand recommendations, and feel confident in their choices.
+
+## Future Development Plans
+
+### Planned Enhancements
+
+Our product roadmap focuses on several key areas of expansion:
+
+#### Personalization Framework
+
+We plan to implement a robust personalization system including:
+
+1. **Pet Profiles**: Allowing users to create detailed profiles for each pet, including:
+   - Species, breed, and age information
+   - Known health conditions
+   - Dietary preferences and restrictions
+   - Behavioral characteristics
+   - Growth and development tracking
+
+2. **Tailored Recommendations**: Using pet profile data to provide increasingly precise product and care suggestions over time.
+
+3. **History-Based Intelligence**: Learning from past purchases and AI interactions to anticipate needs and improve recommendations.
+
+#### Advanced Decision Support
+
+To further enhance the platform's value as a pet care assistant:
+
+1. **Nutritional Analysis Tools**: 
+   - Diet composition evaluation
+   - Feeding plan generators
+   - Nutritional gap identification
+   - Life-stage transition guidance
+
+2. **Health Monitoring Integration**:
+   - Symptom evaluation assistance
+   - Medication reminder systems
+   - Preventative care schedules
+   - Veterinary visit preparation
+
+3. **Behavioral Support**:
+   - Training resource curation
+   - Behavioral issue guidance
+   - Environmental enrichment recommendations
+   - Socialization suggestions
+
+#### Community and Expert Network
+
+Building a knowledge ecosystem around the platform:
+
+1. **Expert Verification System**: Veterinarian-reviewed content and recommendations to enhance trust and accuracy.
+
+2. **Community Knowledge Sharing**: Moderated spaces for pet parents to share experiences while maintaining information quality.
+
+3. **Professional Consultation Integration**: Optional connections to veterinary telehealth services for cases beyond AI capabilities.
+
+#### Enhanced AI Capabilities
+
+Advancing our AI assistant's abilities through:
+
+1. **Multimodal Interactions**: Enabling image analysis for:
+   - Pet condition assessment
+   - Product identification from photos
+   - Food portion guidance
+   - Visual symptom evaluation
+
+2. **Predictive Intelligence**: Anticipating pet needs based on life stage, season, and other factors.
+
+3. **Contextual Learning**: Improving responses based on the effectiveness of previous recommendations.
+
+## Core Differentiators
+
+### Pet-First Approach to E-Commerce
+
+Unlike traditional e-commerce platforms that focus primarily on products and sales, Petty is built around the needs of pets and their owners. This fundamental difference shapes every aspect of our design philosophy:
+
+1. **Knowledge-Driven Product Selection**: Products are not just categorized by type but by the specific pet needs they address, making selection more intuitive and aligned with how pet parents actually think.
+
+2. **Comprehensive Information Architecture**: Product information extends beyond marketing descriptions to include precise nutritional details, ingredient quality analysis, and transparent sourcing information.
+
+3. **Ethical Selection Criteria**: Products in our catalog meet strict standards for ingredient quality, nutritional appropriateness, and ethical manufacturing practices.
+
+### AI That Understands Pet Care
+
+Our AI system differs from generic e-commerce assistants in several key ways:
+
+1. **Domain-Specific Training**: The AI is built on a foundation of veterinary knowledge, nutritional science, and pet behavioral understanding rather than general-purpose information.
+
+2. **Practical Reasoning Abilities**: Beyond simple keyword matching or information retrieval, our AI can analyze complex situations and provide reasoned guidance based on veterinary best practices.
+
+3. **Gap Identification**: The system can identify missing elements in a pet's care regimen and suggest appropriate additions without unnecessary upselling.
+
+4. **Ethical Boundaries**: The AI is designed to recognize situations requiring professional veterinary care and will recommend seeking professional help when appropriate rather than offering advice beyond its scope.
+
+### Educational Mission
+
+While most platforms focus exclusively on driving purchases, Petty embeds education throughout the experience:
+
+1. **Progressive Learning Design**: Information is presented in layers, allowing users to dig deeper into topics that interest them without overwhelming newcomers.
+
+2. **Decision Justification**: Product recommendations are accompanied by clear explanations of why they're appropriate for the specific pet, building both trust and knowledge.
+
+3. **Skill Development**: The platform aims to gradually increase the pet owner's own knowledge and decision-making abilities rather than creating dependency.
+
+4. **Transparency About Limitations**: Clear communication about when AI guidance is sufficient versus when professional veterinary care is necessary.
+
+### User Experience Philosophy
+
+Our approach to user experience centers on reducing anxiety and building confidence:
+
+1. **Reduced Cognitive Load**: Information is carefully structured to prevent the overwhelming feeling common when researching pet care products.
+
+2. **Confidence Indicators**: Clear signals about product appropriateness for specific situations help users feel secure in their choices.
+
+3. **Contextual Assistance**: Help appears when and where users need it rather than requiring users to search through separate knowledge bases.
+
+4. **Decision Support Not Decision Replacement**: The platform provides the information and tools for users to make good choices themselves rather than making those choices for them.
+
+### Tailored for Different Pet Parent Needs
+
+Our platform recognizes the diversity of pet ownership experiences and adapts accordingly:
+
+1. **For New Pet Parents**: 
+   - Structured guidance through fundamental decisions
+   - Basic educational content on essential care
+   - Starter recommendations to establish good care habits
+   - Confidence-building decision support
+
+2. **For Experienced Pet Parents**:
+   - Advanced filtering options for specific requirements
+   - In-depth nutritional information for comparison
+   - Support for complex care scenarios and special needs
+   - Resources for transitioning between life stages
+
+3. **For Multi-Pet Households**:
+   - Comparative product analysis across different animals
+   - Compatible product identification for shared environments
+   - Efficiency recommendations for consolidated purchasing
+   - Cross-species care considerations
+
+4. **For Time-Constrained Owners**:
+   - Quick-decision support tools
+   - Subscription and auto-replenishment options
+   - One-click reordering of essentials
+   - Simplified routine maintenance recommendations
+
+### Implementation Technology
+
+Our platform utilizes a modern, reliable technology stack focused on performance and user experience:
+
+1. **Advanced AI Integration**: Google's Gemini API provides the foundation for our intelligent assistance system, enabling natural language understanding and contextual responses.
+
+2. **Component Architecture**: Modular design allows for continuous improvement of individual features without disrupting the overall experience.
+
+3. **Data-Driven Design**: User interaction patterns inform ongoing refinements to the interface and information architecture.
+
+4. **Responsive Framework**: Adaptability across devices ensures consistent functionality whether accessed on desktop, tablet, or mobile.
+
+### Measuring Success
+
+Our approach to success measurement goes beyond typical e-commerce metrics:
+
+1. **Pet Wellness Outcomes**: We track indicators that our recommendations are positively impacting pet health and well-being.
+
+2. **User Confidence Growth**: We measure how user decision confidence increases over time through interactions with the platform.
+
+3. **Knowledge Acquisition**: Success includes users demonstrating increased understanding of proper pet care principles.
+
+4. **Decision Quality**: We monitor the appropriateness of product selections for specific pet needs as an indicator of platform effectiveness.
+
+5. **Retention Through Value**: Rather than focusing solely on purchase frequency, we prioritize measuring ongoing value delivery to users and their pets.
+
+### Long-Term Vision
+
+The ultimate vision for Petty extends beyond e-commerce:
+
+1. **Preventative Care Enhancement**: Using data patterns to help identify potential health issues before they become serious.
+
+2. **Lifelong Pet Wellness Partner**: Supporting pets and owners through all life stages with adapting recommendations and knowledge.
+
+3. **Veterinary Collaboration Platform**: Becoming a bridge between at-home care and professional veterinary services when needed.
+
+4. **Democratized Pet Health Knowledge**: Making high-quality pet care information accessible regardless of geographic or economic limitations.
+
+This vision guides our development priorities and feature planning, ensuring we remain focused on substantive improvements to the pet care experience rather than merely increasing transactions.
 
 ---
 
-*🚀 Experience the future of pet care with intelligent recommendations*
 
-</div>
-
-## ✨ What Makes Petty Different
-
-Finding high-quality pet food at reasonable prices has always been a challenge for pet parents. Petty was born from this frustration - we wanted to create a platform where premium nutrition doesn't come with premium anxiety about costs.
-
-But we didn't stop there. We realized that choosing the right food for your pet can be overwhelming, especially with so many options and conflicting advice online. That's why we built **Petty AI** - an intelligent assistant that makes pet care decisions simpler and more confident.
-
-### 🧠 Meet Petty AI - Your Personal Pet Care Expert
-
-Petty AI isn't just another chatbot. It's a sophisticated system designed specifically for pet care, trained on veterinary guidelines and nutritional science. Think of it as having a pet nutritionist available 24/7, ready to answer your questions and guide your decisions.
-
-**Three Ways Petty AI Helps You:**
-
-🏠 **General Pet Care Assistant**  
-Ask anything about pet health, nutrition, behavior, or training. Get evidence-based answers tailored to your pet's specific needs, breed, and life stage.
-
-🛍️ **Product Comparison Expert**  
-Overwhelmed by choices? Our AI analyzes multiple products simultaneously, comparing ingredients, nutritional values, and suitability for your pet's specific requirements.
-
-🛒 **Smart Shopping Assistant**  
-Not sure if products in your cart work well together? The AI reviews your selections, suggests complementary items, and helps optimize your order for better value and nutrition.
-
-### 🚀 The Technology Behind Better Pet Care
-
-We believe great pet care should be accessible to everyone. Our platform combines modern web technology with advanced artificial intelligence to create an experience that's both powerful and intuitive.
-
-**💡 Intelligent Recommendations**  
-Every suggestion is personalized based on your pet's breed, age, health conditions, and dietary preferences. No generic advice - just recommendations that make sense for your specific situation.
-
-**📚 Always Learning**  
-Our AI continuously updates its knowledge base with the latest veterinary research, user feedback, and product information to provide increasingly accurate guidance.
-
-**🎯 Multiple Ways to Get Help**  
-Whether you prefer browsing products, asking specific questions, or getting cart optimization advice, Petty AI adapts to how you want to interact.
-
-### 🌟 Why Pet Parents Choose Petty
-
-**🔍 Quality Without Compromise**  
-We partner only with trusted brands that meet our strict quality standards. Every product is carefully selected for its nutritional value and ingredient quality.
-
-**🛒 Smart Shopping Experience**  
-Our platform makes finding the right products effortless. Advanced search filters, intelligent categorization, and AI-powered suggestions help you discover exactly what your pet needs.
-
-**📱 Modern Design That Works**  
-Clean, intuitive interface that works seamlessly across all devices. Whether you're shopping on your phone during lunch or researching products on your laptop at home, the experience is consistently excellent.
-
-**⏰ Always Available Support**  
-Questions don't follow business hours, and neither does our AI assistant. Get expert guidance whenever you need it, with responses that are both helpful and genuinely informative.
-
-### 🏡 Built for Real Pet Parents
-
-We understand that every pet is unique. A senior cat with kidney issues has different needs than a energetic puppy. A multi-pet household faces different challenges than a single-pet home. Our platform and AI assistant are designed to handle this complexity with ease.
-
-**🆕 For New Pet Owners**  
-Starting your journey as a pet parent can feel overwhelming. Our AI provides the guidance and confidence you need to make great decisions from day one.
-
-**🏆 For Experienced Pet Parents**  
-Even seasoned pet owners encounter new situations. Whether you're dealing with a health condition, changing life stages, or just want to optimize your pet's nutrition, our AI offers expert-level insights.
-
-**⚡ For Busy Families**  
-Time is precious. Our smart recommendations and cart optimization features help you make informed decisions quickly, without spending hours researching every product.
-
-### 💻 The Technology Stack
-
-Built with modern, reliable technologies that ensure fast performance and seamless user experience:
-
-- **Next.js 15** with App Router for optimal loading speeds
-- **React 19** with the latest features for smooth interactions  
-- **TypeScript** for reliable, bug-free development
-- **Tailwind CSS** for responsive, beautiful design
-- **Advanced AI Integration** powered by Google's Gemini API
-
-The result is a platform that's not just functional, but genuinely enjoyable to use.
-
----
-
-## 🤝 Contributing & Getting Involved
-
-**This project welcomes contributions from the community!** 
-
-Whether you're passionate about pet care, interested in AI applications, or skilled in modern web development, there are meaningful ways to contribute to making pet care more accessible and intelligent.
-
-### 💡 Ways to Contribute
-
-**💭 Share Your Ideas**  
-Have suggestions for improving the pet care experience? We'd love to hear your thoughts on new features, better user flows, or additional AI capabilities that could help pet parents.
-
-**🐛 Report Issues**  
-Help us maintain a high-quality experience by reporting any bugs, inconsistencies, or areas where the platform could work better for you and your pets.
-
-**🎨 Improve the Experience**  
-Contributions to user interface design, user experience improvements, and accessibility enhancements are always welcome.
-
-**🤖 Enhance the AI**  
-If you have expertise in machine learning, natural language processing, or veterinary knowledge that could make our AI assistant even more helpful, we'd love to collaborate.
-
-### 📧 Contact & Collaboration
-
-For partnership opportunities, technical discussions, or questions about contributing to the project, please reach out to the project owner. We're always open to connecting with people who share our mission of making exceptional pet care more accessible.
-
----
-
-<div align="center">
-
-**🌟 Trusted by pet parents who want the best for their companions**
-
-*Built with ❤️ for pets and the people who love them*
-
-**Ready to give your pet the nutrition they deserve?** 🐾
-
-</div>

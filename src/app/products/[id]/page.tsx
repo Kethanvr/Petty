@@ -13,13 +13,27 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShoppingCart, Star, Minus, Plus, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
+import {
+  ShoppingCart,
+  Star,
+  Minus,
+  Plus,
+  Heart,
+  Share2,
+  Truck,
+  Shield,
+  RotateCcw,
+  Zap,
+} from "lucide-react";
 import ProductAIChatbot from "@/components/ProductAIChatbot";
 import AuthRequiredModal from "@/components/AuthRequiredModal";
+import SubscriptionModal from "@/components/SubscriptionModal";
 import { useUser } from "@clerk/nextjs";
 
-export default function ProductPage() {  const params = useParams();
-  const productId = parseInt(params.id as string);  const product = getProductById(productId);
+export default function ProductPage() {
+  const params = useParams();
+  const productId = parseInt(params.id as string);
+  const product = getProductById(productId);
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { user } = useUser();
@@ -32,22 +46,32 @@ export default function ProductPage() {  const params = useParams();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalAction, setAuthModalAction] = useState("");
 
+  // Subscription modal state
+  const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
+
   const isProductInWishlist = isInWishlist(productId);
 
   if (!product) {
     notFound();
   }
 
+  // Check if this is a non-food product (for future expansion)
+  const foodCategories = ['Dog Food', 'Cat Food', 'Fish Food', 'Small Pet Food', 'Bird Food'];
+  const isComingSoon = !foodCategories.includes(product.category);
+
   // Get suggested products (random other products)
   const suggestedProducts = products
     .filter((p) => p.id !== product.id)
-    .slice(0, 4);  const handleToggleWishlist = () => {
+    .slice(0, 4);
+  const handleToggleWishlist = () => {
     if (!user) {
-      setAuthModalAction(isProductInWishlist ? "manage wishlist" : "add to wishlist");
+      setAuthModalAction(
+        isProductInWishlist ? "manage wishlist" : "add to wishlist"
+      );
       setAuthModalOpen(true);
       return;
     }
-    
+
     if (isProductInWishlist) {
       removeFromWishlist(productId);
     } else {
@@ -76,9 +100,13 @@ export default function ProductPage() {  const params = useParams();
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-3">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="hover:text-[#7E22CE]">Home</Link>
+            <Link href="/" className="hover:text-[#7E22CE]">
+              Home
+            </Link>
             <span>/</span>
-            <Link href="/products" className="hover:text-[#7E22CE]">Products</Link>
+            <Link href="/products" className="hover:text-[#7E22CE]">
+              Products
+            </Link>
             <span>/</span>
             <span className="text-gray-900">{product.name}</span>
           </nav>
@@ -158,7 +186,8 @@ export default function ProductPage() {  const params = useParams();
                 <span className="text-gray-400">|</span>
                 <span className="text-sm text-gray-600">142 reviews</span>
               </div>
-            </div>            {/* Price */}
+            </div>{" "}
+            {/* Price */}
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex items-center gap-4 mb-2">
                 <span className="text-3xl font-bold text-[#7E22CE]">
@@ -176,22 +205,24 @@ export default function ProductPage() {  const params = useParams();
                 )}
               </div>
               <p className="text-sm text-gray-600">Inclusive of all taxes</p>
-              <p className="text-sm text-green-600 font-medium">Free delivery on orders above ₹500</p>
-              
+              <p className="text-sm text-green-600 font-medium">
+                Free delivery on orders above ₹500
+              </p>
+
               {/* AI Chatbot Button */}
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <ProductAIChatbot product={product} />
               </div>
             </div>
-
             {/* Product Description */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">About this product</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                About this product
+              </h3>
               <p className="text-gray-700 leading-relaxed">
                 {product.description}
               </p>
             </div>
-
             {/* Age Categories */}
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Age Category</h3>
@@ -212,7 +243,6 @@ export default function ProductPage() {  const params = useParams();
                 ))}
               </div>
             </div>
-
             {/* Package Size */}
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Package Size</h3>
@@ -240,7 +270,6 @@ export default function ProductPage() {  const params = useParams();
                 ))}
               </div>
             </div>
-
             {/* Quantity Selector */}
             <div>
               <h3 className="font-semibold text-gray-900 mb-3">Quantity</h3>
@@ -272,42 +301,118 @@ export default function ProductPage() {  const params = useParams();
                 </Button>
               </div>
             </div>
-
             {/* Action Buttons */}
             <div className="space-y-4 pt-6">
-              <div className="flex gap-4">
-                <Button
-                  onClick={handleAddToCart}
-                  className="flex-1 bg-[#7E22CE] hover:bg-[#6b1fa3] text-white py-3 text-lg font-semibold"
-                >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Add to Cart
-                </Button>
-                <Button
-                  onClick={handleBuyNow}
-                  variant="outline"
-                  className="flex-1 border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white py-3 text-lg font-semibold"
-                >
-                  Buy Now
-                </Button>
-              </div>
-                <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleToggleWishlist}
-                  className={`flex-1 ${isProductInWishlist ? 'text-red-500 border-red-300' : 'text-gray-600 border-gray-300'}`}
-                >
-                  <Heart className={`w-4 h-4 mr-2 ${isProductInWishlist ? 'fill-current' : ''}`} />
-                  {isProductInWishlist ? 'In Wishlist' : 'Add to Wishlist'}
-                </Button>
-                <Button variant="outline" size="sm" className="flex-1 text-gray-600 border-gray-300">
-                  <Share2 className="w-4 h-4 mr-2" />
-                  Share
-                </Button>
-              </div>
-            </div>
+              {isComingSoon ? (
+                /* Coming Soon Section */
+                <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg p-6 text-center border-2 border-purple-200">
+                  <div className="mb-4">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-200 rounded-full mb-3">
+                      <Zap className="w-8 h-8 text-purple-600" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-purple-800 mb-2">
+                      Coming Soon!
+                    </h3>
+                    <p className="text-purple-700 text-lg">
+                      This amazing product will be launching soon. 
+                    </p>
+                    <p className="text-purple-600 text-sm mt-2">
+                      Currently we're focusing on premium food products for your beloved pets.
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <Button
+                      onClick={handleToggleWishlist}
+                      className={`w-full py-3 text-lg font-semibold ${
+                        isProductInWishlist
+                          ? "bg-red-500 hover:bg-red-600 text-white"
+                          : "bg-purple-600 hover:bg-purple-700 text-white"
+                      }`}
+                    >
+                      <Heart
+                        className={`w-5 h-5 mr-2 ${
+                          isProductInWishlist ? "fill-current" : ""
+                        }`}
+                      />
+                      {isProductInWishlist ? "Notify Me When Available" : "Get Notified When Available"}
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      className="w-full border-purple-300 text-purple-700 hover:bg-purple-50 py-3 text-lg font-semibold"
+                    >
+                      <Share2 className="w-4 h-4 mr-2" />
+                      Share with Friends
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                /* Regular Product Actions */
+                <>
+                  <div className="flex gap-4">
+                    <Button
+                      onClick={handleAddToCart}
+                      className="flex-1 bg-[#7E22CE] hover:bg-[#6b1fa3] text-white py-3 text-lg font-semibold"
+                    >
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      Add to Cart
+                    </Button>
+                    <Button
+                      onClick={handleBuyNow}
+                      variant="outline"
+                      className="flex-1 border-[#7E22CE] text-[#7E22CE] hover:bg-[#7E22CE] hover:text-white py-3 text-lg font-semibold"
+                    >
+                      Buy Now
+                    </Button>
+                  </div>
 
+                  {/* Subscription Button for Food Products */}
+                  {(product.category.includes("Food") ||
+                    product.category.includes("Treats")) && (
+                    <Button
+                      onClick={() => setSubscriptionModalOpen(true)}
+                      variant="outline"
+                      className="w-full border-2 border-green-500 text-green-600 hover:bg-green-500 hover:text-white py-3 text-lg font-semibold transition-all"
+                    >
+                      <Zap className="w-5 h-5 mr-2" />
+                      Subscribe & Save up to 20%
+                      <Badge className="ml-2 bg-green-100 text-green-700 hover:bg-green-100">
+                        Auto-Refill
+                      </Badge>
+                    </Button>
+                  )}
+
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleToggleWishlist}
+                      className={`flex-1 ${
+                        isProductInWishlist
+                          ? "text-red-500 border-red-300"
+                          : "text-gray-600 border-gray-300"
+                      }`}
+                    >
+                      <Heart
+                        className={`w-4 h-4 mr-2 ${
+                          isProductInWishlist ? "fill-current" : ""
+                        }`}
+                      />
+                      {isProductInWishlist ? "In Wishlist" : "Add to Wishlist"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 text-gray-600 border-gray-300"
+                    >
+                      <Share2 className="w-4 h-4 mr-2" />
+                      Share
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
             {/* Delivery & Service Info */}
             <div className="border-t pt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -316,8 +421,12 @@ export default function ProductPage() {  const params = useParams();
                     <Truck className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">Free Delivery</p>
-                    <p className="text-xs text-gray-600">On orders above ₹500</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      Free Delivery
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      On orders above ₹500
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -325,8 +434,12 @@ export default function ProductPage() {  const params = useParams();
                     <Shield className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">Secure Payment</p>
-                    <p className="text-xs text-gray-600">100% secure payments</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      Secure Payment
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      100% secure payments
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -334,7 +447,9 @@ export default function ProductPage() {  const params = useParams();
                     <RotateCcw className="w-5 h-5 text-orange-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">Easy Returns</p>
+                    <p className="text-sm font-medium text-gray-900">
+                      Easy Returns
+                    </p>
                     <p className="text-xs text-gray-600">7-day return policy</p>
                   </div>
                 </div>
@@ -352,7 +467,9 @@ export default function ProductPage() {  const params = useParams();
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Specifications</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Specifications
+                  </h4>
                   <dl className="space-y-2">
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Brand:</dt>
@@ -364,16 +481,22 @@ export default function ProductPage() {  const params = useParams();
                     </div>
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Age Groups:</dt>
-                      <dd className="font-medium">{product.ageCategories.join(", ")}</dd>
+                      <dd className="font-medium">
+                        {product.ageCategories.join(", ")}
+                      </dd>
                     </div>
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Available Sizes:</dt>
-                      <dd className="font-medium">{product.quantities.join(", ")}</dd>
+                      <dd className="font-medium">
+                        {product.quantities.join(", ")}
+                      </dd>
                     </div>
                   </dl>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Nutritional Benefits</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Nutritional Benefits
+                  </h4>
                   <ul className="text-sm text-gray-700 space-y-1">
                     <li>• High-quality protein for muscle development</li>
                     <li>• Essential vitamins and minerals</li>
@@ -389,7 +512,9 @@ export default function ProductPage() {  const params = useParams();
 
         {/* Suggested Products */}
         <section>
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">You Might Also Like</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            You Might Also Like
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {suggestedProducts.map((suggestedProduct) => (
               <Link
@@ -414,7 +539,8 @@ export default function ProductPage() {  const params = useParams();
                       <span className="text-lg font-bold text-[#7E22CE]">
                         ₹{suggestedProduct.price}
                       </span>
-                      {suggestedProduct.originalPrice > suggestedProduct.price && (
+                      {suggestedProduct.originalPrice >
+                        suggestedProduct.price && (
                         <span className="text-sm text-gray-500 line-through">
                           ₹{suggestedProduct.originalPrice}
                         </span>
@@ -424,13 +550,24 @@ export default function ProductPage() {  const params = useParams();
                 </Card>
               </Link>
             ))}
-          </div>        </section>
+          </div>{" "}
+        </section>
 
         {/* Auth Required Modal */}
         <AuthRequiredModal
           isOpen={authModalOpen}
           onClose={() => setAuthModalOpen(false)}
           action={authModalAction}
+        />
+
+        {/* Subscription Modal */}
+        <SubscriptionModal
+          isOpen={subscriptionModalOpen}
+          onClose={() => setSubscriptionModalOpen(false)}
+          product={product}
+          selectedQuantity={selectedQuantity}
+          selectedAge={selectedAge}
+          itemQuantity={itemQuantity}
         />
       </div>
     </div>

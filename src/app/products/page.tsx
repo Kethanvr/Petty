@@ -17,7 +17,10 @@ import { useUser } from "@clerk/nextjs";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";  const [filteredProducts, setFilteredProducts] = useState(products);
+  const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || "";
+  
+  const [filteredProducts, setFilteredProducts] = useState(products);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
@@ -31,9 +34,9 @@ function ProductsContent() {
     // Quick View Modal state
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    // Filter states
+  // Filter states
   const [filters, setFilters] = useState({
-    categories: [] as string[],
+    categories: categoryQuery ? [categoryQuery] : [] as string[],
     priceRanges: [] as string[],
     brands: [] as string[],
     ratings: [] as number[],
@@ -71,9 +74,11 @@ function ProductsContent() {
     }
     removeFromWishlist(productId);
   };
-
-  // Get unique values for filters
-  const uniqueCategories = [...new Set(products.map(p => p.category))];
+  // Get unique values for filters - only show categories that actually have products
+  const uniqueCategories = [...new Set(products.map(p => p.category))].filter(category => {
+    // Only include categories that have actual products
+    return products.some(p => p.category === category);
+  });
   const uniqueBrands = [...new Set(products.map(p => p.brand))];
   const uniquePetTypes = [...new Set(products.map(p => p.petType))];
   const uniqueSpecialFeatures = [...new Set(products.flatMap(p => p.specialFeatures))];
@@ -83,66 +88,78 @@ function ProductsContent() {
     { label: "₹500 - ₹1000", min: 500, max: 1000 },
     { label: "₹1000 - ₹2000", min: 1000, max: 2000 },
     { label: "Above ₹2000", min: 2000, max: Infinity },
-  ], []);
-  // Filter function
+  ], []);  // Filter function - Show all products by default, apply filters only when explicitly set
   const applyFilters = useCallback(() => {
     let filtered = products;
 
-    // Search filter
-    if (searchQuery) {
-      filtered = searchProducts(filtered, searchQuery);
-    }
+    // If no search query and no filters are active, show all products
+    const hasActiveFilters = searchQuery || 
+      filters.categories.length > 0 || 
+      filters.brands.length > 0 || 
+      filters.petTypes.length > 0 || 
+      filters.priceRanges.length > 0 || 
+      filters.ratings.length > 0 || 
+      filters.specialFeatures.length > 0 || 
+      filters.targetLife.length > 0 || 
+      filters.inStock;
 
-    // Category filter
-    if (filters.categories.length > 0) {
-      filtered = filtered.filter(p => filters.categories.includes(p.category));
-    }
+    if (hasActiveFilters) {
+      // Search filter
+      if (searchQuery) {
+        filtered = searchProducts(filtered, searchQuery);
+      }
 
-    // Brand filter
-    if (filters.brands.length > 0) {
-      filtered = filtered.filter(p => filters.brands.includes(p.brand));
-    }
+      // Category filter
+      if (filters.categories.length > 0) {
+        filtered = filtered.filter(p => filters.categories.includes(p.category));
+      }
 
-    // Pet type filter
-    if (filters.petTypes.length > 0) {
-      filtered = filtered.filter(p => filters.petTypes.includes(p.petType));
-    }
+      // Brand filter
+      if (filters.brands.length > 0) {
+        filtered = filtered.filter(p => filters.brands.includes(p.brand));
+      }
 
-    // Price range filter
-    if (filters.priceRanges.length > 0) {
-      filtered = filtered.filter(p => {
-        return filters.priceRanges.some(range => {
-          const priceRange = priceRanges.find(pr => pr.label === range);
-          if (priceRange) {
-            return p.price >= priceRange.min && p.price < priceRange.max;
-          }
-          return false;
+      // Pet type filter
+      if (filters.petTypes.length > 0) {
+        filtered = filtered.filter(p => filters.petTypes.includes(p.petType));
+      }
+
+      // Price range filter
+      if (filters.priceRanges.length > 0) {
+        filtered = filtered.filter(p => {
+          return filters.priceRanges.some(range => {
+            const priceRange = priceRanges.find(pr => pr.label === range);
+            if (priceRange) {
+              return p.price >= priceRange.min && p.price < priceRange.max;
+            }
+            return false;
+          });
         });
-      });
-    }
+      }
 
-    // Rating filter
-    if (filters.ratings.length > 0) {
-      filtered = filtered.filter(p => filters.ratings.some(rating => p.rating >= rating));
-    }
+      // Rating filter
+      if (filters.ratings.length > 0) {
+        filtered = filtered.filter(p => filters.ratings.some(rating => p.rating >= rating));
+      }
 
-    // Special features filter
-    if (filters.specialFeatures.length > 0) {
-      filtered = filtered.filter(p => 
-        filters.specialFeatures.some(feature => p.specialFeatures.includes(feature))
-      );
-    }
+      // Special features filter
+      if (filters.specialFeatures.length > 0) {
+        filtered = filtered.filter(p => 
+          filters.specialFeatures.some(feature => p.specialFeatures.includes(feature))
+        );
+      }
 
-    // Target life filter
-    if (filters.targetLife.length > 0) {
-      filtered = filtered.filter(p => 
-        filters.targetLife.some(life => p.targetLife.includes(life))
-      );
-    }
+      // Target life filter
+      if (filters.targetLife.length > 0) {
+        filtered = filtered.filter(p => 
+          filters.targetLife.some(life => p.targetLife.includes(life))
+        );
+      }
 
-    // Stock filter
-    if (filters.inStock) {
-      filtered = filtered.filter(p => p.inStock);
+      // Stock filter
+      if (filters.inStock) {
+        filtered = filtered.filter(p => p.inStock);
+      }
     }
 
     // Apply sorting
@@ -165,10 +182,25 @@ function ProductsContent() {
       default: // bestSelling
         filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
     }    setFilteredProducts(filtered);
-  }, [searchQuery, filters, sortBy, priceRanges]);
+  }, [searchQuery, categoryQuery, filters, sortBy, priceRanges]);
   useEffect(() => {
     applyFilters();
   }, [applyFilters]);
+  // Handle category from URL parameters - only apply if there's a specific category
+  useEffect(() => {
+    if (categoryQuery && categoryQuery !== 'all' && !filters.categories.includes(categoryQuery)) {
+      setFilters(prev => ({
+        ...prev,
+        categories: [categoryQuery]
+      }));
+    } else if ((!categoryQuery || categoryQuery === 'all') && filters.categories.length > 0) {
+      setFilters(prev => ({
+        ...prev,
+        categories: []
+      }));
+    }
+  }, [categoryQuery]);
+
   const handleFilterChange = (
     filterType: keyof typeof filters, 
     value: string | number | boolean
@@ -227,21 +259,24 @@ function ProductsContent() {
     setCurrentImageIndex(index);
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50/30">      {/* Page Header */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">      {/* Page Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-purple-700 bg-clip-text text-transparent mb-2">
+            <div>              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-purple-700 bg-clip-text text-transparent mb-2">
                 {searchQuery
                   ? `Search Results: "${searchQuery}"`
-                  : "Pet Food Products"}
+                  : categoryQuery 
+                  ? `${categoryQuery} Products`
+                  : "All Pet Food Products"}
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl">
                 {searchQuery
                   ? `Found ${filteredProducts.length} products matching your search`
-                  : "Discover our complete collection of premium pet foods designed to keep your furry friends healthy and happy."}
-              </p>            </div>
+                  : categoryQuery
+                  ? `Browse our ${categoryQuery.toLowerCase()} collection`
+                  : `Discover all ${filteredProducts.length} premium pet food products designed to keep your furry friends healthy and happy.`}
+              </p></div>
             
             {/* Mobile-friendly AI Assistant and Controls */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">

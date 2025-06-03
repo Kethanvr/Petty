@@ -31,7 +31,7 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  {
+ {
     id: 1,
     name: "Pedigree Adult Dry Dog Food, Chicken & Vegetables, upto 1kg Pack",
     price: 260,
@@ -496,47 +496,51 @@ export const getFeaturedProducts = (): Product[] => {
 // Enhanced utility functions for better search and filtering
 
 export const getProductsByPetType = (petType: string): Product[] => {
-  return products.filter((product) => 
-    product.petType.toLowerCase() === petType.toLowerCase()
+  return products.filter(
+    (product) => product.petType.toLowerCase() === petType.toLowerCase()
   );
 };
 
 export const searchProducts = (searchTerm: string): Product[] => {
   const term = searchTerm.toLowerCase();
-  return products.filter((product) => 
-    product.searchIndex.toLowerCase().includes(term) ||
-    product.name.toLowerCase().includes(term) ||
-    product.brand.toLowerCase().includes(term) ||
-    product.tags.some(tag => tag.toLowerCase().includes(term))
+  return products.filter(
+    (product) =>
+      product.searchIndex.toLowerCase().includes(term) ||
+      product.name.toLowerCase().includes(term) ||
+      product.brand.toLowerCase().includes(term) ||
+      product.tags.some((tag) => tag.toLowerCase().includes(term))
   );
 };
 
 export const getProductsByTags = (tags: string[]): Product[] => {
   return products.filter((product) =>
-    tags.some(tag => 
-      product.tags.some(productTag => 
+    tags.some((tag) =>
+      product.tags.some((productTag) =>
         productTag.toLowerCase().includes(tag.toLowerCase())
       )
     )
   );
 };
 
-export const getProductsByPriceRange = (minPrice: number, maxPrice: number): Product[] => {
-  return products.filter((product) => 
-    product.price >= minPrice && product.price <= maxPrice
+export const getProductsByPriceRange = (
+  minPrice: number,
+  maxPrice: number
+): Product[] => {
+  return products.filter(
+    (product) => product.price >= minPrice && product.price <= maxPrice
   );
 };
 
 export const getProductsByBrand = (brand: string): Product[] => {
-  return products.filter((product) => 
-    product.brand.toLowerCase() === brand.toLowerCase()
+  return products.filter(
+    (product) => product.brand.toLowerCase() === brand.toLowerCase()
   );
 };
 
 export const getProductsBySpecialFeatures = (features: string[]): Product[] => {
   return products.filter((product) =>
-    features.some(feature => 
-      product.specialFeatures.some(productFeature => 
+    features.some((feature) =>
+      product.specialFeatures.some((productFeature) =>
         productFeature.toLowerCase().includes(feature.toLowerCase())
       )
     )
@@ -556,50 +560,50 @@ export const getProductsByRating = (minRating: number): Product[] => {
 };
 
 export const getSortedProducts = (
-  sortBy: 'price' | 'rating' | 'discount' | 'name',
-  order: 'asc' | 'desc' = 'asc'
+  sortBy: "price" | "rating" | "discount" | "name",
+  order: "asc" | "desc" = "asc"
 ): Product[] => {
   return [...products].sort((a, b) => {
     let comparison = 0;
-    
+
     switch (sortBy) {
-      case 'price':
+      case "price":
         comparison = a.price - b.price;
         break;
-      case 'rating':
+      case "rating":
         comparison = a.rating - b.rating;
         break;
-      case 'discount':
+      case "discount":
         comparison = a.discount - b.discount;
         break;
-      case 'name':
+      case "name":
         comparison = a.name.localeCompare(b.name);
         break;
     }
-    
-    return order === 'desc' ? -comparison : comparison;
+
+    return order === "desc" ? -comparison : comparison;
   });
 };
 
 export const getUniqueCategories = (): string[] => {
-  return [...new Set(products.map(product => product.category))];
+  return [...new Set(products.map((product) => product.category))];
 };
 
 export const getUniqueBrands = (): string[] => {
-  return [...new Set(products.map(product => product.brand))];
+  return [...new Set(products.map((product) => product.brand))];
 };
 
 export const getUniquePetTypes = (): string[] => {
-  return [...new Set(products.map(product => product.petType))];
+  return [...new Set(products.map((product) => product.petType))];
 };
 
 export const getAllTags = (): string[] => {
-  const allTags = products.flatMap(product => product.tags);
+  const allTags = products.flatMap((product) => product.tags);
   return [...new Set(allTags)];
 };
 
 export const getSpecialFeatures = (): string[] => {
-  const allFeatures = products.flatMap(product => product.specialFeatures);
+  const allFeatures = products.flatMap((product) => product.specialFeatures);
   return [...new Set(allFeatures)];
 };
 
@@ -616,52 +620,61 @@ export const filterProducts = (filters: {
   inStock?: boolean;
 }): Product[] => {
   return products.filter((product) => {
-    if (filters.petType && product.petType.toLowerCase() !== filters.petType.toLowerCase()) {
+    if (
+      filters.petType &&
+      product.petType.toLowerCase() !== filters.petType.toLowerCase()
+    ) {
       return false;
     }
-    
-    if (filters.category && product.category.toLowerCase() !== filters.category.toLowerCase()) {
+
+    if (
+      filters.category &&
+      product.category.toLowerCase() !== filters.category.toLowerCase()
+    ) {
       return false;
     }
-    
-    if (filters.brand && product.brand.toLowerCase() !== filters.brand.toLowerCase()) {
+
+    if (
+      filters.brand &&
+      product.brand.toLowerCase() !== filters.brand.toLowerCase()
+    ) {
       return false;
     }
-    
+
     if (filters.minPrice && product.price < filters.minPrice) {
       return false;
     }
-    
+
     if (filters.maxPrice && product.price > filters.maxPrice) {
       return false;
     }
-    
+
     if (filters.minRating && product.rating < filters.minRating) {
       return false;
     }
-    
+
     if (filters.tags && filters.tags.length > 0) {
-      const hasMatchingTag = filters.tags.some(tag => 
-        product.tags.some(productTag => 
+      const hasMatchingTag = filters.tags.some((tag) =>
+        product.tags.some((productTag) =>
           productTag.toLowerCase().includes(tag.toLowerCase())
         )
       );
       if (!hasMatchingTag) return false;
     }
-    
+
     if (filters.specialFeatures && filters.specialFeatures.length > 0) {
-      const hasMatchingFeature = filters.specialFeatures.some(feature => 
-        product.specialFeatures.some(productFeature => 
+      const hasMatchingFeature = filters.specialFeatures.some((feature) =>
+        product.specialFeatures.some((productFeature) =>
           productFeature.toLowerCase().includes(feature.toLowerCase())
         )
       );
       if (!hasMatchingFeature) return false;
     }
-    
+
     if (filters.inStock !== undefined && product.inStock !== filters.inStock) {
       return false;
     }
-    
+
     return true;
   });
 };
@@ -669,20 +682,22 @@ export const filterProducts = (filters: {
 // Statistics functions
 export const getProductStats = () => {
   const totalProducts = products.length;
-  const averagePrice = products.reduce((sum, product) => sum + product.price, 0) / totalProducts;
-  const averageRating = products.reduce((sum, product) => sum + product.rating, 0) / totalProducts;
-  const inStockCount = products.filter(product => product.inStock).length;
-  
-  const categoryStats = getUniqueCategories().map(category => ({
+  const averagePrice =
+    products.reduce((sum, product) => sum + product.price, 0) / totalProducts;
+  const averageRating =
+    products.reduce((sum, product) => sum + product.rating, 0) / totalProducts;
+  const inStockCount = products.filter((product) => product.inStock).length;
+
+  const categoryStats = getUniqueCategories().map((category) => ({
     category,
-    count: products.filter(product => product.category === category).length
+    count: products.filter((product) => product.category === category).length,
   }));
-  
-  const petTypeStats = getUniquePetTypes().map(petType => ({
+
+  const petTypeStats = getUniquePetTypes().map((petType) => ({
     petType,
-    count: products.filter(product => product.petType === petType).length
+    count: products.filter((product) => product.petType === petType).length,
   }));
-  
+
   return {
     totalProducts,
     averagePrice: Math.round(averagePrice),
@@ -690,7 +705,7 @@ export const getProductStats = () => {
     inStockCount,
     outOfStockCount: totalProducts - inStockCount,
     categoryStats,
-    petTypeStats
+    petTypeStats,
   };
 };
 
