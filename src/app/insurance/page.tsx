@@ -10,10 +10,6 @@ import {
   Shield,
   Heart,
   Phone,
-  Star,
-  Users,
-  Clock,
-  MapPin,
   X,
 } from "lucide-react";
 import {

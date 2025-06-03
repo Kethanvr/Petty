@@ -8,12 +8,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import {
   X,
-  Clock,
   Truck,
-  Percent,
   Check,
-  Calendar,
-  CreditCard,
   Shield,
   RotateCcw,
   Zap,
@@ -23,7 +19,6 @@ import {
   getSubscriptionBenefits,
   calculateSubscriptionPrice,
   calculateNextDeliveryDate,
-  type SubscriptionPlan,
 } from "@/lib/subscription";
 import { type Product } from "@/lib/products";
 

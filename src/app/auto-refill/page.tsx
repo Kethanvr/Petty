@@ -6,8 +6,6 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import {
@@ -17,13 +15,7 @@ import {
   Percent,
   Truck,
   Shield,
-  Star,
   CheckCircle,
-  Calendar,
-  Heart,
-  AlertCircle,
-  Gift,
-  TrendingUp,
   ArrowRight,
   Plus,
   Minus,
@@ -45,9 +37,8 @@ export default function AutoRefillPage() {
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
   const [showSetup, setShowSetup] = useState(false);
-
   // Mock existing subscriptions
-  const [subscriptions, setSubscriptions] = useState<AutoRefillSubscription[]>([
+  const [subscriptions] = useState<AutoRefillSubscription[]>([
     {
       id: "sub_1",
       productId: 1,
@@ -305,7 +296,7 @@ export default function AutoRefillPage() {
                   <h3 className="text-lg font-semibold mb-4">Step 1: Choose Your Delivery Frequency</h3>
                   <RadioGroup 
                     value={selectedFrequency} 
-                    onValueChange={(value) => setSelectedFrequency(value as any)}
+                    onValueChange={(value: "weekly" | "bi-weekly" | "monthly") => setSelectedFrequency(value)}
                     className="grid md:grid-cols-3 gap-4"
                   >
                     {frequencyOptions.map((option) => (
