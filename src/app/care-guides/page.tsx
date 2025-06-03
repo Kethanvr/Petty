@@ -99,33 +99,62 @@ export default function CareGuidesPage() {
             <span className="text-gray-900">Pet Care Guides</span>
           </nav>
         </div>
-      </div>
-
-      {/* Hero Section */}
+      </div>      {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#7E22CE] to-[#9333EA] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <BookOpen className="w-16 h-16 mx-auto mb-6 text-white/90" />
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Expert Pet Care Guides & Video Tutorials
+              Complete Pet Care Guide Collection
             </h1>
             <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Learn from veterinarians, professional trainers, and pet care
-              experts. Everything you need to keep your pets happy, healthy, and
-              well-cared for.
+              Your one-stop destination for expert pet care knowledge! Watch educational videos, follow step-by-step guides, and learn from veterinarians and professional trainers. Everything you need to keep your beloved pets happy, healthy, and well-cared for.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 text-lg">
-              <div className="flex items-center gap-2">
-                <Play className="w-5 h-5" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm max-w-3xl mx-auto mb-8">
+              <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+                <Play className="w-4 h-4" />
                 <span>Video Tutorials</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5" />
+              <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+                <Star className="w-4 h-4" />
                 <span>Expert Content</span>
               </div>
-              <div className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5" />
+              <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+                <BookOpen className="w-4 h-4" />
                 <span>Step-by-Step Guides</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
+                <TrendingUp className="w-4 h-4" />
+                <span>Latest Tips</span>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-2xl mx-auto">
+              <h3 className="text-lg font-semibold mb-3">📚 What You'll Find Here:</h3>
+              <div className="grid md:grid-cols-2 gap-3 text-sm text-left">
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Feeding & nutrition guides</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Training & behavior tips</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Health & wellness videos</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Grooming tutorials</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Emergency care procedures</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-300">✓</span>
+                  <span>Pet product reviews</span>
+                </div>
               </div>
             </div>
           </div>

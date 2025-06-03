@@ -381,129 +381,26 @@ export default function Header() {
                 <Shield className="w-4 h-4" />
               </div>
               Pet Insurance
-            </Link>
-
-            {/* Pet Guide Video Link */}
+            </Link>            {/* Pet Care Guides Link */}
             <Link
-              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/care-guides"
               className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
             >
               <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
                 <BookOpen className="w-4 h-4" />
               </div>
-              Pet Guide Video
+              Pet Care Guides
             </Link>
           </nav>          {/* Right side container with better spacing */}
-          <div className="flex items-center gap-4">
-            {/* Enhanced Auto-Refill Promo Banner */}
-            <div
-            onClick={() => {
-              const modal = document.createElement('div');
-              modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
-              modal.innerHTML = `
-                <div class="bg-white rounded-2xl max-w-lg w-full p-8 animate-fadeIn">
-                  <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                      </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Auto-Refill Service</h3>
-                    <p class="text-gray-600">Never run out of pet food again!</p>
-                  </div>
-                  
-                  <div class="space-y-4 mb-6">
-                    <div class="flex items-start gap-3">
-                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 class="font-semibold text-gray-900">Automatic Delivery</h4>
-                        <p class="text-sm text-gray-600">Your pet's food is automatically delivered based on your schedule (weekly, bi-weekly, or monthly)</p>
-                      </div>
-                    </div>
-                    
-                    <div class="flex items-start gap-3">
-                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 class="font-semibold text-gray-900">Save Up to 20%</h4>
-                        <p class="text-sm text-gray-600">Get exclusive discounts on every auto-refill order - the more frequent, the bigger the savings!</p>
-                      </div>
-                    </div>
-                    
-                    <div class="flex items-start gap-3">
-                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 class="font-semibold text-gray-900">Flexible Control</h4>
-                        <p class="text-sm text-gray-600">Skip, pause, or modify your deliveries anytime through your account dashboard</p>
-                      </div>
-                    </div>
-                    
-                    <div class="flex items-start gap-3">
-                      <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg class="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 class="font-semibold text-gray-900">Free Shipping</h4>
-                        <p class="text-sm text-gray-600">All auto-refill orders come with free delivery, no minimum order required</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6">
-                    <div class="flex items-center gap-2 mb-2">
-                      <span class="text-2xl">🎯</span>
-                      <span class="font-semibold text-green-800">Smart Recommendations</span>
-                    </div>
-                    <p class="text-sm text-green-700">Our AI learns your pet's consumption patterns and suggests the perfect delivery schedule!</p>
-                  </div>
-                  
-                  <div class="flex gap-3">
-                    <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-xl hover:bg-gray-200 transition-colors font-medium">
-                      Maybe Later
-                    </button>
-                    <button onclick="window.location.href='/products?auto-refill=true'; this.closest('.fixed').remove()" class="flex-1 bg-gradient-to-r from-green-400 to-emerald-500 text-white py-3 px-4 rounded-xl hover:from-green-500 hover:to-emerald-600 transition-all font-medium">
-                      Setup Auto-Refill
-                    </button>
-                  </div>
-                </div>
-              `;
-              
-              document.body.appendChild(modal);
-              
-              // Add click outside to close
-              modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                  modal.remove();
-                }
-              });
-                // Add escape key to close
-              const handleEscape = (e: KeyboardEvent) => {
-                if (e.key === 'Escape') {
-                  modal.remove();
-                  document.removeEventListener('keydown', handleEscape);
-                }
-              };              document.addEventListener('keydown', handleEscape);            }}
-            className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer whitespace-nowrap"
-          >
-            <Zap className="w-4 h-4 animate-pulse" />
-            <span className="font-medium">Auto-Refill!</span>
-            <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
-          </div>
+          <div className="flex items-center gap-4">            {/* Auto-Refill Link */}
+            <Link
+              href="/auto-refill"
+              className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer whitespace-nowrap"
+            >
+              <Zap className="w-4 h-4 animate-pulse" />
+              <span className="font-medium">Auto-Refill!</span>
+              <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
+            </Link>
 
             {/* Enhanced Cart Icon with Badge */}
             <Link href="/cart" className="relative group">
@@ -672,6 +569,15 @@ export default function Header() {
                 </Link>
               </li>              <li>
                 <Link
+                  href="/auto-refill"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Auto-Refill
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/insurance"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -681,24 +587,12 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/care-guides"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Pet Guide Video
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/profile"
-                  className="block text-lg text-white hover:text-purple-200 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-              </li>
+                  Pet Care Guides
+                </Link>              </li>
               {/* Mobile Authentication */}
               <li className="pt-4 border-t border-purple-400">
                 <SignedOut>
