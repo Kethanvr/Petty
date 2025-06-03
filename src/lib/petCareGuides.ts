@@ -15,10 +15,9 @@ export interface PetCareGuide {
   duration: string;
   videoId: string; // YouTube video ID
   thumbnail: string;
-  tags: string[];
-  authorName: string;
+  tags: string[];  authorName: string;
   authorTitle: string;
-  publishedAt: Date;
+  publishedAt: string;
   views: number;
   likes: number;
   keyPoints: string[];
@@ -28,6 +27,7 @@ export interface PetCareGuide {
 }
 
 export const petCareGuides: PetCareGuide[] = [
+
   {
     id: "dog-nutrition-basics",
     title: "Complete Dog Nutrition Guide: What Every Pet Owner Should Know",
@@ -35,14 +35,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Learn the fundamentals of dog nutrition, including proper feeding schedules, portion sizes, and how to choose the right food for your dog's age and breed.",
     category: "nutrition",
     petType: "Dog",
-    difficulty: "Beginner",
-    duration: "12:45",
-    videoId: "mG_bDY4cK48", // Example YouTube video ID
+    difficulty: "Beginner",    duration: "12:45",
+    videoId: "mG_bDY4cK48",
     thumbnail: "https://img.youtube.com/vi/mG_bDY4cK48/maxresdefault.jpg",
     tags: ["nutrition", "feeding", "dog food", "health", "diet"],
     authorName: "Dr. Sarah Johnson",
     authorTitle: "Veterinary Nutritionist",
-    publishedAt: new Date("2024-01-15"),
+    publishedAt: "2024-01-15",
     views: 45230,
     likes: 1870,
     keyPoints: [
@@ -62,14 +61,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Master the art of grooming your cat at home with step-by-step instructions for brushing, nail trimming, and maintaining your cat's hygiene.",
     category: "grooming",
     petType: "Cat",
-    difficulty: "Intermediate",
-    duration: "15:20",
+    difficulty: "Intermediate",    duration: "15:20",
     videoId: "OAyM7f2FM2c",
     thumbnail: "https://img.youtube.com/vi/OAyM7f2FM2c/maxresdefault.jpg",
     tags: ["grooming", "brushing", "nail care", "hygiene", "cat care"],
     authorName: "Lisa Chen",
     authorTitle: "Professional Pet Groomer",
-    publishedAt: new Date("2024-01-20"),
+    publishedAt: "2024-01-20",
     views: 32100,
     likes: 1420,
     keyPoints: [
@@ -89,8 +87,7 @@ export const petCareGuides: PetCareGuide[] = [
       "Start your puppy's training journey right with this comprehensive guide covering house training, basic commands, and socialization.",
     category: "training",
     petType: "Dog",
-    difficulty: "Beginner",
-    duration: "18:30",
+    difficulty: "Beginner",    duration: "18:30",
     videoId: "4dbzPoB7AKE",
     thumbnail: "https://img.youtube.com/vi/4dbzPoB7AKE/maxresdefault.jpg",
     tags: [
@@ -102,7 +99,7 @@ export const petCareGuides: PetCareGuide[] = [
     ],
     authorName: "Mark Rodriguez",
     authorTitle: "Certified Dog Trainer",
-    publishedAt: new Date("2024-01-25"),
+    publishedAt: "2024-01-25",
     views: 67800,
     likes: 2340,
     keyPoints: [
@@ -126,14 +123,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Everything you need to know about setting up and maintaining a healthy aquarium environment for your fish.",
     category: "health",
     petType: "Fish",
-    difficulty: "Beginner",
-    duration: "22:15",
+    difficulty: "Beginner",    duration: "22:15",
     videoId: "Ub3d2mtEjY8",
     thumbnail: "https://img.youtube.com/vi/Ub3d2mtEjY8/maxresdefault.jpg",
     tags: ["aquarium", "fish care", "water quality", "setup", "maintenance"],
     authorName: "Aquarium Expert Team",
     authorTitle: "Marine Biologist",
-    publishedAt: new Date("2024-02-01"),
+    publishedAt: "2024-02-01",
     views: 28900,
     likes: 980,
     keyPoints: [
@@ -152,14 +148,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Learn how to set up comfortable and enriching habitats for hamsters, guinea pigs, rabbits, and other small pets.",
     category: "health",
     petType: "Small Pet",
-    difficulty: "Intermediate",
-    duration: "16:40",
+    difficulty: "Intermediate",    duration: "16:40",
     videoId: "rN6p6KcmY2Y",
     thumbnail: "https://img.youtube.com/vi/rN6p6KcmY2Y/maxresdefault.jpg",
     tags: ["small pets", "housing", "enrichment", "habitat", "welfare"],
     authorName: "Dr. Emily Watson",
     authorTitle: "Exotic Animal Veterinarian",
-    publishedAt: new Date("2024-02-05"),
+    publishedAt: "2024-02-05",
     views: 19500,
     likes: 765,
     keyPoints: [
@@ -182,14 +177,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Essential first aid techniques that could save your pet's life in emergency situations.",
     category: "safety",
     petType: "All",
-    difficulty: "Advanced",
-    duration: "25:10",
+    difficulty: "Advanced",    duration: "25:10",
     videoId: "1nGNO9QeMfE",
     thumbnail: "https://img.youtube.com/vi/1nGNO9QeMfE/maxresdefault.jpg",
     tags: ["first aid", "emergency", "safety", "health", "critical care"],
     authorName: "Dr. Michael Adams",
     authorTitle: "Emergency Veterinarian",
-    publishedAt: new Date("2024-02-10"),
+    publishedAt: "2024-02-10",
     views: 54200,
     likes: 2100,
     keyPoints: [
@@ -214,8 +208,7 @@ export const petCareGuides: PetCareGuide[] = [
       "Decode your cat's mysterious behaviors and learn what they're really trying to tell you.",
     category: "behavior",
     petType: "Cat",
-    difficulty: "Intermediate",
-    duration: "14:25",
+    difficulty: "Intermediate",    duration: "14:25",
     videoId: "Si-yk1KxYX0",
     thumbnail: "https://img.youtube.com/vi/Si-yk1KxYX0/maxresdefault.jpg",
     tags: [
@@ -227,7 +220,7 @@ export const petCareGuides: PetCareGuide[] = [
     ],
     authorName: "Dr. Jennifer Lee",
     authorTitle: "Animal Behaviorist",
-    publishedAt: new Date("2024-02-12"),
+    publishedAt: "2024-02-12",
     views: 41300,
     likes: 1650,
     keyPoints: [
@@ -250,14 +243,13 @@ export const petCareGuides: PetCareGuide[] = [
       "Discover fun and effective ways to keep your dog physically and mentally stimulated with appropriate exercise routines.",
     category: "exercise",
     petType: "Dog",
-    difficulty: "Beginner",
-    duration: "19:50",
+    difficulty: "Beginner",    duration: "19:50",
     videoId: "cWhqcm8lAsw",
     thumbnail: "https://img.youtube.com/vi/cWhqcm8lAsw/maxresdefault.jpg",
     tags: ["exercise", "activities", "mental stimulation", "fitness", "play"],
     authorName: "Carlos Martinez",
     authorTitle: "Canine Fitness Specialist",
-    publishedAt: new Date("2024-02-15"),
+    publishedAt: "2024-02-15",
     views: 36700,
     likes: 1340,
     keyPoints: [
@@ -270,6 +262,8 @@ export const petCareGuides: PetCareGuide[] = [
     relatedTopics: ["weight management", "senior dog care", "puppy exercise"],
     trending: true,
   },
+
+
 ];
 
 export const getCareGuideById = (id: string): PetCareGuide | undefined => {
