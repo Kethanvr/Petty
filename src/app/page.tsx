@@ -30,7 +30,7 @@ import {
 
 export default function HomePage() {
   const featuredProducts = getFeaturedProducts();
-  const bestSellers = getBestSellerProducts().slice(0, 4);
+  const bestSellers = getBestSellerProducts().slice(0, 7);
   const popularProducts = getProductsByCategory("Dog Food").concat(getProductsByCategory("Cat Food")).slice(0, 4);
   
   // State for purchase overlay
@@ -629,7 +629,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {bestSellers.map((product) => (
               <Card
                 key={product.id}
