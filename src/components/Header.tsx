@@ -22,6 +22,7 @@ import {
   Zap,
   Pill,
   Stethoscope,
+  MapPin,
 } from "lucide-react";
 import {
   SignInButton,
@@ -107,7 +108,9 @@ export default function Header() {
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [showResults]);  return (    <header className="bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#9333EA] text-white sticky top-0 z-50 shadow-2xl backdrop-blur-sm border-b border-purple-300/20">
+  }, [showResults]);
+  return (
+    <header className="bg-gradient-to-r from-[#9333EA] via-[#A855F7] to-[#9333EA] text-white sticky top-0 z-50 shadow-2xl backdrop-blur-sm border-b border-purple-300/20">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center gap-6 min-h-[60px]">
           {/* Enhanced Petty AI Button and Logo */}
@@ -123,12 +126,13 @@ export default function Header() {
 
             <div className="logo">
               <Link href="/">
-                <h1 className="indie-flower-regular text-3xl lg:text-4xl font-bold text-white cursor-pointer hover:scale-105 transition-transform duration-300 drop-shadow-lg">
+                <h1 className="indie-flower-regular text-2xl lg:text-3xl font-bold text-white cursor-pointer hover:scale-105 transition-transform duration-300 drop-shadow-lg">
                   Petty
                 </h1>
               </Link>
             </div>
-          </div>          {/* Modern Search Bar - Hidden on mobile */}
+          </div>{" "}
+          {/* Modern Search Bar - Hidden on mobile */}
           <div className="search-bar hidden md:block flex-1 max-w-md lg:max-w-xl mx-4">
             <div className="relative" onClick={(e) => e.stopPropagation()}>
               <form onSubmit={handleSearchSubmit}>
@@ -237,7 +241,8 @@ export default function Header() {
                 </Card>
               )}
             </div>
-          </div>          {/* Enhanced Desktop Navigation */}
+          </div>{" "}
+          {/* Enhanced Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <Link
               href="/"
@@ -253,8 +258,11 @@ export default function Header() {
               >
                 Products
                 <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
-              </Link>{/* Products Dropdown */}
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">                <div className="p-4 space-y-2">
+              </Link>
+              {/* Products Dropdown */}
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                {" "}
+                <div className="p-4 space-y-2">
                   <Link
                     href="/products"
                     className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded font-medium border-b border-gray-100 mb-2"
@@ -272,11 +280,13 @@ export default function Header() {
                     className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
                   >
                     🐱 Cat Food & Treats
-                  </Link>                  <button
+                  </Link>{" "}
+                  <button
                     onClick={() => {
                       // Create a toast-like notification
-                      const notification = document.createElement('div');
-                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      const notification = document.createElement("div");
+                      notification.className =
+                        "fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0";
                       notification.innerHTML = `
                         <div class="flex items-center gap-2">
                           <span>🎾</span>
@@ -285,8 +295,11 @@ export default function Header() {
                       `;
                       document.body.appendChild(notification);
                       setTimeout(() => {
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => document.body.removeChild(notification), 300);
+                        notification.style.transform = "translateX(100%)";
+                        setTimeout(
+                          () => document.body.removeChild(notification),
+                          300
+                        );
                       }, 3000);
                     }}
                     className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
@@ -295,8 +308,9 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
-                      const notification = document.createElement('div');
-                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      const notification = document.createElement("div");
+                      notification.className =
+                        "fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0";
                       notification.innerHTML = `
                         <div class="flex items-center gap-2">
                           <span>🥣</span>
@@ -305,8 +319,11 @@ export default function Header() {
                       `;
                       document.body.appendChild(notification);
                       setTimeout(() => {
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => document.body.removeChild(notification), 300);
+                        notification.style.transform = "translateX(100%)";
+                        setTimeout(
+                          () => document.body.removeChild(notification),
+                          300
+                        );
                       }, 3000);
                     }}
                     className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
@@ -315,8 +332,9 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
-                      const notification = document.createElement('div');
-                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      const notification = document.createElement("div");
+                      notification.className =
+                        "fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0";
                       notification.innerHTML = `
                         <div class="flex items-center gap-2">
                           <span>🛏️</span>
@@ -325,8 +343,11 @@ export default function Header() {
                       `;
                       document.body.appendChild(notification);
                       setTimeout(() => {
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => document.body.removeChild(notification), 300);
+                        notification.style.transform = "translateX(100%)";
+                        setTimeout(
+                          () => document.body.removeChild(notification),
+                          300
+                        );
                       }, 3000);
                     }}
                     className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
@@ -335,8 +356,9 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
-                      const notification = document.createElement('div');
-                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      const notification = document.createElement("div");
+                      notification.className =
+                        "fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0";
                       notification.innerHTML = `
                         <div class="flex items-center gap-2">
                           <span>📱</span>
@@ -345,8 +367,11 @@ export default function Header() {
                       `;
                       document.body.appendChild(notification);
                       setTimeout(() => {
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => document.body.removeChild(notification), 300);
+                        notification.style.transform = "translateX(100%)";
+                        setTimeout(
+                          () => document.body.removeChild(notification),
+                          300
+                        );
                       }, 3000);
                     }}
                     className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
@@ -355,8 +380,9 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
-                      const notification = document.createElement('div');
-                      notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0';
+                      const notification = document.createElement("div");
+                      notification.className =
+                        "fixed top-20 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-0";
                       notification.innerHTML = `
                         <div class="flex items-center gap-2">
                           <span>✂️</span>
@@ -365,8 +391,11 @@ export default function Header() {
                       `;
                       document.body.appendChild(notification);
                       setTimeout(() => {
-                        notification.style.transform = 'translateX(100%)';
-                        setTimeout(() => document.body.removeChild(notification), 300);
+                        notification.style.transform = "translateX(100%)";
+                        setTimeout(
+                          () => document.body.removeChild(notification),
+                          300
+                        );
                       }, 3000);
                     }}
                     className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded cursor-pointer"
@@ -374,7 +403,9 @@ export default function Header() {
                     ✂️ Grooming & Health
                   </button>
                 </div>
-              </div></div>            {/* Healthcare Hub Link */}
+              </div>
+            </div>{" "}
+            {/* Healthcare Hub Link */}
             <div className="relative group">
               <Link
                 href="/healthcare"
@@ -413,7 +444,18 @@ export default function Header() {
                   </Link>
                 </div>
               </div>
-            </div>{/* Pet Care Guides Link */}
+            </div>
+            {/* Pet Travel Link */}
+            <Link
+              href="/travel"
+              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
+            >
+              <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
+                <MapPin className="w-4 h-4" />
+              </div>
+              Pet Travel
+            </Link>
+            {/* Pet Care Guides Link */}
             <Link
               href="/care-guides"
               className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
@@ -423,8 +465,11 @@ export default function Header() {
               </div>
               Pet Care Guides
             </Link>
-          </nav>          {/* Right side container with better spacing */}
-          <div className="flex items-center gap-4">            {/* Auto-Refill Link */}
+          </nav>{" "}
+          {/* Right side container with better spacing */}
+          <div className="flex items-center gap-4">
+            {" "}
+            {/* Auto-Refill Link */}
             <Link
               href="/auto-refill"
               className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer whitespace-nowrap"
@@ -433,7 +478,6 @@ export default function Header() {
               <span className="font-medium">Auto-Refill!</span>
               <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
             </Link>
-
             {/* Enhanced Cart Icon with Badge */}
             <Link href="/cart" className="relative group">
               <div className="p-2 rounded-lg hover:bg-white/10 transition-all duration-300 group-hover:scale-110">
@@ -444,32 +488,48 @@ export default function Header() {
                   {state.totalItems}
                 </Badge>
               )}
-            </Link>            {/* Enhanced Clerk Authentication */}
-            <div className="profile hidden lg:flex items-center gap-3">
+            </Link>{" "}
+            {/* Enhanced Clerk Authentication */}
+            <div className="profile flex items-center gap-3">
               <SignedOut>
-                <SignInButton mode="modal">
-                  <button className="text-sm bg-white text-purple-700 px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
-                    Sign In
-                  </button>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <button className="text-sm bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-full cursor-pointer hover:from-purple-700 hover:to-purple-800 transition-all duration-300 border border-purple-400 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
-                    Sign Up
-                  </button>
-                </SignUpButton>
+                <div className="hidden lg:flex items-center gap-3">
+                  <SignInButton mode="modal">
+                    <button className="text-sm bg-white text-purple-700 px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="text-sm bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-full cursor-pointer hover:from-purple-700 hover:to-purple-800 transition-all duration-300 border border-purple-400 font-medium shadow-lg hover:shadow-xl hover:scale-105 whitespace-nowrap">
+                      Sign Up
+                    </button>
+                  </SignUpButton>
+                </div>
+                <div className="lg:hidden">
+                  <SignInButton mode="modal">
+                    <button className="text-sm bg-white/20 text-white px-3 py-2 rounded-full cursor-pointer hover:bg-white/30 transition-all duration-300 font-medium border border-white/30">
+                      Sign In
+                    </button>
+                  </SignInButton>
+                </div>
               </SignedOut>
               <SignedIn>
-                <div className="p-1 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
-                  <UserButton
-                    appearance={{
-                      elements: {
-                        avatarBox: "w-8 h-8 hover:scale-110 transition-transform duration-300",
-                      },
-                    }}
-                  />
+                <div className="flex items-center">
+                  <div className="p-1 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox:
+                            "w-8 h-8 hover:scale-110 transition-transform duration-300",
+                          userButtonBox: "flex items-center",
+                          userButtonOuterBox: "flex items-center",
+                        },
+                      }}
+                    />
+                  </div>
                 </div>
               </SignedIn>
-            </div>{/* Enhanced Mobile Menu Button */}
+            </div>
+            {/* Enhanced Mobile Menu Button */}
             <button
               className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-all duration-300 hover:scale-110"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -591,7 +651,8 @@ export default function Header() {
                 >
                   Home
                 </Link>
-              </li>              <li>
+              </li>{" "}
+              <li>
                 <Link
                   href="/products"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -599,7 +660,8 @@ export default function Header() {
                 >
                   Products
                 </Link>
-              </li>              <li>
+              </li>{" "}
+              <li>
                 <Link
                   href="/auto-refill"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -607,7 +669,8 @@ export default function Header() {
                 >
                   Auto-Refill
                 </Link>
-              </li>              <li>
+              </li>{" "}
+              <li>
                 <Link
                   href="/healthcare"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
@@ -645,12 +708,22 @@ export default function Header() {
               </li>
               <li>
                 <Link
+                  href="/travel"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Pet Travel
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/care-guides"
                   className="block text-lg text-white hover:text-purple-200 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Pet Care Guides
-                </Link>              </li>
+                </Link>{" "}
+              </li>
               {/* Mobile Authentication */}
               <li className="pt-4 border-t border-purple-400">
                 <SignedOut>
