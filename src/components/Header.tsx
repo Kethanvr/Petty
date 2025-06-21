@@ -20,6 +20,8 @@ import {
   Shield,
   BookOpen,
   Zap,
+  Pill,
+  Stethoscope,
 } from "lucide-react";
 import {
   SignInButton,
@@ -372,16 +374,46 @@ export default function Header() {
                     ✂️ Grooming & Health
                   </button>
                 </div>
-              </div></div>            {/* Enhanced Pet Insurance - Direct Link */}
-            <Link
-              href="/insurance"
-              className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
-            >
-              <div className="p-1.5 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-300">
-                <Shield className="w-4 h-4" />
+              </div></div>            {/* Healthcare Hub Link */}
+            <div className="relative group">
+              <Link
+                href="/healthcare"
+                className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-1 text-base font-medium group-hover:scale-105 whitespace-nowrap"
+              >
+                Healthcare
+                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+              </Link>
+
+              {/* Healthcare Dropdown */}
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="p-4 space-y-2">
+                  <Link
+                    href="/healthcare"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded font-medium border-b border-gray-100 mb-2"
+                  >
+                    🏥 Healthcare Hub
+                  </Link>
+                  <Link
+                    href="/medicine"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
+                  >
+                    💊 Pet Medicine
+                  </Link>
+                  <Link
+                    href="/veterinary"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
+                  >
+                    🩺 Vet Consultancy
+                  </Link>
+                  <Link
+                    href="/insurance"
+                    className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded"
+                  >
+                    🛡️ Pet Insurance
+                  </Link>
+                </div>
               </div>
-              Pet Insurance
-            </Link>            {/* Pet Care Guides Link */}
+            </div>{/* Pet Care Guides Link */}
             <Link
               href="/care-guides"
               className="text-white hover:text-purple-200 transition-all duration-300 flex items-center gap-2 text-base font-medium hover:scale-105 whitespace-nowrap"
@@ -574,6 +606,32 @@ export default function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Auto-Refill
+                </Link>
+              </li>              <li>
+                <Link
+                  href="/healthcare"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Healthcare Hub
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/medicine"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Pet Medicine
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/veterinary"
+                  className="block text-lg text-white hover:text-purple-200 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vet Consultancy
                 </Link>
               </li>
               <li>
